@@ -12,6 +12,12 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         >
+            <TextView
+                android:layout_width="@dimen/_120sdp"
+                android:layout_height="wrap_content"
+                android:text="Login"
+                android:textSize="@dimen/_16sdp"
+                />
         <TextView
             android:layout_width="@dimen/_120sdp"
             android:layout_height="wrap_content"
