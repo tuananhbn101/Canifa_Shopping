@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:orientation="vertical"
+        android:layout_height="match_parent">
+        <include layout="@layout/title_header"
+            android:id="@+id/layoutTitile"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_35sdp">
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:padding="@dimen/_9sdp"
+                android:src="@drawable/ic_search"
+                app:tint="@color/black" />
+            <EditText
+                android:id="@+id/edtSearch"
+                android:layout_width="0dp"
+                android:hint="Tìm kiếm"
+                android:background="@color/white"
+                android:padding="@dimen/_10sdp"
+                android:layout_height="match_parent"
+                android:layout_weight="5"/>
+            <ImageView
+                android:id="@+id/btnDelete"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="0.5"
+                android:padding="@dimen/_5sdp"
+                android:src="@drawable/ic_delete"/>
+            <ImageView
+                android:id="@+id/btnQRCode"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:padding="@dimen/_10sdp"
+                android:src="@drawable/ic_qr_code"
+                app:tint="@color/black" />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:background="@color/colorGrayLight"
+            android:layout_height="@dimen/_35sdp">
+            <Spinner
+                android:id="@+id/sprCategory"
+                android:layout_width="0dp"
+                android:layout_weight="6.5"
+                android:layout_height="match_parent"/>
+            <RelativeLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1">
+                <ImageView
+                    android:id="@+id/imvList"
+                    android:visibility="visible"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:padding="@dimen/_12sdp"
+                    android:src="@drawable/ic_list"
+                    app:tint="@color/black" />
+                <ImageView
+                    android:id="@+id/imvGrid"
+                    android:visibility="invisible"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:padding="@dimen/_12sdp"
+                    android:src="@drawable/ic_menu"
+                    app:tint="@color/black" />
+            </RelativeLayout>
+        </LinearLayout>
+        <androidx.recyclerview.widget.RecyclerView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/rvProduct"/>
+    </LinearLayout>
+</layout>

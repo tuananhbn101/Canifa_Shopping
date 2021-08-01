@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:orientation="vertical"
+        android:layout_height="match_parent">
+        <include layout="@layout/title_detail"
+            android:id="@+id/layoutTitle"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:background="@color/colorGrayLight"/>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_35sdp">
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:text="Tất cả : "
+                    android:gravity="center"
+                    android:layout_marginLeft="@dimen/_10sdp"
+                    style="@style/text15"
+                    app:tint="@color/black" />
+                <TextView
+                    android:id="@+id/edtSearch"
+                    android:layout_width="wrap_content"
+                    android:text="Hôm nay"
+                    style="@style/text15"
+                    android:gravity="center"
+                    android:background="@color/white"
+                    android:layout_height="match_parent" />
+            </LinearLayout>
+            <ImageView
+                android:id="@+id/btnFilter"
+                android:layout_alignParentRight="true"
+                android:layout_width="@dimen/_40sdp"
+                android:layout_height="match_parent"
+                android:padding="@dimen/_10sdp"
+                android:src="@drawable/ic_filter"
+                app:tint="@color/black" />
+        </RelativeLayout>
+        <androidx.recyclerview.widget.RecyclerView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/rvBill" />
+    </LinearLayout>
+</layout>

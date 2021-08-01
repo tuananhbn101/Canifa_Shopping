@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="@dimen/_90sdp"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_margin="@dimen/_2sdp"
+    android:id="@+id/llProduct"
+    android:orientation="vertical"
+    android:background="@drawable/backgroud_item_product"
+    android:layout_height="@dimen/_150sdp">
+    <androidx.cardview.widget.CardView
+        android:layout_width="wrap_content"
+        app:cardCornerRadius="@dimen/_5sdp"
+        android:layout_height="wrap_content">
+        <ImageView
+            android:id="@+id/ivProduct"
+            android:layout_width="@dimen/_90sdp"
+            android:layout_height="@dimen/_95sdp"
+            android:src="@drawable/image"
+            android:scaleType="centerCrop"/>
+    </androidx.cardview.widget.CardView>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:orientation="vertical"
+        android:layout_height="match_parent">
+        <TextView
+            style="@style/text15"
+            android:id="@+id/tvNameProduct"
+            android:gravity="center_vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Quần áo"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:orientation="vertical"
+            android:layout_height="match_parent">
+            <TextView
+                android:id="@+id/tvAmountProduct"
+                android:gravity="center_vertical"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Còn 100 cái"/>
+            <TextView
+                android:id="@+id/tvPriceProduct"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="@dimen/_10sdp"
+                android:gravity="center_vertical"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="285.050"/>
+        </LinearLayout>
+    </LinearLayout>
+</LinearLayout>

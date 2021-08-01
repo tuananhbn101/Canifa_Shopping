@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_marginBottom="@dimen/_10sdp"
+    android:id="@+id/llProduct"
+    android:layout_height="@dimen/_50sdp">
+    <ImageView
+        android:id="@+id/ivProduct"
+        android:layout_width="@dimen/_50sdp"
+        android:layout_height="match_parent"
+        android:src="@drawable/image"
+        android:scaleType="centerCrop"/>
+    <LinearLayout
+        android:layout_marginLeft="@dimen/_10sdp"
+        android:layout_width="match_parent"
+        android:orientation="vertical"
+        android:layout_height="match_parent">
+        <TextView
+            style="@style/text15"
+            android:id="@+id/tvNameProduct"
+            android:gravity="center_vertical"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_25sdp"
+            android:text="Quần áo"/>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <TextView
+                android:id="@+id/tvAmountProduct"
+                android:gravity="center_vertical"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="Còn 100 cái"/>
+            <TextView
+                android:id="@+id/tvPriceProduct"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="@dimen/_10sdp"
+                android:gravity="center_vertical"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="285.050"/>
+        </RelativeLayout>
+    </LinearLayout>
+</LinearLayout>
