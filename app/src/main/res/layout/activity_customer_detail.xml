@@ -108,7 +108,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:orientation="vertical"
-                android:layout_weight="2">
+                android:layout_weight="0.6">
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
@@ -127,29 +127,6 @@
                         android:gravity="center_vertical"
                         android:text="Bắc Ninh"
                         android:layout_weight="2"/>
-                </LinearLayout>
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:background="@color/colorGrayLight"/>
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    android:orientation="vertical"
-                    android:layout_weight="2">
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="0dp"
-                        android:text="Ghi chú"
-                        android:layout_weight="1"/>
-                    <EditText
-                        android:id="@+id/etNote"
-                        style="@style/text15"
-                        android:layout_width="match_parent"
-                        android:layout_height="0dp"
-                        android:gravity="center_vertical"
-                        android:text="Bắc Ninh"
-                        android:layout_weight="3"/>
                 </LinearLayout>
 
             </LinearLayout>
@@ -173,12 +150,14 @@
                         android:gravity="center_vertical"
                         android:text="Voucher"
                         android:layout_weight="1"/>
-                    <ImageView
-                        android:layout_width="@dimen/_20sdp"
-                        android:layout_height="match_parent"
+                    <TextView
+                        android:id="@+id/etVoucher"
                         android:layout_alignParentRight="true"
-                        android:src="@drawable/ic_next"
-                        app:tint="@color/black" />
+                        android:layout_marginRight="@dimen/_10sdp"
+                        android:layout_centerVertical="true"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Giảm 20%"/>
                 </RelativeLayout>
                 <RelativeLayout
                     android:id="@+id/btnCardPoint"
@@ -192,26 +171,47 @@
                         android:gravity="center_vertical"
                         android:text="Thẻ tích điểm"
                         android:layout_weight="1"/>
-                    <ImageView
-                        android:layout_width="@dimen/_20sdp"
-                        android:layout_height="match_parent"
+                    <TextView
+                        android:id="@+id/etPoint"
                         android:layout_alignParentRight="true"
-                        android:src="@drawable/ic_next"
-                        app:tint="@color/black" />
+                        android:layout_marginRight="@dimen/_10sdp"
+                        android:layout_centerVertical="true"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="1000 điểm"/>
                 </RelativeLayout>
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
                     android:orientation="vertical"
                     android:layout_weight="1">
-
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:gravity="center_vertical"
+                        android:text="Thành viên "
+                        android:layout_weight="1"/>
+                    <TextView
+                        android:id="@+id/etType"
+                        android:layout_alignParentRight="true"
+                        android:layout_marginRight="@dimen/_10sdp"
+                        android:layout_centerVertical="true"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Vàng"/>
                 </RelativeLayout>
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
                     android:orientation="vertical"
                     android:layout_weight="1">
-
+                    <TextView
+                        android:backgroundTint="@color/colorGrayLight"
+                        android:layout_marginTop="@dimen/_5sdp"
+                        android:background="@drawable/backgroud_button_update"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:id="@+id/btnControl"/>
                 </RelativeLayout>
             </LinearLayout>
         </LinearLayout>

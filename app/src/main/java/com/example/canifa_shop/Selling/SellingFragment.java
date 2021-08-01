@@ -30,7 +30,7 @@ import java.util.List;
 
 public class SellingFragment extends Fragment {
     FragmentSellingBinding binding;
-    SQLiteOpenHelper sqLiteOpenHelper;
+    SQLHelper sqlHelper;
     List<Product> productList;
     SellingAdapter sellingAdapter;
     SellingAdapterGrid sellingAdapterGrid;
@@ -66,23 +66,21 @@ public class SellingFragment extends Fragment {
                 setAdapter();
             }
         });
+        binding.btnQRCode.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                sqlHelper.insertProduct(new Product(1,"Hi",123,123,123,"hi","hi","hi","hi"));
+                sellingAdapter.notifyDataSetChanged();
+                sellingAdapterGrid.notifyDataSetChanged();
+            }
+        });
         return binding.getRoot();
     }
     public void initialization(){
-        sqLiteOpenHelper = new SQLHelper(getContext());
+        sqlHelper = new SQLHelper(getContext());
+
         productList = new ArrayList<>();
-        productList.add(new Product());
-        productList.add(new Product());
-        productList.add(new Product());
-        productList.add(new Product());
-        productList.add(new Product());
-        productList.add(new Product());
-        productList.add(new Product());
-        productList.add(new Product());
-        productList.add(new Product());
-        productList.add(new Product());
-        productList.add(new Product());
-        productList.add(new Product());
+        productList=sqlHelper.getAllPrduct();
         sellingAdapter=new SellingAdapter(productList,getContext());
         sellingAdapterGrid = new SellingAdapterGrid(productList,getContext());
     }
