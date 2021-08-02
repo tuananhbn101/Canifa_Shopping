@@ -4,8 +4,7 @@
         android:layout_width="match_parent"
         android:orientation="vertical"
         android:layout_height="match_parent">
-        <include layout="@layout/title_header"
-            android:id="@+id/layoutTitle"/>
+        <include layout="@layout/title_header"/>
         <TextView
             android:layout_width="match_parent"
             android:layout_height="1dp"

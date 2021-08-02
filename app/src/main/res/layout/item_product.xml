@@ -5,7 +5,7 @@
     android:id="@+id/llProduct"
     android:layout_height="@dimen/_50sdp">
     <ImageView
-        android:id="@+id/ivProduct"
+        android:id="@+id/ivProducts"
         android:layout_width="@dimen/_50sdp"
         android:layout_height="match_parent"
         android:src="@drawable/image"
@@ -29,8 +29,7 @@
                 android:id="@+id/tvAmountProduct"
                 android:gravity="center_vertical"
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:text="Còn 100 cái"/>
+                android:layout_height="match_parent" />
             <TextView
                 android:id="@+id/tvPriceProduct"
                 android:layout_alignParentRight="true"
@@ -38,7 +37,7 @@
                 android:gravity="center_vertical"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:text="285.050"/>
+                />
         </RelativeLayout>
     </LinearLayout>
 </LinearLayout>

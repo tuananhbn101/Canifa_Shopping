@@ -28,9 +28,8 @@ public class SQLHelper extends SQLiteOpenHelper {
     static final String DB_TABLE_REPORT = "Reports";
     static final String DB_TABLE_BILL = "Bills";
     static final String DB_TABLE_CUSTOMER = "Customers";
-//    static final String DB_TABLE_LOYALTY_CARD= "Card";
-//    static final String DB_TABLE_VOUCHER = "Voucher";
     static final int DB_VERSION = 1;
+    // các trường của bảng account
     static final String ACCOUNT_ID = "ID";
     static final String ACCOUNT_USER_NAME = "userName";
     static final String ACCOUNT_PASSWORD = "password";
@@ -41,8 +40,8 @@ public class SQLHelper extends SQLiteOpenHelper {
     static final String ACCOUNT_AVATAR = "avatar";
     static final String ACCOUNT_HOMETOWN = "homeTown";
     static final String ACCOUNT_PERMISSION = "permission";
+    // các trường của bảng product
     static final String PRODUCT_ID = "ID";
-    // customer id, ten, so dien thoai,email, diem tich luy,(so tien da mua), hạng( đồng - kim cương/5tr + 1 bậc),voucher(10%)
     static final String PRODUCT_NAME = "name";
     static final String PRODUCT_PRICE_IMPORT = "priceImport";
     static final String PRODUCT_PRICE = "price";
@@ -51,11 +50,13 @@ public class SQLHelper extends SQLiteOpenHelper {
     static final String PRODUCT_DESCRIBE = "describe";
     static final String PRODUCT_IMAGE = "image";
     static final String PRODUCT_BARD_CODE = "producer";
+    // các trường của bảng report
     static final String REPORT_ID = "IDReport";
     static final String REPORT_DATE = "date";
     static final String REPORT_TOTAL_IMPORT = "totalImport";
     static final String REPORT_TOTAL_SALE = "totalSale";
     static final String REPORT_ID_EMPLOYEE= "IDEmployee";
+    // các trường của bảng bill
     static final String BILL_ID = "IDBill";
     static final String BILL_DATE = "date";
     static final String BILL_NAME_PRODUCT = "names";
@@ -63,6 +64,7 @@ public class SQLHelper extends SQLiteOpenHelper {
     static final String BILL_PRICE = "price";
     static final String BILL_TOTAL = "total";
     static final String BILL_ID_EMPLOYEE= "IDEmployee";
+    //các trường cảu bảng customer
     static final String CUSTOMER_ID = "IDCustomer";
     static final String CUSTOMER_NAME = "customerName";
     static final String CUSTOMER_PHONE = "customerPhone";
@@ -71,7 +73,14 @@ public class SQLHelper extends SQLiteOpenHelper {
     static final String CUSTOMER_ACCUMULATE_POINTS = "customerPoints";
     static final String CUSTOMER_TYPE = "customerType";
     static final String CUSTOMER_VOUCHER= "customerVoucher";
+    // tất cả các bản sẽ có 4 hàm để sử lý
+    /*
+        hàm insert
+        hàm update
+        hàm delete
+        hàm getAll
 
+     */
 
     public SQLHelper(@Nullable Context context) {
         super(context, DB_NAME, null, DB_VERSION);
@@ -231,8 +240,7 @@ public class SQLHelper extends SQLiteOpenHelper {
         contentValues.put(PRODUCT_TYPE, product.getType());
         contentValues.put(PRODUCT_DESCRIBE, product.getDescribe());
         contentValues.put(PRODUCT_IMAGE, product.getImage());
-        contentValues.put(PRODUCT_BARD_CODE
-                , product.getBardCode());
+        contentValues.put(PRODUCT_BARD_CODE, product.getBardCode());
         sqLiteDatabase.insert(DB_TABLE_PRODUCT, null, contentValues);
     }
 

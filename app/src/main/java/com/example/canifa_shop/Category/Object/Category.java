@@ -34,4 +34,9 @@ public class Category{
     public void setAmountCategory(String amountCategory) {
         this.amountCategory = amountCategory;
     }
+
+    @Override
+    public String toString() {
+        return nameCategory;
+    }
 }

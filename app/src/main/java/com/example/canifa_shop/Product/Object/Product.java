@@ -1,6 +1,8 @@
 package com.example.canifa_shop.Product.Object;
 
-public class Product {
+import java.io.Serializable;
+
+public class Product implements Serializable {
     private int ID;
     private String nameProduct;
     private long importPrice;

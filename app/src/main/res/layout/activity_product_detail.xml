@@ -27,8 +27,13 @@
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/_100sdp"
                     android:layout_marginTop="@dimen/_10sdp">
-
+                    <TextView
+                        android:visibility="gone"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/tvImageLink"/>
                     <ImageView
+                        android:id="@+id/ivProduct"
                         android:layout_width="@dimen/_70sdp"
                         android:layout_height="match_parent"
                         android:layout_centerInParent="true"
@@ -60,41 +65,9 @@
                             android:layout_width="match_parent"
                             android:layout_height="0dp"
                             android:layout_weight="2"
-                            android:gravity="center_vertical"
-                            android:text="Quần đũi" />
+                            android:gravity="center_vertical" />
                     </LinearLayout>
 
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="1dp"
-                        android:background="@color/colorGrayLight" />
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="0dp"
-                        android:layout_weight="1"
-                        android:orientation="vertical">
-
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="0dp"
-                            android:layout_weight="1"
-                            android:text="Mã mặt hàng" />
-
-                        <EditText
-                            android:id="@+id/etCodeProduct"
-                            style="@style/text15"
-                            android:layout_width="match_parent"
-                            android:layout_height="0dp"
-                            android:layout_weight="2"
-                            android:gravity="center_vertical"
-                            android:text="Quần đũi" />
-                    </LinearLayout>
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="1dp"
-                        android:background="@color/colorGrayLight" />
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -115,21 +88,8 @@
                             android:layout_height="0dp"
                             android:layout_weight="2"
                             android:gravity="center_vertical"
-                            android:text="Quần đũi" />
+                            />
                     </LinearLayout>
-                </LinearLayout>
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:background="@color/colorGrayLight" />
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/_150sdp"
-                    android:layout_marginTop="@dimen/_10sdp"
-                    android:orientation="vertical">
-
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="0dp"
@@ -149,13 +109,17 @@
                             android:layout_height="0dp"
                             android:layout_weight="2"
                             android:gravity="center_vertical"
-                            android:text="Quần đũi" />
+                            />
                     </LinearLayout>
+                </LinearLayout>
 
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="1dp"
-                        android:background="@color/colorGrayLight" />
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_150sdp"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:orientation="vertical">
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -176,13 +140,10 @@
                             android:layout_height="0dp"
                             android:layout_weight="2"
                             android:gravity="center_vertical"
-                            android:text="Quần đũi" />
+                            />
                     </LinearLayout>
 
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="1dp"
-                        android:background="@color/colorGrayLight" />
+
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -196,13 +157,35 @@
                             android:layout_weight="1"
                             android:text="Giá nhập" />
 
-                        <TextView
+                        <EditText
+                            android:id="@+id/etPriceImport"
                             style="@style/text15"
                             android:layout_width="match_parent"
                             android:layout_height="0dp"
                             android:layout_weight="2"
-                            android:gravity="center_vertical"
-                            android:text="Quần đũi" />
+                            />
+                    </LinearLayout>
+
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="0dp"
+                            android:layout_weight="1"
+                            android:text="Ghi chu" />
+
+                        <EditText
+                            android:id="@+id/etNote"
+                            style="@style/text15"
+                            android:layout_width="match_parent"
+                            android:layout_height="0dp"
+                            android:layout_weight="2"
+                             />
                     </LinearLayout>
                 </LinearLayout>
 
@@ -226,7 +209,6 @@
                             android:text="Đơn vị tính" />
 
                         <TextView
-                            android:id="@+id/etPriceImport"
                             style="@style/text15"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -260,19 +242,12 @@
                             android:layout_height="wrap_content"
                             android:text="Danh mục" />
 
-                        <TextView
-                            style="@style/text15"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_alignParentRight="true"
-                            android:layout_marginRight="@dimen/_30sdp"
-                            android:text="Mặc định" />
+                       <Spinner
+                           android:id="@+id/spType"
+                           android:layout_width="wrap_content"
+                           android:layout_height="wrap_content"
+                           android:layout_alignParentRight="true"/>
 
-                        <ImageView
-                            android:layout_width="@dimen/_20sdp"
-                            android:layout_height="wrap_content"
-                            android:layout_alignParentRight="true"
-                            android:src="@drawable/ic_next" />
                     </RelativeLayout>
 
                     <TextView
@@ -308,25 +283,13 @@
                     android:layout_height="1dp"
                     android:background="@color/colorGrayLight" />
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/_100sdp"
+                <Button
+                    android:id="@+id/btnControl"
                     android:layout_marginTop="@dimen/_10sdp"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Ghi chú" />
-
-                    <EditText
-                        android:id="@+id/etNote"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:background="@color/white"
-                        android:inputType="text"
-                        android:lines="3" />
-                </LinearLayout>
+                    android:layout_marginBottom="@dimen/_15sdp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Thêm mới"/>
             </LinearLayout>
         </androidx.core.widget.NestedScrollView>
     </LinearLayout>
