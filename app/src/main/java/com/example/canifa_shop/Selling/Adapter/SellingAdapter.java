@@ -11,7 +11,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -26,6 +28,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
 import java.net.URI;
+import java.util.ArrayList;
 import java.util.List;
 
 public class SellingAdapter extends RecyclerView.Adapter<SellingAdapter.ViewHolder> {
@@ -43,30 +46,38 @@ public class SellingAdapter extends RecyclerView.Adapter<SellingAdapter.ViewHold
     @NotNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull @NotNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_product,parent,false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_product, parent, false);
         return new ViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull @NotNull SellingAdapter.ViewHolder holder, int position) {
 
-            Product product = productList.get(position);
-            String link = product.getImage();
-            String name = product.getNameProduct();
-            String price = product.getPrice()+"";
-            String amount = product.getAmount()+"";
-            Picasso.with(context).load("file://"+link).into(holder.ivProduct);
-            holder.tvPriceProduct.setText(price);
-            holder.tvNameProduct.setText(name);
-            holder.tvAmountProduct.setText(amount);
-            holder.llProduct.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
+        Product product = productList.get(position);
+        String link = product.getImage();
+        String name = product.getNameProduct();
+        String price = product.getPrice() + "";
+        String amount = "Còn: "+product.getAmount() ;
+        if (product.getAmount() == 0) {
+            holder.ivSold.setVisibility(View.VISIBLE);
+        }
+        Picasso.with(context).load("file://" + link).into(holder.ivProduct);
+        holder.tvPriceProduct.setText(price);
+        holder.tvNameProduct.setText(name);
+        holder.tvAmountProduct.setText(amount);
+        holder.llProduct.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (product.getAmount() == 0) {
+                    Toast.makeText(context, "Đã hết hàng", Toast.LENGTH_LONG).show();
+                } else {
                     SQLHelper sqlHelper = new SQLHelper(context);
+                    product.setAmount(1);
                     sqlHelper.insertOrderProduct(product);
                     onClickItem.onClickItem();
                 }
-            });
+            }
+        });
 
     }
 
@@ -76,9 +87,10 @@ public class SellingAdapter extends RecyclerView.Adapter<SellingAdapter.ViewHold
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        ImageView ivProduct;
-        TextView tvNameProduct,tvAmountProduct,tvPriceProduct;
-        LinearLayout llProduct;
+        ImageView ivProduct, ivSold;
+        TextView tvNameProduct, tvAmountProduct, tvPriceProduct;
+        RelativeLayout llProduct;
+
         public ViewHolder(@NonNull @NotNull View itemView) {
             super(itemView);
             ivProduct = itemView.findViewById(R.id.ivProducts);
@@ -86,6 +98,7 @@ public class SellingAdapter extends RecyclerView.Adapter<SellingAdapter.ViewHold
             tvAmountProduct = itemView.findViewById(R.id.tvAmountProduct);
             tvPriceProduct = itemView.findViewById(R.id.tvPriceProduct);
             llProduct = itemView.findViewById(R.id.llProduct);
+            ivSold = itemView.findViewById(R.id.ivSold);
         }
     }
 }

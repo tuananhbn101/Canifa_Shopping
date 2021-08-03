@@ -22,6 +22,7 @@ public class CustomerActivity extends AppCompatActivity {
     SQLHelper sqlHelper;
     List<Customer> customerList;
     ImageView btnAdd;
+    String control;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,7 +37,15 @@ public class CustomerActivity extends AppCompatActivity {
             }
         });
 
-        
+    }
+    public void getInten(){
+        Intent intent = getIntent();
+        control = intent.getStringExtra("control");
+        if(control!=null){
+            if(control.equals("getCustomer")){
+
+            }
+        }
     }
     public void initialization(){
         btnAdd = findViewById(R.id.btnAdd);

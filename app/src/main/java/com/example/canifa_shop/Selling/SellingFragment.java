@@ -189,4 +189,11 @@ public class SellingFragment extends Fragment {
             binding.rvProduct.setAdapter(sellingAdapter);
         }
     }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        binding.tvAmount.setText(sqlHelper.getAllOrderPrduct().size() + "");
+        setAdapter(productList);
+    }
 }

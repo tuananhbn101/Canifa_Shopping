@@ -63,6 +63,7 @@ public class SQLHelper extends SQLiteOpenHelper {
     static final String BILL_AMOUNT = "amounts";
     static final String BILL_PRICE = "price";
     static final String BILL_TOTAL = "total";
+    static final String BILL_ID_CUSTOMER = "IDCustomer";
     static final String BILL_ID_EMPLOYEE= "IDEmployee";
     //các trường cảu bảng customer
     static final String CUSTOMER_ID = "IDCustomer";
@@ -142,7 +143,8 @@ public class SQLHelper extends SQLiteOpenHelper {
                 "amounts TEXT NOT NULL," +
                 "price TEXT NOT NULL," +
                 "total LONG NOT NULL,"+
-                "IDEmployee INTERGER)";
+                "IDEmployee INTERGER NOT NULL,"+
+                "IDEmployee INTERGER NOT NULL)";
 
         db.execSQL(queryCreateTableAccounts);
         db.execSQL(queryCreateTableProducts);
@@ -404,6 +406,7 @@ public class SQLHelper extends SQLiteOpenHelper {
         contentValues.put(BILL_AMOUNT, bill.getAmount());
         contentValues.put(BILL_PRICE, bill.getPrice());
         contentValues.put(BILL_TOTAL, bill.getTotal());
+        contentValues.put(BILL_ID_CUSTOMER,bill.getIDCustomer());
         contentValues.put(BILL_ID_EMPLOYEE, bill.getIDEmployee());
         sqLiteDatabase.insert(DB_TABLE_BILL, null, contentValues);
     }
@@ -424,8 +427,9 @@ public class SQLHelper extends SQLiteOpenHelper {
                 String amount = cursor.getString(cursor.getColumnIndex(BILL_AMOUNT));
                 String price = cursor.getString(cursor.getColumnIndex(BILL_PRICE));
                 long total = cursor.getLong(cursor.getColumnIndex(BILL_TOTAL));
+                int IDCustomer = cursor.getInt(cursor.getColumnIndex(BILL_ID_CUSTOMER));
                 int IDEmployees = cursor.getInt(cursor.getColumnIndex(BILL_ID_EMPLOYEE));
-                billArrayList.add(new Bill(ID,date,nameProduct, amount, price,total,IDEmployees));
+                billArrayList.add(new Bill(ID,date,nameProduct, amount, price,total,IDCustomer,IDEmployees));
             }
         return billArrayList;
     }

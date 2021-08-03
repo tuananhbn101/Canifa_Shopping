@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -48,7 +49,10 @@ public class SellingAdapterGrid extends RecyclerView.Adapter<SellingAdapterGrid.
         String link = product.getImage();
         String name = product.getNameProduct();
         String price = product.getPrice()+"";
-        String amount = product.getAmount()+"";
+        String amount = "Còn: "+product.getAmount() ;
+        if(product.getAmount()==0){
+            holder.ivSold.setVisibility(View.VISIBLE);
+        }
         Picasso.with(context).load("file://"+link).into(holder.ivProduct);
         holder.tvPriceProduct.setText(price);
         holder.tvNameProduct.setText(name);
@@ -57,6 +61,7 @@ public class SellingAdapterGrid extends RecyclerView.Adapter<SellingAdapterGrid.
             @Override
             public void onClick(View v) {
                 SQLHelper sqlHelper = new SQLHelper(context);
+                product.setAmount(1);
                 sqlHelper.insertOrderProduct(product);
                 onClickItem.onClickItem();
             }
@@ -69,16 +74,18 @@ public class SellingAdapterGrid extends RecyclerView.Adapter<SellingAdapterGrid.
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        ImageView ivProduct;
+        ImageView ivProduct,ivSold;
         TextView tvNameProduct,tvAmountProduct,tvPriceProduct;
-        LinearLayout llProduct;
+        RelativeLayout llProduct;
         public ViewHolder(@NonNull @NotNull View itemView) {
             super(itemView);
             ivProduct = itemView.findViewById(R.id.ivProduct);
             tvNameProduct = itemView.findViewById(R.id.tvNameProduct);
-            tvAmountProduct = itemView.findViewById(R.id.tvNameProduct);
-            tvPriceProduct = itemView.findViewById(R.id.tvNameProduct);
+            tvAmountProduct = itemView.findViewById(R.id.tvAmountProduct);
+            tvPriceProduct = itemView.findViewById(R.id.tvPriceProduct);
             llProduct = itemView.findViewById(R.id.llProduct);
+            ivSold = itemView.findViewById(R.id.ivSold);
         }
     }
+
 }

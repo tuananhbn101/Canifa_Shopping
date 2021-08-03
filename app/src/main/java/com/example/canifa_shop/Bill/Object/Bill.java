@@ -1,30 +1,31 @@
 package com.example.canifa_shop.Bill.Object;
 public class Bill {
-    private int ID;
+    private int IDBill;
     private String date;
     private String names;
     private String amount;
     private String price;
-
     private long total;
+    private int IDCustomer;
     private int IDEmployee;
 
-    public Bill(int ID, String date, String names, String amount, String price,long total,int IDEmployee) {
-        this.ID = ID;
+    public Bill(int IDBill, String date, String names, String amount, String price, long total, int IDCustomer, int IDEmployee) {
+        this.IDBill = IDBill;
         this.date = date;
         this.names = names;
         this.amount = amount;
         this.price = price;
         this.total = total;
+        this.IDCustomer = IDCustomer;
         this.IDEmployee = IDEmployee;
     }
 
-    public int getID() {
-        return ID;
+    public int getIDBill() {
+        return IDBill;
     }
 
-    public void setID(int ID) {
-        this.ID = ID;
+    public void setIDBill(int IDBill) {
+        this.IDBill = IDBill;
     }
 
     public String getDate() {
@@ -59,19 +60,27 @@ public class Bill {
         this.price = price;
     }
 
-    public int getIDEmployee() {
-        return IDEmployee;
-    }
-
-    public void setIDEmployee(int IDEmployee) {
-        this.IDEmployee = IDEmployee;
-    }
-
     public long getTotal() {
         return total;
     }
 
     public void setTotal(long total) {
         this.total = total;
+    }
+
+    public int getIDCustomer() {
+        return IDCustomer;
+    }
+
+    public void setIDCustomer(int IDCustomer) {
+        this.IDCustomer = IDCustomer;
+    }
+
+    public int getIDEmployee() {
+        return IDEmployee;
+    }
+
+    public void setIDEmployee(int IDEmployee) {
+        this.IDEmployee = IDEmployee;
     }
 }

@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -48,6 +49,9 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHold
         String name = product.getNameProduct();
         String price = product.getPrice()+"";
         String amount = product.getAmount()+"";
+        if(product.getAmount()==0){
+            holder.ivSold.setVisibility(View.VISIBLE);
+        }
         Picasso.with(context).load("file://"+link).into(holder.ivProduct);
         holder.tvPriceProduct.setText(price);
         holder.tvNameProduct.setText(name);
@@ -70,9 +74,9 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHold
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        ImageView ivProduct;
+        ImageView ivProduct,ivSold;
         TextView tvNameProduct,tvAmountProduct,tvPriceProduct;
-        LinearLayout llProduct;
+        RelativeLayout llProduct;
         public ViewHolder(@NonNull @NotNull View itemView) {
             super(itemView);
             ivProduct = itemView.findViewById(R.id.ivProducts);
@@ -80,6 +84,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHold
             tvAmountProduct = itemView.findViewById(R.id.tvAmountProduct);
             tvPriceProduct = itemView.findViewById(R.id.tvPriceProduct);
             llProduct = itemView.findViewById(R.id.llProduct);
+            ivSold = itemView.findViewById(R.id.ivSold);
         }
     }
 }
