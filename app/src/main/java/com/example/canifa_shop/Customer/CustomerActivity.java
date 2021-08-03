@@ -53,4 +53,5 @@ public class CustomerActivity extends AppCompatActivity {
         customerList = new ArrayList<>();
         customerList = sqlHelper.getAllCustomer();
     }
+
 }

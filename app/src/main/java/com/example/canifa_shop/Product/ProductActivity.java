@@ -35,13 +35,18 @@ public class ProductActivity extends AppCompatActivity {
         binding = DataBindingUtil.setContentView(this,R.layout.activity_product);
         findByViewID();
         initialization();
-        setAdapter();
         btnAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(ProductActivity.this,ProductDetailActivity.class);
                 intent.putExtra("control","create");
                 startActivity(intent);
+            }
+        });
+        btnBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
             }
         });
 
@@ -59,14 +64,21 @@ public class ProductActivity extends AppCompatActivity {
         sqlHelper = new SQLHelper(getApplicationContext());
         productList = new ArrayList<>();
         productList=sqlHelper.getAllPrduct();
-        productAdapter=new ProductAdapter(productList,getApplicationContext());
+
 
     }
     public void setAdapter(){
-
+            productAdapter=new ProductAdapter(productList,getApplicationContext());
             GridLayoutManager gridLayoutManager =new GridLayoutManager(getApplicationContext(),1, RecyclerView.VERTICAL,false);
             binding.rvProduct.setLayoutManager(gridLayoutManager);
             binding.rvProduct.setAdapter(productAdapter);
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        initialization();
+        setAdapter();
     }
 
 }

@@ -143,7 +143,7 @@ public class SQLHelper extends SQLiteOpenHelper {
                 "amounts TEXT NOT NULL," +
                 "price TEXT NOT NULL," +
                 "total LONG NOT NULL,"+
-                "IDEmployee INTERGER NOT NULL,"+
+                "IDCustomer NOT NULL,"+
                 "IDEmployee INTERGER NOT NULL)";
 
         db.execSQL(queryCreateTableAccounts);
@@ -244,6 +244,7 @@ public class SQLHelper extends SQLiteOpenHelper {
         contentValues.put(PRODUCT_IMAGE, product.getImage());
         contentValues.put(PRODUCT_BARD_CODE, product.getBardCode());
         sqLiteDatabase.insert(DB_TABLE_PRODUCT, null, contentValues);
+        sqLiteDatabase.close();
     }
 
     public void updateProduct(Product product) {
@@ -260,6 +261,7 @@ public class SQLHelper extends SQLiteOpenHelper {
         contentValues.put(PRODUCT_BARD_CODE
                 , product.getBardCode());
         sqLiteDatabase.update(DB_TABLE_PRODUCT, contentValues, "ID = ?", new String[]{String.valueOf(product.getID())});
+        sqLiteDatabase.close();
     }
 
 

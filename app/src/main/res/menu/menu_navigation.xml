@@ -5,11 +5,11 @@
       android:title="Bán hàng"/>
     <item android:id="@+id/bill"
         android:icon="@drawable/ic_bill"
-        android:title="Bán hàng"/>
+        android:title="Hóa đơn"/>
     <item android:id="@+id/report"
         android:icon="@drawable/ic_report"
-        android:title="Bán hàng"/>
+        android:title="Báo cáo"/>
     <item android:id="@+id/more"
         android:icon="@drawable/ic_menu"
-        android:title="Bán hàng"/>
+        android:title="Thêm"/>
 </menu>

@@ -74,8 +74,7 @@ public class ProductDetailActivity extends AppCompatActivity {
         btnBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(),ProductActivity.class);
-                startActivity(intent);
+                finish();
             }
         });
         tvDelete.setOnClickListener(new View.OnClickListener() {
@@ -87,7 +86,7 @@ public class ProductDetailActivity extends AppCompatActivity {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 sqlHelper.deleteItemProduct(ID);
-                                onBackPressed();
+                                finish();
                             }
                         })
                         .setNegativeButton("Không", new DialogInterface.OnClickListener() {
@@ -147,6 +146,7 @@ public class ProductDetailActivity extends AppCompatActivity {
         tvDelete = findViewById(R.id.tvDelete);
         btnAdd.setVisibility(View.INVISIBLE);
         tvTitile.setText("Sản phẩm");
+
     }
     public void initialization() {
 
@@ -188,8 +188,6 @@ public class ProductDetailActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-        Intent intent = new Intent(getApplicationContext(),ProductActivity.class);
-        startActivity(intent);
+        finish();
     }
-
 }

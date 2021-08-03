@@ -25,6 +25,7 @@ public class CustomerDetailActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this,R.layout.activity_customer_detail);
         getItent();
+        initialization();
         binding.btnControl.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
