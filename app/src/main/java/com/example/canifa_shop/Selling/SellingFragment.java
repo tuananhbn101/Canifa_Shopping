@@ -1,6 +1,7 @@
 package com.example.canifa_shop.Selling;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -19,6 +20,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.canifa_shop.Bill.BillDetailActivity;
 import com.example.canifa_shop.Product.Object.Product;
 
 import com.example.canifa_shop.R;
@@ -134,6 +136,13 @@ public class SellingFragment extends Fragment {
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
+            }
+        });
+        binding.imvCart.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getContext(), BillDetailActivity.class);
+                startActivity(intent);
             }
         });
         return binding.getRoot();
