@@ -2,9 +2,13 @@ package com.example.canifa_shop.Selling;
 
 
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
 
@@ -36,7 +40,9 @@ public class SellingFragment extends Fragment {
     List<Product> productList;
     SellingAdapter sellingAdapter;
     SellingAdapterGrid sellingAdapterGrid;
-
+    List<Product> productListSearch;
+    List<String> typeProductList;
+    ArrayAdapter<String> adapterSpinner;
     public static SellingFragment newInstance() {
 
         Bundle args = new Bundle();
@@ -52,13 +58,14 @@ public class SellingFragment extends Fragment {
     public View onCreateView(@NonNull @NotNull LayoutInflater inflater, @Nullable @org.jetbrains.annotations.Nullable ViewGroup container, @Nullable @org.jetbrains.annotations.Nullable Bundle savedInstanceState) {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_selling, container, false);
         initialization();
-        setAdapter();
+        setAdapter(productList);
+        setAdapterSpinner();
         binding.imvList.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 binding.imvGrid.setVisibility(View.VISIBLE);
                 binding.imvList.setVisibility(View.INVISIBLE);
-                setAdapter();
+                setAdapter(productList);
             }
         });
         binding.imvGrid.setOnClickListener(new View.OnClickListener() {
@@ -66,22 +73,67 @@ public class SellingFragment extends Fragment {
             public void onClick(View v) {
                 binding.imvGrid.setVisibility(View.INVISIBLE);
                 binding.imvList.setVisibility(View.VISIBLE);
-                setAdapter();
+                setAdapter(productList);
             }
         });
         binding.btnQRCode.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                sqlHelper.insertProduct(new Product(1, "Hi", 123, 123, 123, "hi", "hi", "hi", "hi"));
-                sellingAdapter.notifyDataSetChanged();
-                sellingAdapterGrid.notifyDataSetChanged();
+
             }
         });
         binding.btnDelete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                sqlHelper.deleteOrderProduct();
-                binding.tvAmount.setText(sqlHelper.getAllOrderPrduct().size() + "");
+                binding.edtSearch.setText("");
+                setAdapter(productList);
+                binding.btnDelete.setVisibility(View.INVISIBLE);
+            }
+        });
+        binding.edtSearch.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                productListSearch.clear();
+                binding.btnDelete.setVisibility(View.VISIBLE);
+                for (Product product : productList) {
+                    if (product.getBardCode().contains(binding.edtSearch.getText().toString()) || product.getNameProduct().contains(binding.edtSearch.getText().toString())) {
+                        productListSearch.add(product);
+                    }
+                }
+                setAdapter(productListSearch);
+                if(binding.edtSearch.getText().toString().equals("")){
+                    binding.btnDelete.setVisibility(View.INVISIBLE);
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+        binding.sprCategory.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+              if(position==0){
+                  setAdapter(productList);
+              }else {
+                  productListSearch.clear();
+                  for (Product product : productList) {
+                      if (product.getType().contains(binding.sprCategory.getSelectedItem().toString())) {
+                          productListSearch.add(product);
+                      }
+                  }
+                  setAdapter(productListSearch);
+              }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
             }
         });
         return binding.getRoot();
@@ -90,9 +142,20 @@ public class SellingFragment extends Fragment {
     public void initialization() {
         sqlHelper = new SQLHelper(getContext());
         productList = new ArrayList<>();
-        sqlHelper.insertProduct(new Product());
-        sqlHelper.insertProduct(new Product());
+        productListSearch = new ArrayList<>();
+        typeProductList = new ArrayList<>();
         productList = sqlHelper.getAllPrduct();
+        typeProductList.add("Tất cả");
+        typeProductList.add("Quần");
+        typeProductList.add("Áo");
+        typeProductList.add("Váy");
+    }
+    public void setAdapterSpinner(){
+        adapterSpinner = new ArrayAdapter<String>(getContext(), android.R.layout.simple_list_item_1,typeProductList);
+        adapterSpinner.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
+        binding.sprCategory.setAdapter(adapterSpinner);
+    }
+    public void setAdapter(List<Product> productList) {
         sellingAdapter = new SellingAdapter(productList, getContext(), new OnClickItem() {
             @Override
             public void onClickItem() {
@@ -106,9 +169,6 @@ public class SellingFragment extends Fragment {
             }
         });
         binding.tvAmount.setText(sqlHelper.getAllOrderPrduct().size() + "");
-    }
-
-    public void setAdapter() {
         if (binding.imvGrid.getVisibility() == View.VISIBLE) {
             GridLayoutManager gridLayoutManager = new GridLayoutManager(getContext(), 3, RecyclerView.VERTICAL, false);
             binding.rvProduct.setLayoutManager(gridLayoutManager);

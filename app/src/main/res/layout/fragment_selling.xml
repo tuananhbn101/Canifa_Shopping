@@ -109,6 +109,7 @@
                 android:padding="@dimen/_10sdp" />
 
             <ImageView
+                android:visibility="invisible"
                 android:id="@+id/btnDelete"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
