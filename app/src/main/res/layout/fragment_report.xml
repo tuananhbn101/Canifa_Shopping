@@ -27,6 +27,7 @@
                 <TextView
                     style="@style/text15"
                     android:layout_width="wrap_content"
+                    android:id="@+id/tvFilterOption"
                     android:layout_height="match_parent"
                     android:layout_marginLeft="@dimen/_10sdp"
                     android:gravity="center"
@@ -34,7 +35,7 @@
                     app:tint="@color/black" />
 
                 <TextView
-                    android:id="@+id/edtSearch"
+                    android:id="@+id/tvFilterDate"
                     style="@style/text15"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
@@ -75,11 +76,17 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="0dp"
+                        android:text="285.050"
+                        android:id="@+id/tvProfit"
+                        android:gravity="center"
+                        android:textStyle="bold"
                         android:layout_weight="1" />
 
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="0dp"
+                        android:text="Lợi nhuận"
+                        android:gravity="center"
                         android:layout_weight="1" />
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
@@ -100,11 +107,17 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="0dp"
+                        android:text="285.050"
+                        android:id="@+id/tvSales"
+                        android:gravity="center"
+                        android:textStyle="bold"
                         android:layout_weight="1" />
 
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="0dp"
+                        android:text="DoanhThu"
+                        android:gravity="center"
                         android:layout_weight="1" />
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
@@ -138,28 +151,17 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="0dp"
-                        android:layout_weight="1" />
+                        android:layout_weight="1"
+                        android:id="@+id/tvInvoiceNumber"
+                        android:gravity="center"
+                        android:text="1"
+                        android:textStyle="bold" />
 
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="0dp"
-                        android:layout_weight="1" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="0dp"
-                        android:layout_weight="1" />
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="0dp"
+                        android:text="Số hóa đơn"
+                        android:gravity="center"
                         android:layout_weight="1" />
                 </LinearLayout>
 
@@ -172,11 +174,40 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="0dp"
+                        android:text="285.050"
+                        android:id="@+id/tvInvoiceValue"
+                        android:gravity="center"
+                        android:textStyle="bold"
                         android:layout_weight="1" />
 
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="0dp"
+                        android:text="Giá trị hóa đơn"
+                        android:gravity="center"
+                        android:layout_weight="1" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:text="0"
+                        android:id="@+id/tvTaxAmount"
+                        android:gravity="center"
+                        android:textStyle="bold"
+                        android:layout_weight="1" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:text="Tiền thuế"
+                        android:gravity="center"
                         android:layout_weight="1" />
                 </LinearLayout>
             </LinearLayout>
@@ -195,28 +226,17 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="0dp"
+                        android:text="0"
+                        android:id="@+id/tvDiscount"
+                        android:gravity="center"
+                        android:textStyle="bold"
                         android:layout_weight="1" />
 
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="0dp"
-                        android:layout_weight="1" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="0dp"
-                        android:layout_weight="1" />
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="0dp"
+                        android:text="Giảm giá"
+                        android:gravity="center"
                         android:layout_weight="1" />
                 </LinearLayout>
 
@@ -229,11 +249,40 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="0dp"
+                        android:text="285.050"
+                        android:id="@+id/tvSellAmount"
+                        android:gravity="center"
+                        android:textStyle="bold"
                         android:layout_weight="1" />
 
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="0dp"
+                        android:text="Tiền bán"
+                        android:gravity="center"
+                        android:layout_weight="1" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:text="285.050"
+                        android:id="@+id/tvFundAmount"
+                        android:gravity="center"
+                        android:textStyle="bold"
+                        android:layout_weight="1" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:text="Tiền vốn"
+                        android:gravity="center"
                         android:layout_weight="1" />
                 </LinearLayout>
             </LinearLayout>
@@ -268,28 +317,17 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="0dp"
+                        android:text="285.050"
+                        android:id="@+id/tvBluntAmount"
+                        android:gravity="center"
+                        android:textStyle="bold"
                         android:layout_weight="1" />
 
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="0dp"
-                        android:layout_weight="1" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="0dp"
-                        android:layout_weight="1" />
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="0dp"
+                        android:text="Tiền mặt"
+                        android:gravity="center"
                         android:layout_weight="1" />
                 </LinearLayout>
 
@@ -302,11 +340,40 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="0dp"
+                        android:text="285.050"
+                        android:id="@+id/tvBankAmount"
+                        android:gravity="center"
+                        android:textStyle="bold"
                         android:layout_weight="1" />
 
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="0dp"
+                        android:text="Ngân hàng"
+                        android:gravity="center"
+                        android:layout_weight="1" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:text="285.050"
+                        android:gravity="center"
+                        android:id="@+id/tvDebtAmount"
+                        android:textStyle="bold"
+                        android:layout_weight="1" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:text="Khách nợ"
+                        android:gravity="center"
                         android:layout_weight="1" />
                 </LinearLayout>
             </LinearLayout>
