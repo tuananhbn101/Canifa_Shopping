@@ -42,6 +42,7 @@ public class ProductDetailActivity extends AppCompatActivity {
     ImageView btnBack, btnAdd;
     TextView tvTitile,tvDelete;
     String control;
+    Product productUpdate;
     int ID;
     String linkImage = "";
     @Override
@@ -57,8 +58,10 @@ public class ProductDetailActivity extends AppCompatActivity {
             public void onClick(View v) {
                 if(control.equals("create")){
                     addProduct();
-                    Intent intent = new Intent(getApplicationContext(),ProductActivity.class);
-                    startActivity(intent);
+                   finish();
+                }else {
+                    updateProduct();
+                    finish();
                 }
             }
         });
@@ -116,6 +119,7 @@ public class ProductDetailActivity extends AppCompatActivity {
             for (Product product : productList
             ) {
                 if(product.getID()==ID){
+                    productUpdate = product;
                     binding.etNameProduct.setText(product.getNameProduct());
                     binding.etAmountProduct.setText(product.getAmount()+"");
                     binding.etBardCodeProduct.setText(product.getBardCode());
@@ -184,7 +188,23 @@ public class ProductDetailActivity extends AppCompatActivity {
         cursor.close();
         return path;
     }
-
+    public void updateProduct(){
+        String name = binding.etNameProduct.getText().toString().trim();
+        long priceImport = Long.valueOf(binding.etPriceImport.getText().toString().trim());
+        long priceSell= Long.valueOf(binding.etPriceSell.getText().toString().trim());
+        String code = binding.etBardCodeProduct.getText().toString().trim();
+        String note = binding.etNote.getText().toString().trim();
+        int amount = Integer.valueOf(binding.etAmountProduct.getText().toString().trim());
+        String type = binding.spType.getSelectedItem().toString();
+        productUpdate.setNameProduct(name);
+        productUpdate.setPrice(priceSell);
+        productUpdate.setImportprice(priceImport);
+        productUpdate.setAmount(amount);
+        productUpdate.setBardCode(code);
+        productUpdate.setDescribe(note);
+        productUpdate.setType(type);
+        sqlHelper.updateProduct(productUpdate);
+    }
     @Override
     public void onBackPressed() {
         super.onBackPressed();

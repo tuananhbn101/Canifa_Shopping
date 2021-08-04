@@ -21,13 +21,14 @@
         <activity android:name=".Category.CategoryActivity" />
         <activity android:name=".Product.ProductDetailActivity" />
         <activity android:name=".Product.ProductActivity" />
-        <activity android:name=".Login.LoginActivity" />
-        <activity android:name=".MainActivity">
+        <activity android:name=".Login.LoginActivity" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+        <activity android:name=".MainActivity">
         </activity>
     </application>
 

@@ -16,44 +16,6 @@
             android:layout_height="0.5dp"
             android:background="@color/colorGrayLight" />
 
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/_35sdp">
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent">
-
-                <TextView
-                    style="@style/text15"
-                    android:layout_width="wrap_content"
-                    android:id="@+id/tvFilterOption"
-                    android:layout_height="match_parent"
-                    android:layout_marginLeft="@dimen/_10sdp"
-                    android:gravity="center"
-                    android:text="Tất cả : "
-                    app:tint="@color/black" />
-
-                <TextView
-                    android:id="@+id/tvFilterDate"
-                    style="@style/text15"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:background="@color/white"
-                    android:gravity="center"
-                    android:text="Hôm nay" />
-            </LinearLayout>
-
-            <ImageView
-                android:id="@+id/btnFilter"
-                android:layout_width="@dimen/_40sdp"
-                android:layout_height="match_parent"
-                android:layout_alignParentRight="true"
-                android:padding="@dimen/_10sdp"
-                android:src="@drawable/ic_filter"
-                app:tint="@color/black" />
-        </RelativeLayout>
-
         <LinearLayout
             android:background="@color/colorGrayLight"
             android:layout_width="match_parent"

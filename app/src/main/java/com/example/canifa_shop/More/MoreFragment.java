@@ -67,12 +67,6 @@ public class MoreFragment extends Fragment {
                 startActivity(new Intent(getContext(), ProductActivity.class));
             }
         });
-        binding.btnUnitManager.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(getContext(), UnitActivity.class));
-            }
-        });
         return binding.getRoot();
     }
 }

@@ -34,7 +34,6 @@ public class ProductActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this,R.layout.activity_product);
         findByViewID();
-        initialization();
         btnAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -80,5 +79,4 @@ public class ProductActivity extends AppCompatActivity {
         initialization();
         setAdapter();
     }
-
 }

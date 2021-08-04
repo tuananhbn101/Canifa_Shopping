@@ -66,7 +66,7 @@ public class SQLHelper extends SQLiteOpenHelper {
     static final String BILL_ID_CUSTOMER = "IDCustomer";
     static final String BILL_ID_EMPLOYEE= "IDEmployee";
     //các trường cảu bảng customer
-    static final String CUSTOMER_ID = "IDCustomer";
+    static final String CUSTOMER_ID = "ID";
     static final String CUSTOMER_NAME = "customerName";
     static final String CUSTOMER_PHONE = "customerPhone";
     static final String CUSTOMER_EMAIL = "customerEmail";

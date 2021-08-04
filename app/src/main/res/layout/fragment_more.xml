@@ -83,27 +83,6 @@
                 <ImageView
                     android:layout_width="@dimen/_40sdp"
                     android:layout_height="match_parent"
-                    android:padding="@dimen/_10sdp"
-                    android:src="@drawable/ic_unit"
-                    app:tint="@color/colorBlue" />
-
-                <TextView
-                    android:id="@+id/btnUnitManager"
-                    style="@style/text15"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:gravity="center_vertical"
-                    android:text="Đơn vị tính" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="1">
-
-                <ImageView
-                    android:layout_width="@dimen/_40sdp"
-                    android:layout_height="match_parent"
                     android:padding="@dimen/_7sdp"
                     android:src="@drawable/ic_customer"
                     app:tint="@color/purple_200" />
@@ -120,6 +99,16 @@
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:background="@color/colorGrayLight" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1">
+
+
+            </LinearLayout>
+
+
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
