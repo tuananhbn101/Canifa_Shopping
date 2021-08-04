@@ -51,7 +51,7 @@
             </LinearLayout>
         </LinearLayout>
 
-        <androidx.recyclerview.widget.RecyclerView
+        <ListView
             android:id="@+id/rvCustomer"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
