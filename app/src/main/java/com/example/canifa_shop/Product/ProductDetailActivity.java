@@ -18,6 +18,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.canifa_shop.Category.Object.Category;
+import com.example.canifa_shop.MainActivity;
 import com.example.canifa_shop.Product.Object.Product;
 import com.example.canifa_shop.R;
 import com.example.canifa_shop.SQLHelper.SQLHelper;
@@ -28,8 +29,11 @@ import com.example.canifa_shop.databinding.ActivityProductBinding;
 import com.example.canifa_shop.databinding.ActivityProductDetailBinding;
 import com.squareup.picasso.Picasso;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.ArrayList;
 import java.util.List;
+
 
 
 public class ProductDetailActivity extends AppCompatActivity {
@@ -72,6 +76,7 @@ public class ProductDetailActivity extends AppCompatActivity {
                 intent.setType("image/*");
                 intent.setAction(Intent.ACTION_GET_CONTENT);
                 startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICK_IMAGE);
+
             }
         });
         btnBack.setOnClickListener(new View.OnClickListener() {
@@ -210,4 +215,5 @@ public class ProductDetailActivity extends AppCompatActivity {
         super.onBackPressed();
         finish();
     }
+
 }

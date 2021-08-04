@@ -9,70 +9,46 @@
             android:id="@+id/layoutTitile"/>
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="@dimen/_35sdp">
-            <ImageView
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:padding="@dimen/_9sdp"
-                android:src="@drawable/ic_search"
-                app:tint="@color/black" />
-            <EditText
-                android:id="@+id/edtSearch"
-                android:layout_width="0dp"
-                android:hint="Tìm kiếm"
-                android:background="@color/white"
-                android:padding="@dimen/_10sdp"
-                android:layout_height="match_parent"
-                android:layout_weight="5"/>
-            <ImageView
-                android:id="@+id/btnDelete"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="0.5"
-                android:padding="@dimen/_5sdp"
-                android:src="@drawable/ic_delete"/>
-            <ImageView
-                android:id="@+id/btnQRCode"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:padding="@dimen/_10sdp"
-                android:src="@drawable/ic_qr_code"
-                app:tint="@color/black" />
-        </LinearLayout>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:background="@color/colorGrayLight"
-            android:layout_height="@dimen/_35sdp">
-            <Spinner
-                android:id="@+id/sprCategory"
-                android:layout_width="0dp"
-                android:layout_weight="6.5"
-                android:layout_height="match_parent"/>
-            <RelativeLayout
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1">
+            android:layout_height="wrap_content"
+
+            android:background="@color/colorGrayLight">
+
+            <LinearLayout
+                android:layout_margin="@dimen/_10sdp"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_35sdp"
+                android:background="@color/white">
+
                 <ImageView
-                    android:id="@+id/imvList"
-                    android:visibility="visible"
-                    android:layout_width="match_parent"
+                    android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:padding="@dimen/_12sdp"
-                    android:src="@drawable/ic_list"
+                    android:layout_weight="1"
+                    android:padding="@dimen/_9sdp"
+                    android:src="@drawable/ic_search"
                     app:tint="@color/black" />
+
+                <EditText
+                    android:id="@+id/edtSearch"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="5"
+                    android:background="@color/white"
+                    android:hint="Tìm kiếm"
+                    android:padding="@dimen/_10sdp" />
+
                 <ImageView
-                    android:id="@+id/imvGrid"
+                    android:id="@+id/btnDelete"
+                    android:layout_width="0dp"
                     android:visibility="invisible"
-                    android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:padding="@dimen/_12sdp"
-                    android:src="@drawable/ic_menu"
-                    app:tint="@color/black" />
-            </RelativeLayout>
+                    android:layout_marginRight="@dimen/_10sdp"
+                    android:layout_weight="0.5"
+                    android:padding="@dimen/_5sdp"
+                    android:src="@drawable/ic_delete" />
+            </LinearLayout>
         </LinearLayout>
         <androidx.recyclerview.widget.RecyclerView
+            android:layout_marginTop="@dimen/_5sdp"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:id="@+id/rvProduct"/>

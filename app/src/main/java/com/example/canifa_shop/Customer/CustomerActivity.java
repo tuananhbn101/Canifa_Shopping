@@ -3,19 +3,14 @@ package com.example.canifa_shop.Customer;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
 
-import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.View;
-import android.view.WindowManager;
 import android.widget.AdapterView;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.canifa_shop.Customer.Adapter.CustomerAdapter;
 import com.example.canifa_shop.Customer.Object.Customer;
@@ -124,7 +119,7 @@ public class CustomerActivity extends AppCompatActivity {
         customerList = sqlHelper.getAllCustomer();
     }
     public void setAdapter(List<Customer> customerList){
-        adapter = new CustomerAdapter(this, R.layout.layout_item_customer, customerList);
+        adapter = new CustomerAdapter(this, R.layout.item_customer, customerList);
         binding.rvCustomer.setAdapter(adapter);
     }
 

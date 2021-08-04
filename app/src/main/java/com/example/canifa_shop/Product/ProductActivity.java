@@ -7,6 +7,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -29,6 +31,7 @@ public class ProductActivity extends AppCompatActivity {
     SQLHelper sqlHelper;
     ProductAdapter productAdapter;
     List<Product> productList;
+    List<Product> productListSearch;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,6 +51,32 @@ public class ProductActivity extends AppCompatActivity {
                 finish();
             }
         });
+        binding.edtSearch.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                productListSearch.clear();
+                binding.btnDelete.setVisibility(View.VISIBLE);
+                for (Product product : productList) {
+                    if (product.getBardCode().contains(binding.edtSearch.getText().toString()) || product.getNameProduct().contains(binding.edtSearch.getText().toString())) {
+                        productListSearch.add(product);
+                    }
+                }
+                setAdapter(productListSearch);
+                if(binding.edtSearch.getText().toString().equals("")){
+                    binding.btnDelete.setVisibility(View.INVISIBLE);
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
 
 
     }
@@ -62,11 +91,12 @@ public class ProductActivity extends AppCompatActivity {
     public void initialization(){
         sqlHelper = new SQLHelper(getApplicationContext());
         productList = new ArrayList<>();
+        productListSearch = new ArrayList<>();
         productList=sqlHelper.getAllPrduct();
 
 
     }
-    public void setAdapter(){
+    public void setAdapter(List<Product>productList){
             productAdapter=new ProductAdapter(productList,getApplicationContext());
             GridLayoutManager gridLayoutManager =new GridLayoutManager(getApplicationContext(),1, RecyclerView.VERTICAL,false);
             binding.rvProduct.setLayoutManager(gridLayoutManager);
@@ -77,6 +107,6 @@ public class ProductActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
         initialization();
-        setAdapter();
+        setAdapter(productList);
     }
 }
