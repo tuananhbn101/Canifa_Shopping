@@ -50,7 +50,7 @@ public class BillAdapter extends RecyclerView.Adapter<BillAdapter.ViewHolder> {
         String name = product.getNameProduct();
         String price = product.getPrice() + "";
         String amount = product.getAmount() + "";
-        Picasso.with(context).load("file://" + link).into(holder.ivProduct);
+       // Picasso.with(context).load("file://" + link).into(holder.ivProduct);
         holder.tvPriceProduct.setText(price);
         holder.tvNameProduct.setText(name);
         holder.tvAmountProduct.setText(amount);
