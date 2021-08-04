@@ -7,9 +7,22 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <include
-            android:id="@+id/layoutTitle"
-            layout="@layout/title_detail" />
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_40sdp">
+
+            <TextView
+                android:id="@+id/tvTitle"
+                style="@style/textTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="@dimen/_10sdp"
+                android:gravity="center_vertical"
+                android:text="Thông tin" />
+
+
+
+        </RelativeLayout>
 
         <LinearLayout
             android:layout_width="match_parent"

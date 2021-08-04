@@ -205,12 +205,12 @@
                     android:layout_height="0dp"
                     android:orientation="vertical"
                     android:layout_weight="1">
-                    <TextView
-                        android:backgroundTint="@color/colorGrayLight"
+                    <Button
+                        android:text="Tạo mới"
                         android:layout_marginTop="@dimen/_5sdp"
                         android:background="@drawable/backgroud_button_update"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
+                        android:layout_height="@dimen/_30sdp"
                         android:id="@+id/btnControl"/>
                 </RelativeLayout>
             </LinearLayout>

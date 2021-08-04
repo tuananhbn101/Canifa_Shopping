@@ -2,7 +2,7 @@ package com.example.canifa_shop.Customer.Object;
 
 import java.io.Serializable;
 
-public class Customer implements Serializable {
+public class Customer{
     private int IDCustomer;
     private String customerName;
     private String customerPhone;

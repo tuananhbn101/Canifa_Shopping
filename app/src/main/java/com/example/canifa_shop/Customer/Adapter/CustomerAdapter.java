@@ -48,11 +48,11 @@ public class CustomerAdapter extends ArrayAdapter<Customer> {
         Customer c=customerList.get(position);
         view.tvType.setText(c.getCustomerType());
         view.tvPoint.setText(c.getCustomerPoints()+"");
+        view.tvPhone.setText(c.getCustomerPhone());
         view.tvName.setText(c.getCustomerName()+"");
         return convertView;
     }
     class Viewholer{
-        TextView tvName, tvAddress, tvPhone, tvPoint, tvType, tvEmail, tvVoucher, tvID;
-        ImageView imgCustomer;
+        TextView tvName, tvPhone, tvPoint, tvType;
     }
 }

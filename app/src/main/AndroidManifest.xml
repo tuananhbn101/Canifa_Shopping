@@ -16,7 +16,7 @@
         <activity android:name=".Manager.WarehouseManagerActivity" />
         <activity android:name=".Customer.CustomerDetailActivity" />
         <activity android:name=".Customer.CustomerActivity" />
-        <activity android:name=".Unit.UnitActivity" />
+        <activity android:name=".Helper.UnitActivity" />
         <activity android:name=".Category.CategoryDetail" />
         <activity android:name=".Category.CategoryActivity" />
         <activity android:name=".Product.ProductDetailActivity" />

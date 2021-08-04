@@ -43,6 +43,7 @@
                 <ImageView
                     android:id="@+id/btnDelete"
                     android:layout_width="0dp"
+                    android:visibility="invisible"
                     android:layout_height="match_parent"
                     android:layout_marginRight="@dimen/_10sdp"
                     android:layout_weight="0.5"

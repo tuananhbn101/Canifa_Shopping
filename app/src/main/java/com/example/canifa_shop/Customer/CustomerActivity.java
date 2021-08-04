@@ -6,6 +6,8 @@ import androidx.databinding.DataBindingUtil;
 import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
@@ -28,6 +30,7 @@ public class CustomerActivity extends AppCompatActivity {
     ActivityCustomerBinding binding;
     SQLHelper sqlHelper;
     List<Customer> customerList;
+    List<Customer> customerListSearch;
     ImageView btnAdd;
     String control;
     CustomerAdapter adapter = null;
@@ -41,13 +44,16 @@ public class CustomerActivity extends AppCompatActivity {
         initialization();
         findByViewID();
         getInten();
-        setAdapter();
+        setAdapter(customerList);
         binding.rvCustomer.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 //    Toast.makeText(getBaseContext(), customerList.get(position).getIDCustomer()+"", Toast.LENGTH_SHORT).show();
                 int ID = customerList.get(position).getIDCustomer();
-                showDialog(ID, customerList);
+                Intent intent = new Intent(CustomerActivity.this, CustomerDetailActivity.class);
+                intent.putExtra("control", "update");
+                intent.putExtra("ID",ID);
+                startActivity(intent);
             }
         });
         btnAdd.setOnClickListener(new View.OnClickListener() {
@@ -56,6 +62,26 @@ public class CustomerActivity extends AppCompatActivity {
                 Intent intent = new Intent(CustomerActivity.this, CustomerDetailActivity.class);
                 intent.putExtra("control", "create");
                 startActivity(intent);
+            }
+        });
+        binding.edtSearch.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                addListSearch(binding.edtSearch.getText().toString());
+                if(binding.edtSearch.getText().toString().equals("")){
+                    binding.btnDelete.setVisibility(View.INVISIBLE);
+                    setAdapter(customerList);
+                }else  binding.btnDelete.setVisibility(View.VISIBLE);
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
             }
         });
 
@@ -71,39 +97,6 @@ public class CustomerActivity extends AppCompatActivity {
         tvTitile.setText("Khách hàng");
     }
 
-    private void showDialog(int id, List<Customer> customerList) {
-        id = id - 1;
-        Dialog dialog = new Dialog(this);
-        dialog.setContentView(R.layout.activity_customer_detail);
-        ImageView img = dialog.findViewById(R.id.ivCustomer);
-        img.setImageResource(R.drawable.ic_baseline_account_circle_24);
-        TextView tvVoucher, tvPoints, tvType, button;
-        EditText etName, etAddress, etPhone, etEmail;
-        tvVoucher = dialog.findViewById(R.id.etVoucher);
-        tvVoucher.setText(customerList.get(id).getCustomerVoucher());
-        tvType = dialog.findViewById(R.id.etType);
-        tvType.setText(customerList.get(id).getCustomerType());
-        tvPoints = dialog.findViewById(R.id.etPoint);
-        tvPoints.setText(customerList.get(id).getCustomerPoints());
-        etName = dialog.findViewById(R.id.etFulName);
-        etName.setText(customerList.get(id).getCustomerName());
-        etAddress = dialog.findViewById(R.id.etAddress);
-        etAddress.setText(customerList.get(id).getCustomerAddress());
-        etEmail = dialog.findViewById(R.id.etEmail);
-        etEmail.setText(customerList.get(id).getCustomerEmail());
-        etPhone = dialog.findViewById(R.id.etPhoneNumber);
-        etPhone.setText(customerList.get(id).getCustomerPhone());
-        button = dialog.findViewById(R.id.btnControl);
-        WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
-        lp.copyFrom(dialog.getWindow().getAttributes());
-        lp.width = WindowManager.LayoutParams.MATCH_PARENT;
-        lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
-        dialog.show();
-        dialog.getWindow().setAttributes(lp);
-
-
-    }
-
     public void getInten() {
         Intent intent = getIntent();
         control = intent.getStringExtra("control");
@@ -115,17 +108,30 @@ public class CustomerActivity extends AppCompatActivity {
 
         }
     }
-
+    public void addListSearch(String text){
+        customerListSearch.clear();
+        for(Customer customer:customerList){
+            if(String.valueOf(customer.getIDCustomer()).contains(text)||customer.getCustomerName().contains(text)){
+                customerListSearch.add(customer);
+            }
+        }
+        setAdapter(customerListSearch);
+    }
     public void initialization() {
         sqlHelper = new SQLHelper(getApplicationContext());
-        Customer customer = new Customer(1, "Nguyen Tuan Anh", "123456789", "tuananh@gmail.com", "Bac Ninh", "120 point", "Khach hang tiem nang", "Giam 10%");
-        sqlHelper.insertCustomer(customer);
         customerList = new ArrayList<>();
+        customerListSearch = new ArrayList<>();
         customerList = sqlHelper.getAllCustomer();
     }
-    public void setAdapter(){
+    public void setAdapter(List<Customer> customerList){
         adapter = new CustomerAdapter(this, R.layout.layout_item_customer, customerList);
         binding.rvCustomer.setAdapter(adapter);
     }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+        initialization();
+        setAdapter(customerList);
+    }
 }

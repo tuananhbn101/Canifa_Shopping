@@ -17,8 +17,6 @@ import com.example.canifa_shop.Manager.AcountManagerActivity;
 import com.example.canifa_shop.Manager.EmployeeManagerActivity;
 import com.example.canifa_shop.Product.ProductActivity;
 import com.example.canifa_shop.R;
-import com.example.canifa_shop.Unit.Object.Unit;
-import com.example.canifa_shop.Unit.UnitActivity;
 import com.example.canifa_shop.databinding.FragmentMoreBinding;
 
 public class MoreFragment extends Fragment {

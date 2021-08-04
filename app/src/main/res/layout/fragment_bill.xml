@@ -5,8 +5,19 @@
         android:layout_width="match_parent"
         android:orientation="vertical"
         android:layout_height="match_parent">
-        <include layout="@layout/title_detail"
-            android:id="@+id/layoutTitle"/>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_40sdp">
+
+            <TextView
+                android:id="@+id/tvTitle"
+                style="@style/textTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="@dimen/_10sdp"
+                android:gravity="center_vertical"
+                android:text="Hóa đơn" />
+        </RelativeLayout>
         <TextView
             android:layout_width="match_parent"
             android:layout_height="0.5dp"
