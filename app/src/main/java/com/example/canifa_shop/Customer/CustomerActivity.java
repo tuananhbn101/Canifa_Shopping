@@ -30,90 +30,102 @@ public class CustomerActivity extends AppCompatActivity {
     List<Customer> customerList;
     ImageView btnAdd;
     String control;
-    CustomerAdapter adapter=null;
+    CustomerAdapter adapter = null;
+    ImageView btnBack;
+    TextView tvTitile, tvDelete;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        binding = DataBindingUtil.setContentView(this,R.layout.activity_customer);
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_customer);
         initialization();
-        Customer customer=new Customer(1,"Nguyen Tuan Anh", "123456789", "tuananh@gmail.com", "Bac Ninh", "120 point", "Khach hang tiem nang", "Giam 10%");
-        Customer customer1=new Customer(2, "Ta Long Khanh", "123456789", "khanh@gmail.com", "Bac Ninh", "210 point", "Khach hang than thiet", "Giam 10%");
-        Customer customer2=new Customer(3, "Nguyen Ngoc Anh", "123456789", "anh@gmail.com", "Bac Ninh", "250 point", "Khach hang tiem nang", "Giam 10%");
-        Customer customer3=new Customer(4, "An Thi Thanh Thao", "123456789", "thanhthao@gmail.com", "Bac Ninh", "500 point", "Khach hang VIP", "Giam 10%");
-        Customer customer4=new Customer(5, "Nguyen Yen", "123456789", "yenanh@gmail.com", "Bac Ninh", "120 point", "Khach hang tiem nang", "Giam 10%");
-        customerList=new ArrayList<>();
-        customerList.add(customer);
-        customerList.add(customer1);
-        customerList.add(customer2);
-        customerList.add(customer3);
-        customerList.add(customer4);
-        adapter = new CustomerAdapter(this, R.layout.layout_item_customer, customerList);
-        binding.rvCustomer.setAdapter(adapter);
-        adapter.notifyDataSetChanged();
+        findByViewID();
+        getInten();
+        setAdapter();
         binding.rvCustomer.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-            //    Toast.makeText(getBaseContext(), customerList.get(position).getIDCustomer()+"", Toast.LENGTH_SHORT).show();
-                int ID=customerList.get(position).getIDCustomer();
+                //    Toast.makeText(getBaseContext(), customerList.get(position).getIDCustomer()+"", Toast.LENGTH_SHORT).show();
+                int ID = customerList.get(position).getIDCustomer();
                 showDialog(ID, customerList);
             }
         });
         btnAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(CustomerActivity.this,CustomerDetailActivity.class);
-                intent.putExtra("control","create");
+                Intent intent = new Intent(CustomerActivity.this, CustomerDetailActivity.class);
+                intent.putExtra("control", "create");
                 startActivity(intent);
             }
         });
 
     }
+
+    public void findByViewID() {
+        btnAdd = findViewById(R.id.btnAdd);
+        btnBack = findViewById(R.id.btnBack);
+        tvTitile = findViewById(R.id.tvTitle);
+        tvDelete = findViewById(R.id.tvDelete);
+        tvDelete.setVisibility(View.INVISIBLE);
+        btnAdd = findViewById(R.id.btnAdd);
+        tvTitile.setText("Khách hàng");
+    }
+
     private void showDialog(int id, List<Customer> customerList) {
-        id=id-1;
-        Dialog dialog=new Dialog(this);
+        id = id - 1;
+        Dialog dialog = new Dialog(this);
         dialog.setContentView(R.layout.activity_customer_detail);
-        ImageView img=dialog.findViewById(R.id.ivCustomer);
+        ImageView img = dialog.findViewById(R.id.ivCustomer);
         img.setImageResource(R.drawable.ic_baseline_account_circle_24);
         TextView tvVoucher, tvPoints, tvType, button;
         EditText etName, etAddress, etPhone, etEmail;
-        tvVoucher=dialog.findViewById(R.id.etVoucher);
+        tvVoucher = dialog.findViewById(R.id.etVoucher);
         tvVoucher.setText(customerList.get(id).getCustomerVoucher());
-        tvType=dialog.findViewById(R.id.etType);
+        tvType = dialog.findViewById(R.id.etType);
         tvType.setText(customerList.get(id).getCustomerType());
-        tvPoints=dialog.findViewById(R.id.etPoint);
+        tvPoints = dialog.findViewById(R.id.etPoint);
         tvPoints.setText(customerList.get(id).getCustomerPoints());
-        etName=dialog.findViewById(R.id.etFulName);
+        etName = dialog.findViewById(R.id.etFulName);
         etName.setText(customerList.get(id).getCustomerName());
-        etAddress=dialog.findViewById(R.id.etAddress);
+        etAddress = dialog.findViewById(R.id.etAddress);
         etAddress.setText(customerList.get(id).getCustomerAddress());
-        etEmail=dialog.findViewById(R.id.etEmail);
+        etEmail = dialog.findViewById(R.id.etEmail);
         etEmail.setText(customerList.get(id).getCustomerEmail());
-        etPhone=dialog.findViewById(R.id.etPhoneNumber);
+        etPhone = dialog.findViewById(R.id.etPhoneNumber);
         etPhone.setText(customerList.get(id).getCustomerPhone());
-        button=dialog.findViewById(R.id.btnControl);
-        WindowManager.LayoutParams lp=new WindowManager.LayoutParams();
+        button = dialog.findViewById(R.id.btnControl);
+        WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
         lp.copyFrom(dialog.getWindow().getAttributes());
-        lp.width=WindowManager.LayoutParams.MATCH_PARENT;
-        lp.height=WindowManager.LayoutParams.WRAP_CONTENT;
+        lp.width = WindowManager.LayoutParams.MATCH_PARENT;
+        lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
         dialog.show();
         dialog.getWindow().setAttributes(lp);
 
 
     }
-    public void getInten(){
+
+    public void getInten() {
         Intent intent = getIntent();
         control = intent.getStringExtra("control");
-        if(control!=null){
-            if(control.equals("getCustomer")){
+        if (control != null) {
+            if (control.equals("getCustomer")) {
 
-            }
+            } else
+                tvDelete.setVisibility(View.INVISIBLE);
+
         }
     }
-    public void initialization(){
-        btnAdd = findViewById(R.id.btnAdd);
+
+    public void initialization() {
         sqlHelper = new SQLHelper(getApplicationContext());
+        Customer customer = new Customer(1, "Nguyen Tuan Anh", "123456789", "tuananh@gmail.com", "Bac Ninh", "120 point", "Khach hang tiem nang", "Giam 10%");
+        sqlHelper.insertCustomer(customer);
         customerList = new ArrayList<>();
         customerList = sqlHelper.getAllCustomer();
+    }
+    public void setAdapter(){
+        adapter = new CustomerAdapter(this, R.layout.layout_item_customer, customerList);
+        binding.rvCustomer.setAdapter(adapter);
     }
 
 }
