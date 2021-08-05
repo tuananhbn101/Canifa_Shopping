@@ -17,7 +17,7 @@
             android:layout_height="0dp"
             android:layout_weight="1">
             <TextView
-                android:gravity="top"
+                android:gravity="center_vertical"
                 android:id="@+id/tvIDBill"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
@@ -29,10 +29,10 @@
             android:layout_weight="1">
 
             <TextView
+                android:gravity="center_vertical"
                 android:id="@+id/tvBillCustomer"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:layout_centerVertical="true"
                 android:text="Nguyễn Tuấn Anh" />
 
             <TextView
@@ -49,7 +49,7 @@
             android:layout_height="0dp"
             android:layout_weight="1">
             <TextView
-                android:gravity="bottom"
+                android:gravity="center_vertical"
                 android:id="@+id/tvDateTime"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"

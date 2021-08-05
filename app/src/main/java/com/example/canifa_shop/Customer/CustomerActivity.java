@@ -12,12 +12,14 @@ import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.canifa_shop.Bill.BillDetailActivity;
 import com.example.canifa_shop.Customer.Adapter.CustomerAdapter;
 import com.example.canifa_shop.Customer.Object.Customer;
 import com.example.canifa_shop.R;
 import com.example.canifa_shop.SQLHelper.SQLHelper;
 import com.example.canifa_shop.databinding.ActivityCustomerBinding;
 
+import java.net.IDN;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,7 +29,7 @@ public class CustomerActivity extends AppCompatActivity {
     List<Customer> customerList;
     List<Customer> customerListSearch;
     ImageView btnAdd;
-    String control;
+    String control = "";
     CustomerAdapter adapter = null;
     ImageView btnBack;
     TextView tvTitile, tvDelete;
@@ -43,12 +45,19 @@ public class CustomerActivity extends AppCompatActivity {
         binding.rvCustomer.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                //    Toast.makeText(getBaseContext(), customerList.get(position).getIDCustomer()+"", Toast.LENGTH_SHORT).show();
-                int ID = customerList.get(position).getIDCustomer();
-                Intent intent = new Intent(CustomerActivity.this, CustomerDetailActivity.class);
-                intent.putExtra("control", "update");
-                intent.putExtra("ID",ID);
-                startActivity(intent);
+                if (control != null && control.equals("getCustomer")) {
+                    Intent intentData = new Intent(CustomerActivity.this, BillDetailActivity.class);
+                    intentData.putExtra("ID", customerList.get(position).getIDCustomer());
+                    setResult(BillDetailActivity.REQUEST_CODE, intentData);
+                    finish();
+                } else {
+                    int ID = customerList.get(position).getIDCustomer();
+                    Intent intent = new Intent(CustomerActivity.this, CustomerDetailActivity.class);
+                    intent.putExtra("control", "update");
+                    intent.putExtra("ID", ID);
+                    startActivity(intent);
+                }
+
             }
         });
         btnAdd.setOnClickListener(new View.OnClickListener() {
@@ -68,10 +77,10 @@ public class CustomerActivity extends AppCompatActivity {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 addListSearch(binding.edtSearch.getText().toString());
-                if(binding.edtSearch.getText().toString().equals("")){
+                if (binding.edtSearch.getText().toString().equals("")) {
                     binding.btnDelete.setVisibility(View.INVISIBLE);
                     setAdapter(customerList);
-                }else  binding.btnDelete.setVisibility(View.VISIBLE);
+                } else binding.btnDelete.setVisibility(View.VISIBLE);
             }
 
             @Override
@@ -94,7 +103,7 @@ public class CustomerActivity extends AppCompatActivity {
 
     public void getInten() {
         Intent intent = getIntent();
-        control = intent.getStringExtra("control");
+        control += intent.getStringExtra("control");
         if (control != null) {
             if (control.equals("getCustomer")) {
 
@@ -103,22 +112,25 @@ public class CustomerActivity extends AppCompatActivity {
 
         }
     }
-    public void addListSearch(String text){
+
+    public void addListSearch(String text) {
         customerListSearch.clear();
-        for(Customer customer:customerList){
-            if(String.valueOf(customer.getIDCustomer()).contains(text)||customer.getCustomerName().contains(text)){
+        for (Customer customer : customerList) {
+            if (String.valueOf(customer.getIDCustomer()).contains(text) || customer.getCustomerName().contains(text)) {
                 customerListSearch.add(customer);
             }
         }
         setAdapter(customerListSearch);
     }
+
     public void initialization() {
         sqlHelper = new SQLHelper(getApplicationContext());
         customerList = new ArrayList<>();
         customerListSearch = new ArrayList<>();
         customerList = sqlHelper.getAllCustomer();
     }
-    public void setAdapter(List<Customer> customerList){
+
+    public void setAdapter(List<Customer> customerList) {
         adapter = new CustomerAdapter(this, R.layout.item_customer, customerList);
         binding.rvCustomer.setAdapter(adapter);
     }

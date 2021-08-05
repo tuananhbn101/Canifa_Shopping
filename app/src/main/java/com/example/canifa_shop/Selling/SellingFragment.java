@@ -193,6 +193,7 @@ public class SellingFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
+        initialization();
         binding.tvAmount.setText(sqlHelper.getAllOrderPrduct().size() + "");
         setAdapter(productList);
     }

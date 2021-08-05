@@ -143,7 +143,7 @@ public class SQLHelper extends SQLiteOpenHelper {
                 "amounts TEXT NOT NULL," +
                 "price TEXT NOT NULL," +
                 "total LONG NOT NULL,"+
-                "IDCustomer NOT NULL,"+
+                "IDCustomer INTERGER NOT NULL,"+
                 "IDEmployee INTERGER NOT NULL)";
 
         db.execSQL(queryCreateTableAccounts);
@@ -412,7 +412,21 @@ public class SQLHelper extends SQLiteOpenHelper {
         contentValues.put(BILL_ID_EMPLOYEE, bill.getIDEmployee());
         sqLiteDatabase.insert(DB_TABLE_BILL, null, contentValues);
     }
-
+    public void updateBill(Bill bill){
+        sqLiteDatabase = getWritableDatabase();
+        contentValues = new ContentValues();
+//        contentValues.put(REPORT_ID,report.getId());
+        contentValues.put(BILL_DATE, bill.getDate());
+        contentValues.put(BILL_NAME_PRODUCT, bill.getNames());
+        contentValues.put(BILL_AMOUNT, bill.getAmount());
+        contentValues.put(BILL_PRICE, bill.getPrice());
+        contentValues.put(BILL_TOTAL, bill.getTotal());
+        contentValues.put(BILL_ID_CUSTOMER,bill.getIDCustomer());
+        contentValues.put(BILL_ID_EMPLOYEE, bill.getIDEmployee());
+        sqLiteDatabase.update(DB_TABLE_BILL,contentValues,BILL_ID+"=?",new String[]{String.valueOf(bill.getIDBill())});
+        cursor.close();
+        sqLiteDatabase.close();
+    }
     public List<Bill> getAllBill() {
         List<Bill> billArrayList = new ArrayList<>();
         sqLiteDatabase = getReadableDatabase();
@@ -465,6 +479,16 @@ public class SQLHelper extends SQLiteOpenHelper {
         // update = ở bảng nào , dữ liệu truyền vào, update theo cái gì ( ID ), ID truyền vào
         contentValues.clear();
     }
+    public String getNameCustomer(int ID){
+        String userName = "";
+        sqLiteDatabase = getReadableDatabase();
+        cursor = sqLiteDatabase.query(DB_TABLE_CUSTOMER,new String[]{CUSTOMER_NAME},CUSTOMER_ID +"= ?",new String[]{String.valueOf(ID)},null,null,null);
+        if (cursor != null)
+            while (cursor.moveToNext()) {
+                userName += cursor.getString(cursor.getColumnIndex(CUSTOMER_NAME));
+            }
+        return userName;
+    }
 
     public void deleteCustomer(int id) {
         sqLiteDatabase = getWritableDatabase();
@@ -497,5 +521,15 @@ public class SQLHelper extends SQLiteOpenHelper {
                 customerList.add(customer);
             }
         return customerList;
+    }
+    public String getVoucher(int ID){
+        String voucher = "";
+        sqLiteDatabase = getReadableDatabase();
+        cursor = sqLiteDatabase.query(DB_TABLE_CUSTOMER,new String[]{CUSTOMER_VOUCHER},CUSTOMER_ID +"= ?",new String[]{String.valueOf(ID)},null,null,null);
+        if (cursor != null)
+            while (cursor.moveToNext()) {
+                voucher += cursor.getString(cursor.getColumnIndex(CUSTOMER_VOUCHER));
+            }
+        return voucher;
     }
 }

@@ -18,6 +18,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.canifa_shop.Helper.Function;
 import com.example.canifa_shop.Product.Object.Product;
 import com.example.canifa_shop.Product.ProductDetailActivity;
 import com.example.canifa_shop.R;
@@ -56,13 +57,13 @@ public class SellingAdapter extends RecyclerView.Adapter<SellingAdapter.ViewHold
         Product product = productList.get(position);
         String link = product.getImage();
         String name = product.getNameProduct();
-        String price = product.getPrice() + "";
+        long price = product.getPrice();
         String amount = "Còn: "+product.getAmount() ;
         if (product.getAmount() == 0) {
             holder.ivSold.setVisibility(View.VISIBLE);
         }
         Picasso.with(context).load("file://" + link).into(holder.ivProduct);
-        holder.tvPriceProduct.setText(price);
+        holder.tvPriceProduct.setText(Function.decimalFormatMoney(price));
         holder.tvNameProduct.setText(name);
         holder.tvAmountProduct.setText(amount);
         holder.llProduct.setOnClickListener(new View.OnClickListener() {

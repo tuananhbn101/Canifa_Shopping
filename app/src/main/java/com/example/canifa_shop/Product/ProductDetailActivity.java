@@ -208,6 +208,7 @@ public class ProductDetailActivity extends AppCompatActivity {
         productUpdate.setBardCode(code);
         productUpdate.setDescribe(note);
         productUpdate.setType(type);
+        productUpdate.setImage(linkImage);
         sqlHelper.updateProduct(productUpdate);
     }
     @Override

@@ -15,6 +15,7 @@ import android.widget.TextView;
 import com.example.canifa_shop.Bill.Adapter.BillAdapter;
 import com.example.canifa_shop.Bill.Object.Bill;
 import com.example.canifa_shop.Customer.CustomerActivity;
+import com.example.canifa_shop.Helper.Function;
 import com.example.canifa_shop.Product.Object.Product;
 import com.example.canifa_shop.R;
 import com.example.canifa_shop.SQLHelper.SQLHelper;
@@ -27,15 +28,18 @@ import java.util.Date;
 import java.util.List;
 
 public class BillDetailActivity extends AppCompatActivity {
-    ActivityBillDetailBinding binding;
-    SQLHelper sqlHelper;
-    BillAdapter adapter;
-    List<Product> productOrderList;
-    List<Product> productList;
-    int IDCustomer;
-    final static int REQUEST_CODE = 1;
-    ImageView btnBack, btnAdd;
-    TextView tvTitile, tvDelete;
+    private ActivityBillDetailBinding binding;
+    private SQLHelper sqlHelper;
+    private BillAdapter adapter;
+    private List<Product> productOrderList;
+    private List<Product> productList;
+    private List<Bill> billList;
+    int IDCustomer = 0;
+    public final static int REQUEST_CODE = 1;
+    private ImageView btnBack, btnAdd;
+    private TextView tvTitile, tvDelete;
+    private String control = "";
+    private Bill billChoose;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,14 +47,20 @@ public class BillDetailActivity extends AppCompatActivity {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_bill_detail);
         findByViewID();
         initialization();
-        setAdapter();
+        getInten();
         binding.btnThanhToan.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                addNewBill();
-                updateProduct();
-                sqlHelper.deleteOrderProduct();
-                finish();
+                if (control.equals("update")) {
+                    updateBill(billChoose);
+                } else {
+                    addNewBill();
+                    updateProduct();
+                    sqlHelper.deleteOrderProduct();
+                    finish();
+                }
+
+
             }
         });
         binding.tvCustomer.setOnClickListener(new View.OnClickListener() {
@@ -77,14 +87,46 @@ public class BillDetailActivity extends AppCompatActivity {
         tvDelete = findViewById(R.id.tvDelete);
         btnAdd.setVisibility(View.INVISIBLE);
         tvTitile.setText("Hóa đơn chi tiết");
+
     }
 
     public void initialization() {
         productList = new ArrayList<>();
         sqlHelper = new SQLHelper(getApplicationContext());
         productOrderList = new ArrayList<>();
+        billList = new ArrayList<>();
         productList = sqlHelper.getAllPrduct();
         productOrderList = sqlHelper.getAllOrderPrduct();
+        billList = sqlHelper.getAllBill();
+        setTotalBill();
+    }
+
+    public void getInten() {
+        Intent intent = getIntent();
+        control += intent.getStringExtra("control");
+        if (control.equals("update")) {
+            binding.btnThanhToan.setText("Cập nhật");
+            btnAdd.setVisibility(View.INVISIBLE);
+            tvDelete.setVisibility(View.INVISIBLE);
+            setDataEditText(intent.getIntExtra("ID", 0));
+            for (Bill bill : billList) {
+                if (bill.getIDBill() == intent.getIntExtra("ID", 0))
+                    billChoose = bill;
+            }
+        } else {
+            binding.tvBill.setText("DH." + billList.size() + 1 + "");
+            setAdapter(productOrderList);
+        }
+    }
+
+    public void setTotalBill() {
+        long total = 0;
+        for (Product product : productOrderList) {
+            total += (product.getPrice() * product.getAmount());
+        }
+        binding.tvPointPlus.setText(Function.pointsPlus((int) total) + "");
+
+        binding.tvTotalPrice.setText(Function.decimalFormatMoney(total));
     }
 
     public void addNewBill() {
@@ -92,19 +134,73 @@ public class BillDetailActivity extends AppCompatActivity {
         String amount = "";
         long total = 0;
         for (Product product : productOrderList) {
-            IDProduct += product.getID() + "|";
-            amount += product.getAmount() + "|";
+            IDProduct += product.getBardCode() + ";";
+            amount += product.getAmount() + ";";
             total += (product.getPrice() * product.getAmount());
         }
-        Bill bill = new Bill(0, new SimpleDateFormat("yyyyMMdd_HHmmss").format(Calendar.getInstance().getTime()), IDProduct, amount, "0", total, IDCustomer, 0);
+        Bill bill = new Bill(0, new SimpleDateFormat("yyyy/MM/dd HH:mm:ss").format(Calendar.getInstance().getTime()), IDProduct, amount, "0", total, IDCustomer, 0);
         sqlHelper.insertBill(bill);
     }
 
-    public void setAdapter() {
+    public void updateBill(Bill bill) {
+        String IDProduct = "";
+        String amount = "";
+        long total = 0;
+        for (Product product : productOrderList) {
+            IDProduct += product.getBardCode() + ";";
+            amount += product.getAmount() + ";";
+            total += (product.getPrice() * product.getAmount());
+        }
+        bill.setAmount(amount);
+        bill.setNames(IDProduct);
+        bill.setTotal(total);
+        sqlHelper.updateBill(bill);
+        finish();
+    }
+
+    public void getOrderProductList(Bill bill) {
+        productOrderList.clear();
+        String id[] = bill.getNames().split(";");
+        String amount[] = bill.getAmount().split(";");
+        for (int i = 0; i < id.length; i++) {
+            if (id[i].equals("")) break;
+            else
+                for (Product product : productList) {
+                    if (product.getBardCode().equals(id[i])) {
+                        product.setAmount(Integer.valueOf(amount[i]));
+                        productOrderList.add(product);
+                    }
+                }
+        }
+        setAdapter(productOrderList);
+
+    }
+
+    public void setAdapter(List<Product> productOrderList) {
         adapter = new BillAdapter(productOrderList, getApplicationContext());
         GridLayoutManager layoutManager = new GridLayoutManager(getApplicationContext(), 1, RecyclerView.VERTICAL, false);
         binding.rvOrderProduct.setLayoutManager(layoutManager);
         binding.rvOrderProduct.setAdapter(adapter);
+    }
+
+    public void setDataEditText(int ID) {
+        List<Bill> billList = new ArrayList<>();
+        billList = sqlHelper.getAllBill();
+        for (Bill bill : billList) {
+            if (bill.getIDBill() == ID) {
+                binding.tvBill.setText("DH." + bill.getIDBill());
+                String customerName = sqlHelper.getNameCustomer(bill.getIDCustomer());
+                if (customerName.equals("")) {
+                    binding.tvCustomer.setText("Khách lẻ");
+                } else
+                    binding.tvCustomer.setText(customerName);
+                binding.tvPointPlus.setText(Function.pointsPlus((int) bill.getTotal()) + "");
+                binding.tvTotalPrice.setText(bill.getTotal() + "");
+                binding.tvVoucher.setText(sqlHelper.getVoucher(bill.getIDCustomer()));
+                getOrderProductList(bill);
+            }
+        }
+
     }
 
     @Override
@@ -112,11 +208,13 @@ public class BillDetailActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == REQUEST_CODE) {
             IDCustomer = data.getIntExtra("ID", 0);
+            binding.tvCustomer.setText(sqlHelper.getNameCustomer(IDCustomer));
+            binding.tvVoucher.setText(sqlHelper.getVoucher(IDCustomer));
         }
     }
 
     public void updateProduct() {
-        for(Product product : productList){
+        for (Product product : productList) {
             updateAmountProduct(product);
         }
     }
@@ -126,7 +224,7 @@ public class BillDetailActivity extends AppCompatActivity {
             if (productItem.getBardCode().equals(product.getBardCode())) {
                 int hienCo = product.getAmount();
                 int order = productItem.getAmount();
-                product.setAmount(hienCo-order);
+                product.setAmount(hienCo - order);
                 sqlHelper.updateProduct(product);
             }
         }
