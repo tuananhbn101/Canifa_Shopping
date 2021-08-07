@@ -13,8 +13,8 @@ import androidx.fragment.app.Fragment;
 
 import com.example.canifa_shop.Category.CategoryActivity;
 import com.example.canifa_shop.Customer.CustomerActivity;
-import com.example.canifa_shop.Manager.AcountManagerActivity;
-import com.example.canifa_shop.Manager.EmployeeManagerActivity;
+import com.example.canifa_shop.Account.AcountManagerActivity;
+import com.example.canifa_shop.Emplyee.EmployeeManagerActivity;
 import com.example.canifa_shop.Product.ProductActivity;
 import com.example.canifa_shop.R;
 import com.example.canifa_shop.databinding.FragmentMoreBinding;

@@ -163,9 +163,6 @@ public class ProductDetailActivity extends AppCompatActivity {
         productList = new ArrayList<>();
         categories = new ArrayList<>();
         productList = sqlHelper.getAllPrduct();
-        categories.add(new Category("QC","Quần","20"));
-        categories.add(new Category("QC","Áo","20"));
-        categories.add(new Category("QC","Váy","20"));
     }
     public void setAdapterSpiner(){
         categoryArrayAdapter = new ArrayAdapter<Category>(this, android.R.layout.simple_list_item_1,categories);

@@ -12,8 +12,8 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Canifa_Shop">
         <activity android:name=".Bill.BillDetailActivity"></activity>
-        <activity android:name=".Manager.EmployeeManagerActivity" />
-        <activity android:name=".Manager.AcountManagerActivity" />
+        <activity android:name=".Emplyee.EmployeeManagerActivity" />
+        <activity android:name=".Account.AcountManagerActivity" />
         <activity android:name=".Manager.WarehouseManagerActivity" />
         <activity android:name=".Customer.CustomerDetailActivity" />
         <activity android:name=".Customer.CustomerActivity" />

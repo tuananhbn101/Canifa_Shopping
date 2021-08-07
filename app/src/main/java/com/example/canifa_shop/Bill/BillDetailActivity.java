@@ -18,6 +18,7 @@ import com.example.canifa_shop.Customer.CustomerActivity;
 import com.example.canifa_shop.Helper.Function;
 import com.example.canifa_shop.Product.Object.Product;
 import com.example.canifa_shop.R;
+import com.example.canifa_shop.Report.Objcet.Report;
 import com.example.canifa_shop.SQLHelper.SQLHelper;
 import com.example.canifa_shop.databinding.ActivityBillDetailBinding;
 
@@ -140,6 +141,7 @@ public class BillDetailActivity extends AppCompatActivity {
         }
         Bill bill = new Bill(0, new SimpleDateFormat("yyyy/MM/dd HH:mm:ss").format(Calendar.getInstance().getTime()), IDProduct, amount, "0", total, IDCustomer, 0);
         sqlHelper.insertBill(bill);
+        addReport(productOrderList,IDCustomer);
     }
 
     public void updateBill(Bill bill) {
@@ -228,5 +230,19 @@ public class BillDetailActivity extends AppCompatActivity {
                 sqlHelper.updateProduct(product);
             }
         }
+    }
+
+    public void addReport(List<Product> productList, int ID) {
+        String date = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss").format(Calendar.getInstance().getTime());
+        long totalImport = 0;
+        long totalSale = 0;
+        long salemoney = 0;
+        for (Product product : productList) {
+            totalImport += (product.getImportprice() * product.getAmount());
+            totalSale += (product.getPrice() * product.getAmount());
+        }
+        salemoney = totalSale * 10 /100;
+        Report report = new Report(0,date,totalImport,totalSale,salemoney);
+        sqlHelper.insertReport(report);
     }
 }

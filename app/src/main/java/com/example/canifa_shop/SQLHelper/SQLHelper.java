@@ -55,7 +55,8 @@ public class SQLHelper extends SQLiteOpenHelper {
     static final String REPORT_DATE = "date";
     static final String REPORT_TOTAL_IMPORT = "totalImport";
     static final String REPORT_TOTAL_SALE = "totalSale";
-    static final String REPORT_ID_EMPLOYEE= "IDEmployee";
+    static final String REPORT_SALE_MONEY= "saleMoney";
+
     // các trường của bảng bill
     static final String BILL_ID = "IDBill";
     static final String BILL_DATE = "date";
@@ -80,7 +81,6 @@ public class SQLHelper extends SQLiteOpenHelper {
         hàm update
         hàm delete
         hàm getAll
-
      */
 
     public SQLHelper(@Nullable Context context) {
@@ -90,17 +90,17 @@ public class SQLHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        String queryCreateTableAccounts = "CREATE TABLE Accounts (" +
+        String queryCreateTableAccounts = "CREATE TABLE "+DB_TABLE_ACCOUNT +"(" +
                 "ID INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT," +
                 "userName TEXT NOT NULL," +
                 "password TEXT NOT NULL," +
                 "fullName TEXT NOT NULL," +
                 "dateOfBirth TEXT NOT NULL," +
                 "phone TEXT NOT NULL," +
-                "question TEXT NOT NULL," +
-                "avatar TEXT NOT NULL," +
-                "answer TEXT NOT NULL," +
-                "permission INTERGER )";
+                "email TEXT NOT NULL," +
+                "avatar TEXT," +
+                "homeTown TEXT NOT NULL," +
+                "permission TEXT )";
         String queryCreateTableCustomers = "CREATE TABLE "+ DB_TABLE_CUSTOMER+"("+
                 "ID INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT," +
                 "customerName TEXT NOT NULL," +
@@ -133,9 +133,9 @@ public class SQLHelper extends SQLiteOpenHelper {
         String queryCreateTableReports = "CREATE TABLE Reports (" +
                 "IDReport INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT," +
                 "date TEXT NOT NULL," +
-                "totalImport TEXT NOT NULL," +
-                "totalSale LONG,"+
-                "IDEmployee INTERGER)";
+                "totalImport LONG NOT NULL," +
+                "totalSale LONG NOT NULL,"+
+                "saleMoney LONG)";
         String queryCreateTableBillProducts = "CREATE TABLE Bills (" +
                 "IDBill INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT," +
                 "date TEXT NOT NULL," +
@@ -170,9 +170,9 @@ public class SQLHelper extends SQLiteOpenHelper {
         contentValues.put(ACCOUNT_FULL_NAME, account.getFullName());
         contentValues.put(ACCOUNT_DATE_OF_BIRTH, account.getDateOfBirth());
         contentValues.put(ACCOUNT_PHONE, account.getPhone());
-        contentValues.put(ACCOUNT_HOMETOWN, account.getHomeTown());
         contentValues.put(ACCOUNT_EMAIL, account.getEmail());
         contentValues.put(ACCOUNT_AVATAR, account.getAvatar());
+        contentValues.put(ACCOUNT_HOMETOWN, account.getHomeTown());
         contentValues.put(ACCOUNT_PERMISSION,account.getPermission());
         sqLiteDatabase.insert(DB_TABLE_ACCOUNT, null, contentValues);
         contentValues.clear();
@@ -376,7 +376,7 @@ public class SQLHelper extends SQLiteOpenHelper {
         contentValues.put(REPORT_DATE, report.getDate());
         contentValues.put(REPORT_TOTAL_IMPORT ,report.getTotalImport());
         contentValues.put(REPORT_TOTAL_SALE, report.getTotalSale());
-        contentValues.put(REPORT_ID_EMPLOYEE, report.getIDEmployee());
+        contentValues.put(REPORT_SALE_MONEY, report.getSaleMoney());
         sqLiteDatabase.insert(DB_TABLE_REPORT, null, contentValues);
     }
 
@@ -394,8 +394,8 @@ public class SQLHelper extends SQLiteOpenHelper {
                 long totalImport = cursor.getInt(cursor.getColumnIndex(REPORT_TOTAL_IMPORT));
                 long totalSale = cursor.getLong(cursor.getColumnIndex(REPORT_TOTAL_SALE));
                 String date = cursor.getString(cursor.getColumnIndex(REPORT_DATE));
-                int IDEmployees = cursor.getInt(cursor.getColumnIndex(REPORT_ID_EMPLOYEE));
-                reportArrayList.add(new Report(date, ID, totalImport, totalSale,IDEmployees));
+                int IDEmployees = cursor.getInt(cursor.getColumnIndex(REPORT_SALE_MONEY));
+                reportArrayList.add(new Report(ID,date, totalImport, totalSale,IDEmployees));
             }
         return reportArrayList;
     }

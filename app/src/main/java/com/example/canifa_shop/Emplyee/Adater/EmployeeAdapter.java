@@ -1,4 +1,4 @@
-package com.example.canifa_shop.Manager.Adapter;
+package com.example.canifa_shop.Emplyee.Adater;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -10,9 +10,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import com.example.canifa_shop.Customer.Adapter.CustomerAdapter;
-import com.example.canifa_shop.Customer.Object.Customer;
-import com.example.canifa_shop.Manager.Object.Accounts;
+import com.example.canifa_shop.Login.Object.Accounts;
 import com.example.canifa_shop.R;
 
 import java.util.List;
@@ -38,7 +36,6 @@ public class EmployeeAdapter extends ArrayAdapter<Accounts> {
         {
             convertView= LayoutInflater.from(context).inflate(id, parent, false);
             view=new Viewholer();
-            view.tvUsername=convertView.findViewById(R.id.tvEmployeeUsername);
             view.tvName=convertView.findViewById(R.id.tvEmployeeName);
             view.tvBirth=convertView.findViewById(R.id.tvEmployeeBirth);
             view.tvPhone=convertView.findViewById(R.id.tvEmployeePhone);
@@ -48,14 +45,13 @@ public class EmployeeAdapter extends ArrayAdapter<Accounts> {
             view=(Viewholer) convertView.getTag();
         }
         Accounts a=accountsList.get(position);
-        view.tvUsername.setText(a.getUserName());
-        view.tvBirth.setText(a.getBirth());
+        view.tvBirth.setText(a.getDateOfBirth());
         view.tvEmail.setText(a.getEmail());
-        view.tvPhone.setText(a.getPhonenumber());
-        view.tvName.setText(a.getFullname());
+        view.tvPhone.setText(a.getPhone());
+        view.tvName.setText(a.getFullName());
         return convertView;
     }
     class Viewholer{
-        TextView tvName, tvPhone, tvBirth, tvEmail, tvUsername;
+        TextView tvName, tvPhone, tvBirth, tvEmail;
     }
 }

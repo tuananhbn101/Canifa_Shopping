@@ -4,11 +4,13 @@ public class Category{
     private String idCategory;
     private String nameCategory;
     private String amountCategory;
+    private String describe;
 
-    public Category(String idCategory, String nameCategory, String amountCategory) {
+    public Category(String idCategory, String nameCategory, String amountCategory, String describe) {
         this.idCategory = idCategory;
         this.nameCategory = nameCategory;
         this.amountCategory = amountCategory;
+        this.describe = describe;
     }
 
     public String getIdCategory() {
@@ -35,8 +37,11 @@ public class Category{
         this.amountCategory = amountCategory;
     }
 
-    @Override
-    public String toString() {
-        return nameCategory;
+    public String getDescribe() {
+        return describe;
+    }
+
+    public void setDescribe(String describe) {
+        this.describe = describe;
     }
 }
