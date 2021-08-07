@@ -10,49 +10,15 @@
         <include
             android:id="@+id/layoutTitile"
             layout="@layout/title_header" />
-
-        <LinearLayout
+        <TextView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-
-            android:background="@color/colorGrayLight">
-
-            <LinearLayout
-                android:layout_margin="@dimen/_10sdp"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/_35sdp"
-                android:background="@color/white">
-
-                <ImageView
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:padding="@dimen/_9sdp"
-                    android:src="@drawable/ic_search"
-                    app:tint="@color/black" />
-
-                <EditText
-                    android:id="@+id/edtSearch"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="5"
-                    android:background="@color/white"
-                    android:hint="Tìm kiếm"
-                    android:padding="@dimen/_10sdp" />
-
-                <ImageView
-                    android:id="@+id/btnDelete"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_marginRight="@dimen/_10sdp"
-                    android:layout_weight="0.5"
-                    android:padding="@dimen/_5sdp"
-                    android:src="@drawable/ic_delete" />
-            </LinearLayout>
-        </LinearLayout>
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rvCategory"
+            android:layout_height="1dp"
+            android:background="@color/colorGrayLight"/>
+        <ListView
+            android:layout_marginLeft="@dimen/_5sdp"
+            android:layout_marginRight="@dimen/_5sdp"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:id="@+id/lvCategory"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
     </LinearLayout>

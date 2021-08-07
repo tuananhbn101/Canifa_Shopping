@@ -39,7 +39,7 @@ import java.util.List;
 public class ProductDetailActivity extends AppCompatActivity {
     public static final int PICK_IMAGE = 1;
     ActivityProductDetailBinding binding;
-    ArrayList<Category> categories;
+    List<Category> categories;
     ArrayAdapter<Category> categoryArrayAdapter;
     SQLHelper  sqlHelper;
     List<Product> productList;
@@ -147,6 +147,9 @@ public class ProductDetailActivity extends AppCompatActivity {
         String type = binding.spType.getSelectedItem().toString();
         Product product = new Product(0,name,priceImport,priceSell,amount,type,note,linkImage,code);
         sqlHelper.insertProduct(product);
+        Category category = categories.get(binding.spType.getSelectedItemPosition());
+        category.setAmountCategory(category.getAmountCategory()+1);
+        sqlHelper.updateCategory(category);
     }
     public void findByViewID(){
         btnAdd = findViewById(R.id.btnAdd);
@@ -163,6 +166,7 @@ public class ProductDetailActivity extends AppCompatActivity {
         productList = new ArrayList<>();
         categories = new ArrayList<>();
         productList = sqlHelper.getAllPrduct();
+        categories = sqlHelper.getAllCategory();
     }
     public void setAdapterSpiner(){
         categoryArrayAdapter = new ArrayAdapter<Category>(this, android.R.layout.simple_list_item_1,categories);

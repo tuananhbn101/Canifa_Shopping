@@ -15,6 +15,7 @@ import com.example.canifa_shop.Category.CategoryActivity;
 import com.example.canifa_shop.Customer.CustomerActivity;
 import com.example.canifa_shop.Account.AcountManagerActivity;
 import com.example.canifa_shop.Emplyee.EmployeeManagerActivity;
+import com.example.canifa_shop.Manager.WarehouseManagerActivity;
 import com.example.canifa_shop.Product.ProductActivity;
 import com.example.canifa_shop.R;
 import com.example.canifa_shop.databinding.FragmentMoreBinding;
@@ -63,6 +64,12 @@ public class MoreFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(getContext(), ProductActivity.class));
+            }
+        });
+        binding.btnWearHouseManager.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getContext(), WarehouseManagerActivity.class));
             }
         });
         return binding.getRoot();

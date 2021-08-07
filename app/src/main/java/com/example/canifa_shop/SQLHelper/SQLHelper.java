@@ -9,6 +9,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 import androidx.annotation.Nullable;
 
 import com.example.canifa_shop.Bill.Object.Bill;
+import com.example.canifa_shop.Category.Object.Category;
 import com.example.canifa_shop.Customer.Object.Customer;
 import com.example.canifa_shop.Login.Object.Accounts;
 import com.example.canifa_shop.Product.Object.Product;
@@ -27,6 +28,7 @@ public class SQLHelper extends SQLiteOpenHelper {
     static final String DB_TABLE_ORDER_PRODUCT = "OrderProducts";
     static final String DB_TABLE_REPORT = "Reports";
     static final String DB_TABLE_BILL = "Bills";
+    static final String DB_TABLE_CATEGORY = "Categorys";
     static final String DB_TABLE_CUSTOMER = "Customers";
     static final int DB_VERSION = 1;
     // các trường của bảng account
@@ -55,8 +57,12 @@ public class SQLHelper extends SQLiteOpenHelper {
     static final String REPORT_DATE = "date";
     static final String REPORT_TOTAL_IMPORT = "totalImport";
     static final String REPORT_TOTAL_SALE = "totalSale";
-    static final String REPORT_SALE_MONEY= "saleMoney";
-
+    static final String REPORT_SALE_MONEY = "saleMoney";
+    //
+    static final String CATEGORY_ID = "ID";
+    static final String CATEGORY_NAME = "nameCategory";
+    static final String CATEGORY_TOTAL_PRODUCT = "totalProduct";
+    static final String CATEGORY_DESCRIBE = "describe";
     // các trường của bảng bill
     static final String BILL_ID = "IDBill";
     static final String BILL_DATE = "date";
@@ -65,7 +71,7 @@ public class SQLHelper extends SQLiteOpenHelper {
     static final String BILL_PRICE = "price";
     static final String BILL_TOTAL = "total";
     static final String BILL_ID_CUSTOMER = "IDCustomer";
-    static final String BILL_ID_EMPLOYEE= "IDEmployee";
+    static final String BILL_ID_EMPLOYEE = "IDEmployee";
     //các trường cảu bảng customer
     static final String CUSTOMER_ID = "ID";
     static final String CUSTOMER_NAME = "customerName";
@@ -74,7 +80,7 @@ public class SQLHelper extends SQLiteOpenHelper {
     static final String CUSTOMER_ADDRESS = "customerAddress";
     static final String CUSTOMER_ACCUMULATE_POINTS = "customerPoints";
     static final String CUSTOMER_TYPE = "customerType";
-    static final String CUSTOMER_VOUCHER= "customerVoucher";
+    static final String CUSTOMER_VOUCHER = "customerVoucher";
     // tất cả các bản sẽ có 4 hàm để sử lý
     /*
         hàm insert
@@ -90,7 +96,7 @@ public class SQLHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        String queryCreateTableAccounts = "CREATE TABLE "+DB_TABLE_ACCOUNT +"(" +
+        String queryCreateTableAccounts = "CREATE TABLE " + DB_TABLE_ACCOUNT + "(" +
                 "ID INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT," +
                 "userName TEXT NOT NULL," +
                 "password TEXT NOT NULL," +
@@ -101,7 +107,7 @@ public class SQLHelper extends SQLiteOpenHelper {
                 "avatar TEXT," +
                 "homeTown TEXT NOT NULL," +
                 "permission TEXT )";
-        String queryCreateTableCustomers = "CREATE TABLE "+ DB_TABLE_CUSTOMER+"("+
+        String queryCreateTableCustomers = "CREATE TABLE " + DB_TABLE_CUSTOMER + "(" +
                 "ID INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT," +
                 "customerName TEXT NOT NULL," +
                 "customerPhone TEXT NOT NULL," +
@@ -134,18 +140,23 @@ public class SQLHelper extends SQLiteOpenHelper {
                 "IDReport INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT," +
                 "date TEXT NOT NULL," +
                 "totalImport LONG NOT NULL," +
-                "totalSale LONG NOT NULL,"+
+                "totalSale LONG NOT NULL," +
                 "saleMoney LONG)";
+        String queryCreateTableCategorys = "CREATE TABLE "+DB_TABLE_CATEGORY+" (" +
+                "ID INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT," +
+                "nameCategory TEXT NOT NULL," +
+                "totalProduct LONG NOT NULL," +
+                "describe TEXT)";
         String queryCreateTableBillProducts = "CREATE TABLE Bills (" +
                 "IDBill INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT," +
                 "date TEXT NOT NULL," +
                 "names TEXT NOT NULL," +
                 "amounts TEXT NOT NULL," +
                 "price TEXT NOT NULL," +
-                "total LONG NOT NULL,"+
-                "IDCustomer INTERGER NOT NULL,"+
+                "total LONG NOT NULL," +
+                "IDCustomer INTERGER NOT NULL," +
                 "IDEmployee INTERGER NOT NULL)";
-
+        db.execSQL(queryCreateTableCategorys);
         db.execSQL(queryCreateTableAccounts);
         db.execSQL(queryCreateTableProducts);
         db.execSQL(queryCreateTableOrderProducts);
@@ -161,6 +172,7 @@ public class SQLHelper extends SQLiteOpenHelper {
             onCreate(db);
         }
     }
+
     public void insertAccount(Accounts account) {
         sqLiteDatabase = getWritableDatabase(); // cho phép sửa dữ liệu
         contentValues = new ContentValues();
@@ -173,7 +185,7 @@ public class SQLHelper extends SQLiteOpenHelper {
         contentValues.put(ACCOUNT_EMAIL, account.getEmail());
         contentValues.put(ACCOUNT_AVATAR, account.getAvatar());
         contentValues.put(ACCOUNT_HOMETOWN, account.getHomeTown());
-        contentValues.put(ACCOUNT_PERMISSION,account.getPermission());
+        contentValues.put(ACCOUNT_PERMISSION, account.getPermission());
         sqLiteDatabase.insert(DB_TABLE_ACCOUNT, null, contentValues);
         contentValues.clear();
     }
@@ -190,7 +202,7 @@ public class SQLHelper extends SQLiteOpenHelper {
         contentValues.put(ACCOUNT_HOMETOWN, account.getHomeTown());
         contentValues.put(ACCOUNT_EMAIL, account.getEmail());
         contentValues.put(ACCOUNT_AVATAR, account.getAvatar());
-        contentValues.put(ACCOUNT_PERMISSION,account.getPermission());
+        contentValues.put(ACCOUNT_PERMISSION, account.getPermission());
         sqLiteDatabase.update(DB_TABLE_ACCOUNT, contentValues, "ID = ?", new String[]{String.valueOf(account.getAccountID())});
         // update = ở bảng nào , dữ liệu truyền vào, update theo cái gì ( ID ), ID truyền vào
         contentValues.clear();
@@ -198,7 +210,7 @@ public class SQLHelper extends SQLiteOpenHelper {
 
     public void deleteAccount(int id) {
         sqLiteDatabase = getWritableDatabase();
-        sqLiteDatabase.delete(DB_TABLE_ACCOUNT, "ID = ?",new String[]{String.valueOf(id)} );
+        sqLiteDatabase.delete(DB_TABLE_ACCOUNT, "ID = ?", new String[]{String.valueOf(id)});
         //xóa = ở bảng nào, xóa theo gì (id), id truyền vào
     }
 
@@ -225,7 +237,7 @@ public class SQLHelper extends SQLiteOpenHelper {
                 String homeTown = cursor.getString(cursor.getColumnIndex(ACCOUNT_HOMETOWN));
                 String permission = cursor.getString(cursor.getColumnIndex(ACCOUNT_PERMISSION));
                 String avatar = cursor.getString(cursor.getColumnIndex(ACCOUNT_AVATAR));
-                account = new Accounts(ID, userName, password, fullName, dateOfBirth, phone,email,homeTown,avatar,permission);
+                account = new Accounts(ID, userName, password, fullName, dateOfBirth, phone, email, homeTown, avatar, permission);
                 accountList.add(account);
             }
         return accountList;
@@ -296,7 +308,7 @@ public class SQLHelper extends SQLiteOpenHelper {
                 String image = cursor.getString(cursor.getColumnIndex(PRODUCT_IMAGE));
                 String bardCode = cursor.getString(cursor.getColumnIndex(PRODUCT_BARD_CODE
                 ));
-                productList.add(new Product(ID, nameProduct,priceImport, price, amount, type, describe, image, bardCode));
+                productList.add(new Product(ID, nameProduct, priceImport, price, amount, type, describe, image, bardCode));
             }
         return productList;
     }
@@ -364,7 +376,7 @@ public class SQLHelper extends SQLiteOpenHelper {
                 String image = cursor.getString(cursor.getColumnIndex(PRODUCT_IMAGE));
                 String producer = cursor.getString(cursor.getColumnIndex(PRODUCT_BARD_CODE
                 ));
-                productList.add(new Product(ID, nameProduct, priceImport ,price, amount, type, describe, image, producer));
+                productList.add(new Product(ID, nameProduct, priceImport, price, amount, type, describe, image, producer));
             }
         return productList;
     }
@@ -374,7 +386,7 @@ public class SQLHelper extends SQLiteOpenHelper {
         contentValues = new ContentValues();
 //        contentValues.put(REPORT_ID,report.getId());
         contentValues.put(REPORT_DATE, report.getDate());
-        contentValues.put(REPORT_TOTAL_IMPORT ,report.getTotalImport());
+        contentValues.put(REPORT_TOTAL_IMPORT, report.getTotalImport());
         contentValues.put(REPORT_TOTAL_SALE, report.getTotalSale());
         contentValues.put(REPORT_SALE_MONEY, report.getSaleMoney());
         sqLiteDatabase.insert(DB_TABLE_REPORT, null, contentValues);
@@ -395,10 +407,11 @@ public class SQLHelper extends SQLiteOpenHelper {
                 long totalSale = cursor.getLong(cursor.getColumnIndex(REPORT_TOTAL_SALE));
                 String date = cursor.getString(cursor.getColumnIndex(REPORT_DATE));
                 int IDEmployees = cursor.getInt(cursor.getColumnIndex(REPORT_SALE_MONEY));
-                reportArrayList.add(new Report(ID,date, totalImport, totalSale,IDEmployees));
+                reportArrayList.add(new Report(ID, date, totalImport, totalSale, IDEmployees));
             }
         return reportArrayList;
     }
+
     public void insertBill(Bill bill) {
         sqLiteDatabase = getWritableDatabase();
         contentValues = new ContentValues();
@@ -408,11 +421,12 @@ public class SQLHelper extends SQLiteOpenHelper {
         contentValues.put(BILL_AMOUNT, bill.getAmount());
         contentValues.put(BILL_PRICE, bill.getPrice());
         contentValues.put(BILL_TOTAL, bill.getTotal());
-        contentValues.put(BILL_ID_CUSTOMER,bill.getIDCustomer());
+        contentValues.put(BILL_ID_CUSTOMER, bill.getIDCustomer());
         contentValues.put(BILL_ID_EMPLOYEE, bill.getIDEmployee());
         sqLiteDatabase.insert(DB_TABLE_BILL, null, contentValues);
     }
-    public void updateBill(Bill bill){
+
+    public void updateBill(Bill bill) {
         sqLiteDatabase = getWritableDatabase();
         contentValues = new ContentValues();
 //        contentValues.put(REPORT_ID,report.getId());
@@ -421,12 +435,13 @@ public class SQLHelper extends SQLiteOpenHelper {
         contentValues.put(BILL_AMOUNT, bill.getAmount());
         contentValues.put(BILL_PRICE, bill.getPrice());
         contentValues.put(BILL_TOTAL, bill.getTotal());
-        contentValues.put(BILL_ID_CUSTOMER,bill.getIDCustomer());
+        contentValues.put(BILL_ID_CUSTOMER, bill.getIDCustomer());
         contentValues.put(BILL_ID_EMPLOYEE, bill.getIDEmployee());
-        sqLiteDatabase.update(DB_TABLE_BILL,contentValues,BILL_ID+"=?",new String[]{String.valueOf(bill.getIDBill())});
+        sqLiteDatabase.update(DB_TABLE_BILL, contentValues, BILL_ID + "=?", new String[]{String.valueOf(bill.getIDBill())});
         cursor.close();
         sqLiteDatabase.close();
     }
+
     public List<Bill> getAllBill() {
         List<Bill> billArrayList = new ArrayList<>();
         sqLiteDatabase = getReadableDatabase();
@@ -445,10 +460,11 @@ public class SQLHelper extends SQLiteOpenHelper {
                 long total = cursor.getLong(cursor.getColumnIndex(BILL_TOTAL));
                 int IDCustomer = cursor.getInt(cursor.getColumnIndex(BILL_ID_CUSTOMER));
                 int IDEmployees = cursor.getInt(cursor.getColumnIndex(BILL_ID_EMPLOYEE));
-                billArrayList.add(new Bill(ID,date,nameProduct, amount, price,total,IDCustomer,IDEmployees));
+                billArrayList.add(new Bill(ID, date, nameProduct, amount, price, total, IDCustomer, IDEmployees));
             }
         return billArrayList;
     }
+
     public void insertCustomer(Customer customer) {
         sqLiteDatabase = getWritableDatabase(); // cho phép sửa dữ liệu
         contentValues = new ContentValues();
@@ -462,6 +478,53 @@ public class SQLHelper extends SQLiteOpenHelper {
         contentValues.put(CUSTOMER_VOUCHER, customer.getCustomerVoucher());
         sqLiteDatabase.insert(DB_TABLE_CUSTOMER, null, contentValues);
         contentValues.clear();
+    }
+
+    public void insertCategory(Category category) {
+        sqLiteDatabase = getWritableDatabase(); // cho phép sửa dữ liệu
+        contentValues = new ContentValues();
+        //contentValues.put(ACCOUNT_ID, account.getID());
+        contentValues.put(CATEGORY_NAME, category.getNameCategory());
+        contentValues.put(CATEGORY_DESCRIBE, category.getDescribe());
+        contentValues.put(CATEGORY_TOTAL_PRODUCT, category.getAmountCategory());
+        sqLiteDatabase.insert(DB_TABLE_CATEGORY, null, contentValues);
+        contentValues.clear();
+    }
+    public void updateCategory(Category category){
+        sqLiteDatabase = getWritableDatabase(); // cho phép sửa dữ liệu
+        contentValues = new ContentValues();
+        //contentValues.put(ACCOUNT_ID, account.getID());
+        contentValues.put(CATEGORY_NAME, category.getNameCategory());
+        contentValues.put(CATEGORY_DESCRIBE, category.getDescribe());
+        contentValues.put(CATEGORY_TOTAL_PRODUCT, category.getAmountCategory());
+        sqLiteDatabase.update(DB_TABLE_CATEGORY, contentValues, "ID = ?",new String[]{String.valueOf(category.getIdCategory())});
+        contentValues.clear();
+    }
+    public void deleteCategory(int id){
+        sqLiteDatabase = getWritableDatabase();
+        sqLiteDatabase.delete(DB_TABLE_CATEGORY, "ID = ?", new String[]{String.valueOf(id)});
+    }
+    public List<Category> getAllCategory() {
+        List<Category> categoryList = new ArrayList<>();
+        Category category;
+        sqLiteDatabase = getReadableDatabase();
+        try {
+            // cusor là để lưu dữ liệu tạm thời
+            // select
+            cursor = sqLiteDatabase.query(false, DB_TABLE_CATEGORY, null, null, null, null, null, null, null);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        if (cursor != null)
+            while (cursor.moveToNext()) {
+                int ID = cursor.getInt(cursor.getColumnIndex(CATEGORY_ID));
+                String name = cursor.getString(cursor.getColumnIndex(CATEGORY_NAME));
+                long total = cursor.getLong(cursor.getColumnIndex(CATEGORY_TOTAL_PRODUCT));
+                String describe = cursor.getString(cursor.getColumnIndex(CATEGORY_DESCRIBE));
+                category = new Category(ID,name,total,describe);
+                categoryList.add(category);
+            }
+        return categoryList;
     }
 
     public void updateCustomer(Customer customer) {
@@ -479,10 +542,11 @@ public class SQLHelper extends SQLiteOpenHelper {
         // update = ở bảng nào , dữ liệu truyền vào, update theo cái gì ( ID ), ID truyền vào
         contentValues.clear();
     }
-    public String getNameCustomer(int ID){
+
+    public String getNameCustomer(int ID) {
         String userName = "";
         sqLiteDatabase = getReadableDatabase();
-        cursor = sqLiteDatabase.query(DB_TABLE_CUSTOMER,new String[]{CUSTOMER_NAME},CUSTOMER_ID +"= ?",new String[]{String.valueOf(ID)},null,null,null);
+        cursor = sqLiteDatabase.query(DB_TABLE_CUSTOMER, new String[]{CUSTOMER_NAME}, CUSTOMER_ID + "= ?", new String[]{String.valueOf(ID)}, null, null, null);
         if (cursor != null)
             while (cursor.moveToNext()) {
                 userName += cursor.getString(cursor.getColumnIndex(CUSTOMER_NAME));
@@ -492,11 +556,11 @@ public class SQLHelper extends SQLiteOpenHelper {
 
     public void deleteCustomer(int id) {
         sqLiteDatabase = getWritableDatabase();
-        sqLiteDatabase.delete(DB_TABLE_CUSTOMER, "ID = ?",new String[]{String.valueOf(id)} );
+        sqLiteDatabase.delete(DB_TABLE_CUSTOMER, "ID = ?", new String[]{String.valueOf(id)});
         //xóa = ở bảng nào, xóa theo gì (id), id truyền vào
     }
 
-    public List<Customer> getAllCustomer(){
+    public List<Customer> getAllCustomer() {
         List<Customer> customerList = new ArrayList<>();
         Customer customer;
         sqLiteDatabase = getReadableDatabase();
@@ -517,15 +581,16 @@ public class SQLHelper extends SQLiteOpenHelper {
                 String points = cursor.getString(cursor.getColumnIndex(CUSTOMER_ACCUMULATE_POINTS));
                 String type = cursor.getString(cursor.getColumnIndex(CUSTOMER_TYPE));
                 String voucher = cursor.getString(cursor.getColumnIndex(CUSTOMER_VOUCHER));
-                customer = new Customer(ID,userName,phone,email,address,points,type,voucher);
+                customer = new Customer(ID, userName, phone, email, address, points, type, voucher);
                 customerList.add(customer);
             }
         return customerList;
     }
-    public String getVoucher(int ID){
+
+    public String getVoucher(int ID) {
         String voucher = "";
         sqLiteDatabase = getReadableDatabase();
-        cursor = sqLiteDatabase.query(DB_TABLE_CUSTOMER,new String[]{CUSTOMER_VOUCHER},CUSTOMER_ID +"= ?",new String[]{String.valueOf(ID)},null,null,null);
+        cursor = sqLiteDatabase.query(DB_TABLE_CUSTOMER, new String[]{CUSTOMER_VOUCHER}, CUSTOMER_ID + "= ?", new String[]{String.valueOf(ID)}, null, null, null);
         if (cursor != null)
             while (cursor.moveToNext()) {
                 voucher += cursor.getString(cursor.getColumnIndex(CUSTOMER_VOUCHER));
