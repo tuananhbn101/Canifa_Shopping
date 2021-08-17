@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.canifa_shop.Login.Object.Accounts;
 import com.example.canifa_shop.R;
@@ -108,26 +109,36 @@ public class AcountManagerActivity extends AppCompatActivity {
     }
 
     public void updateAccout(Accounts accounts) {
-        accounts.setDateOfBirth(binding.etDateOfBird.getText().toString());
-        accounts.setEmail(binding.etEmail.getText().toString());
-        accounts.setFullName(binding.etFullName.getText().toString());
-        accounts.setHomeTown(binding.etAddress.getText().toString());
-        accounts.setPassword(binding.etPassword.getText().toString());
-        accounts.setPhone(binding.etPhoneNumber.getText().toString());
-        sqlHelper.updateAccount(accounts);
+        try {
+            accounts.setDateOfBirth(binding.etDateOfBird.getText().toString());
+            accounts.setEmail(binding.etEmail.getText().toString());
+            accounts.setFullName(binding.etFullName.getText().toString());
+            accounts.setHomeTown(binding.etAddress.getText().toString());
+            accounts.setPassword(binding.etPassword.getText().toString());
+            accounts.setPhone(binding.etPhoneNumber.getText().toString());
+            sqlHelper.updateAccount(accounts);
+        } catch (Exception e) {
+            Toast.makeText(getApplicationContext(), "Lỗi nhập liệu", Toast.LENGTH_SHORT).show();
+        }
+
     }
 
     public void createAccount() {
-        String userName = binding.etUserName.getText().toString();
-        String password = binding.etPassword.getText().toString();
-        String fullName = binding.etFullName.getText().toString();
-        String dateOfBirth = binding.etDateOfBird.getText().toString();
-        String phone = binding.etPhoneNumber.getText().toString();
-        String email = binding.etEmail.getText().toString();
-        String homeTow = binding.etAddress.getText().toString();
-        String avatar = "";
-        String permission = "employee";
-        Accounts accounts = new Accounts(0, userName, password, fullName, dateOfBirth, phone, email, homeTow, avatar, permission);
-        sqlHelper.insertAccount(accounts);
+        try {
+            String userName = binding.etUserName.getText().toString();
+            String password = binding.etPassword.getText().toString();
+            String fullName = binding.etFullName.getText().toString();
+            String dateOfBirth = binding.etDateOfBird.getText().toString();
+            String phone = binding.etPhoneNumber.getText().toString();
+            String email = binding.etEmail.getText().toString();
+            String homeTow = binding.etAddress.getText().toString();
+            String avatar = "";
+            String permission = "employee";
+            Accounts accounts = new Accounts(0, userName, password, fullName, dateOfBirth, phone, email, homeTow, avatar, permission);
+            sqlHelper.insertAccount(accounts);
+        } catch (Exception e) {
+            Toast.makeText(getApplicationContext(), "Lỗi nhập liệu", Toast.LENGTH_SHORT).show();
+        }
+
     }
 }

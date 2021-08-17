@@ -12,10 +12,12 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.canifa_shop.Category.Object.Category;
 import com.example.canifa_shop.MainActivity;
@@ -35,20 +37,20 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-
 public class ProductDetailActivity extends AppCompatActivity {
     public static final int PICK_IMAGE = 1;
     ActivityProductDetailBinding binding;
     List<Category> categories;
     ArrayAdapter<Category> categoryArrayAdapter;
-    SQLHelper  sqlHelper;
+    SQLHelper sqlHelper;
     List<Product> productList;
     ImageView btnBack, btnAdd;
-    TextView tvTitile,tvDelete;
+    TextView tvTitile, tvDelete;
     String control;
     Product productUpdate;
     int ID;
     String linkImage = "";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -60,10 +62,10 @@ public class ProductDetailActivity extends AppCompatActivity {
         binding.btnControl.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(control.equals("create")){
+                if (control.equals("create")) {
                     addProduct();
-                   finish();
-                }else {
+                    finish();
+                } else {
                     updateProduct();
                     finish();
                 }
@@ -113,45 +115,51 @@ public class ProductDetailActivity extends AppCompatActivity {
     public void getIntents() {
         Intent intent = getIntent();
         control = intent.getStringExtra("control");
-        if(control.equals("create")){
+        if (control.equals("create")) {
             binding.btnControl.setText("Thêm mới");
             tvDelete.setVisibility(View.INVISIBLE);
-        }
-        else {
+        } else {
             binding.btnControl.setText("Cập nhật");
             tvDelete.setVisibility(View.VISIBLE);
             ID = intent.getIntExtra("ID", 0);
             for (Product product : productList
             ) {
-                if(product.getID()==ID){
+                if (product.getID() == ID) {
                     productUpdate = product;
                     binding.etNameProduct.setText(product.getNameProduct());
-                    binding.etAmountProduct.setText(product.getAmount()+"");
+                    binding.etAmountProduct.setText(product.getAmount() + "");
                     binding.etBardCodeProduct.setText(product.getBardCode());
                     binding.etNote.setText(product.getDescribe());
-                    Picasso.with(getApplicationContext()).load("file://"+product.getImage()).into(binding.ivProduct);
-                    binding.etPriceImport.setText(product.getImportprice()+"");
-                    binding.etPriceSell.setText(product.getPrice()+"");
+                    Picasso.with(getApplicationContext()).load("file://" + product.getImage()).into(binding.ivProduct);
+                    binding.etPriceImport.setText(product.getImportprice() + "");
+                    binding.etPriceSell.setText(product.getPrice() + "");
                 }
             }
         }
 
     }
-    public void addProduct(){
-        String name = binding.etNameProduct.getText().toString().trim();
-        long priceImport = Long.valueOf(binding.etPriceImport.getText().toString().trim());
-        long priceSell= Long.valueOf(binding.etPriceSell.getText().toString().trim());
-        String code = binding.etBardCodeProduct.getText().toString().trim();
-        String note = binding.etNote.getText().toString().trim();
-        int amount = Integer.valueOf(binding.etAmountProduct.getText().toString().trim());
-        String type = binding.spType.getSelectedItem().toString();
-        Product product = new Product(0,name,priceImport,priceSell,amount,type,note,linkImage,code);
-        sqlHelper.insertProduct(product);
-        Category category = categories.get(binding.spType.getSelectedItemPosition());
-        category.setAmountCategory(category.getAmountCategory()+1);
-        sqlHelper.updateCategory(category);
+
+    public void addProduct() {
+        try {
+            String name = binding.etNameProduct.getText().toString().trim();
+            long priceImport = Long.valueOf(binding.etPriceImport.getText().toString().trim());
+            long priceSell = Long.valueOf(binding.etPriceSell.getText().toString().trim());
+            String code = binding.etBardCodeProduct.getText().toString().trim();
+            String note = binding.etNote.getText().toString().trim();
+            int amount = Integer.valueOf(binding.etAmountProduct.getText().toString().trim());
+            String type = binding.spType.getSelectedItem().toString();
+            Product product = new Product(0, name, priceImport, priceSell, amount, type, note, linkImage, code);
+            sqlHelper.insertProduct(product);
+            Category category = categories.get(binding.spType.getSelectedItemPosition());
+            category.setAmountCategory(category.getAmountCategory() + 1);
+            sqlHelper.updateCategory(category);
+        } catch (Exception e) {
+            Toast.makeText(getApplicationContext(), "Lỗi nhập liệu", Toast.LENGTH_SHORT).show();
+        }
+
     }
-    public void findByViewID(){
+
+    public void findByViewID() {
         btnAdd = findViewById(R.id.btnAdd);
         btnBack = findViewById(R.id.btnBack);
         tvTitile = findViewById(R.id.tvTitle);
@@ -160,6 +168,7 @@ public class ProductDetailActivity extends AppCompatActivity {
         tvTitile.setText("Sản phẩm");
 
     }
+
     public void initialization() {
 
         sqlHelper = new SQLHelper(this);
@@ -168,11 +177,13 @@ public class ProductDetailActivity extends AppCompatActivity {
         productList = sqlHelper.getAllPrduct();
         categories = sqlHelper.getAllCategory();
     }
-    public void setAdapterSpiner(){
-        categoryArrayAdapter = new ArrayAdapter<Category>(this, android.R.layout.simple_list_item_1,categories);
+
+    public void setAdapterSpiner() {
+        categoryArrayAdapter = new ArrayAdapter<Category>(this, android.R.layout.simple_list_item_1, categories);
         categoryArrayAdapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
         binding.spType.setAdapter(categoryArrayAdapter);
     }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable @org.jetbrains.annotations.Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -185,33 +196,40 @@ public class ProductDetailActivity extends AppCompatActivity {
             }
         }
     }
+
     public String convertMediaUriToPath(Uri uri) {
-        String [] proj={MediaStore.Images.Media.DATA};
-        Cursor cursor = getContentResolver().query(uri, proj,  null, null, null);
+        String[] proj = {MediaStore.Images.Media.DATA};
+        Cursor cursor = getContentResolver().query(uri, proj, null, null, null);
         int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
         cursor.moveToFirst();
         String path = cursor.getString(column_index);
         cursor.close();
         return path;
     }
-    public void updateProduct(){
-        String name = binding.etNameProduct.getText().toString().trim();
-        long priceImport = Long.valueOf(binding.etPriceImport.getText().toString().trim());
-        long priceSell= Long.valueOf(binding.etPriceSell.getText().toString().trim());
-        String code = binding.etBardCodeProduct.getText().toString().trim();
-        String note = binding.etNote.getText().toString().trim();
-        int amount = Integer.valueOf(binding.etAmountProduct.getText().toString().trim());
-        String type = binding.spType.getSelectedItem().toString();
-        productUpdate.setNameProduct(name);
-        productUpdate.setPrice(priceSell);
-        productUpdate.setImportprice(priceImport);
-        productUpdate.setAmount(amount);
-        productUpdate.setBardCode(code);
-        productUpdate.setDescribe(note);
-        productUpdate.setType(type);
-        productUpdate.setImage(linkImage);
-        sqlHelper.updateProduct(productUpdate);
+
+    public void updateProduct() {
+        try {
+            String name = binding.etNameProduct.getText().toString().trim();
+            long priceImport = Long.valueOf(binding.etPriceImport.getText().toString().trim());
+            long priceSell = Long.valueOf(binding.etPriceSell.getText().toString().trim());
+            String code = binding.etBardCodeProduct.getText().toString().trim();
+            String note = binding.etNote.getText().toString().trim();
+            int amount = Integer.valueOf(binding.etAmountProduct.getText().toString().trim());
+            String type = binding.spType.getSelectedItem().toString();
+            productUpdate.setNameProduct(name);
+            productUpdate.setPrice(priceSell);
+            productUpdate.setImportprice(priceImport);
+            productUpdate.setAmount(amount);
+            productUpdate.setBardCode(code);
+            productUpdate.setDescribe(note);
+            productUpdate.setType(type);
+            productUpdate.setImage(linkImage);
+            sqlHelper.updateProduct(productUpdate);
+        } catch (Exception e) {
+            Toast.makeText(getApplicationContext(), "Lỗi nhập liệu", Toast.LENGTH_SHORT).show();
+        }
     }
+
     @Override
     public void onBackPressed() {
         super.onBackPressed();

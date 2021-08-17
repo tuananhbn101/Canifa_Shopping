@@ -41,7 +41,7 @@
              android:layout_marginRight="@dimen/_20sdp"
              android:layout_marginTop="@dimen/_30sdp"
              android:layout_marginLeft="@dimen/_20sdp"
-             android:layout_marginBottom="@dimen/_60sdp"
+             android:layout_marginBottom="@dimen/_90sdp"
              android:layout_height="match_parent">
              <LinearLayout
                  android:layout_width="match_parent"
@@ -58,17 +58,15 @@
                      <TextView
                          android:textColor="@color/black"
                          android:layout_width="match_parent"
-                         android:layout_height="0dp"
+                         android:layout_height="wrap_content"
                          android:text="Tên tài khoản"
-                         android:textSize="@dimen/_15sdp"
-                         android:layout_weight="1">
+                         android:textSize="@dimen/_15sdp">
 
                      </TextView>
                      <EditText
                          android:id="@+id/etUserName"
                          android:layout_width="match_parent"
-                         android:layout_height="0dp"
-                         android:layout_weight="2">
+                         android:layout_height="wrap_content">
 
                      </EditText>
                  </LinearLayout>
@@ -82,17 +80,15 @@
                          android:textSize="@dimen/_15sdp"
                          android:textColor="@color/black"
                          android:layout_width="match_parent"
-                         android:layout_height="0dp"
-                         android:text="Mật khẩu"
-                         android:layout_weight="1">
+                         android:layout_height="wrap_content"
+                         android:text="Mật khẩu">
 
                      </TextView>
                      <EditText
                          android:id="@+id/etPassword"
                          android:layout_width="match_parent"
-                         android:layout_height="0dp"
-                         android:inputType="textPassword"
-                         android:layout_weight="2">
+                         android:layout_height="wrap_content"
+                         android:inputType="textPassword">
 
                      </EditText>
                  </LinearLayout>
@@ -104,7 +100,7 @@
                  <Button
                      android:id="@+id/btnLogin"
                      android:layout_width="match_parent"
-                     android:layout_height="@dimen/_50sdp"
+                     android:layout_height="@dimen/_40sdp"
                      android:layout_marginLeft="@dimen/_10sdp"
                      android:layout_marginRight="@dimen/_10sdp"
                      android:text="Đăng nhập"
