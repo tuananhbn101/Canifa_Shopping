@@ -8,6 +8,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.widget.Toast;
 
+import com.example.canifa_shop.Helper.Function;
 import com.example.canifa_shop.Login.Object.Accounts;
 import com.example.canifa_shop.MainActivity;
 import com.example.canifa_shop.R;
@@ -65,7 +66,7 @@ public class LoginActivity extends AppCompatActivity {
     }
     public void createAccountAdmin(){
         if (accountsList.size()==0||accountsList==null){
-            Accounts accounts = new Accounts(0,"tuananh12","tuananh","Nguyễn Tuấn Anh","10/01/2000","0395501405","anh@gmail.com","Bắc Ninh","Hi","admin");
+            Accounts accounts = new Accounts(0,"tuananh12","tuananh","Nguyễn Tuấn Anh","10/01/2000","0395501405","anh@gmail.com","Bắc Ninh","Hi", Function.permissionAdmin);
             sqlHelper.insertAccount(accounts);
             accountsList.clear();
             accountsList = sqlHelper.getAllAccounts();

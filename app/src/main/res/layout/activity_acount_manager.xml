@@ -187,7 +187,7 @@
                         android:id="@+id/btnUpdate"
                         style="@style/textTitle"
                         android:layout_width="0dp"
-                        android:layout_height="@dimen/_40sdp"
+                        android:layout_height="@dimen/_35sdp"
                         android:layout_weight="1"
                         android:background="@drawable/backgroud_button_update"
                         android:gravity="center"

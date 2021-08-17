@@ -29,7 +29,7 @@ public class EmployeeManagerActivity extends AppCompatActivity {
     List<Accounts> accountsListSearch;
     EmployeeAdapter adapter;
     SQLHelper sqlHelper;
-    ImageView btnBack,btnAdd;
+    ImageView btnBack, btnAdd;
     TextView tvTitile, tvDelete;
 
     @Override
@@ -39,6 +39,9 @@ public class EmployeeManagerActivity extends AppCompatActivity {
         initialization();
         findByViewID();
         setAdapter(accountsList);
+        btnBack.setOnClickListener(v -> {
+            finish();
+        });
         binding.edtSearch.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -63,7 +66,7 @@ public class EmployeeManagerActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getApplicationContext(), AcountManagerActivity.class);
-                intent.putExtra("control","create");
+                intent.putExtra("control", "create");
                 startActivity(intent);
             }
         });
@@ -71,8 +74,8 @@ public class EmployeeManagerActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent intent = new Intent(getApplicationContext(), AcountManagerActivity.class);
-                intent.putExtra("control","update");
-                intent.putExtra("ID",accountsList.get(position).getAccountID());
+                intent.putExtra("control", "update");
+                intent.putExtra("ID", accountsList.get(position).getAccountID());
                 startActivity(intent);
             }
         });
@@ -100,6 +103,7 @@ public class EmployeeManagerActivity extends AppCompatActivity {
         }
         setAdapter(accountsListSearch);
     }
+
     public void findByViewID() {
         btnAdd = findViewById(R.id.btnAdd);
         btnBack = findViewById(R.id.btnBack);

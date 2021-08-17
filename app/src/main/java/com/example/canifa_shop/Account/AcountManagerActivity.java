@@ -1,8 +1,10 @@
 package com.example.canifa_shop.Account;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -11,6 +13,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.canifa_shop.Helper.Function;
 import com.example.canifa_shop.Login.Object.Accounts;
 import com.example.canifa_shop.R;
 import com.example.canifa_shop.SQLHelper.SQLHelper;
@@ -49,11 +52,28 @@ public class AcountManagerActivity extends AppCompatActivity {
                 finish();
             }
         });
+        btnBack.setOnClickListener(v -> {
+            finish();
+        });
         tvDelete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                sqlHelper.deleteAccount(ID);
-                finish();
+                AlertDialog alertDialog = new AlertDialog.Builder(AcountManagerActivity.this)
+                        .setTitle("Bạn có muốn xóa không ?")
+                        .setPositiveButton("Có", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                sqlHelper.deleteAccount(ID);
+                                finish();
+                            }
+                        })
+                        .setNegativeButton("Không", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                            }
+                        }).create();
+                alertDialog.show();
             }
         });
     }
@@ -133,8 +153,7 @@ public class AcountManagerActivity extends AppCompatActivity {
             String email = binding.etEmail.getText().toString();
             String homeTow = binding.etAddress.getText().toString();
             String avatar = "";
-            String permission = "employee";
-            Accounts accounts = new Accounts(0, userName, password, fullName, dateOfBirth, phone, email, homeTow, avatar, permission);
+            Accounts accounts = new Accounts(0, userName, password, fullName, dateOfBirth, phone, email, homeTow, avatar, Function.permissionEmployee);
             sqlHelper.insertAccount(accounts);
         } catch (Exception e) {
             Toast.makeText(getApplicationContext(), "Lỗi nhập liệu", Toast.LENGTH_SHORT).show();

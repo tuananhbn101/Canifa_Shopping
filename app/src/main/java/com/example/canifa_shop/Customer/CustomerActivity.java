@@ -42,6 +42,9 @@ public class CustomerActivity extends AppCompatActivity {
         findByViewID();
         getInten();
         setAdapter(customerList);
+        btnBack.setOnClickListener(v -> {
+            finish();
+        });
         binding.rvCustomer.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {

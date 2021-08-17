@@ -1,11 +1,14 @@
 package com.example.canifa_shop.Category;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -20,27 +23,60 @@ import java.util.List;
 
 public class CategoryActivity extends AppCompatActivity {
     ActivityCategoryBinding binding;
-    ImageView btnBack,btnAdd;
+    ImageView btnBack, btnAdd;
     TextView tvTitile, tvDelete;
     List<Category> categoryList;
     SQLHelper sqlHelper;
     CategoryAdapter categoryAdapter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        binding = DataBindingUtil.setContentView(this,R.layout.activity_category);
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_category);
         findByViewID();
-        btnAdd.setOnClickListener(v->{
-            startActivity(new Intent(getApplicationContext(),CategoryDetail.class));
+        btnAdd.setOnClickListener(v -> {
+            startActivity(new Intent(getApplicationContext(), CategoryDetail.class));
+        });
+        btnBack.setOnClickListener(v -> {
+            finish();
+        });
+        binding.lvCategory.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                AlertDialog alertDialog = new AlertDialog.Builder(getApplicationContext())
+                        .setTitle("Bạn có muốn xóa không ?")
+                        .setPositiveButton("Có", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                sqlHelper.deleteCategory(categoryList.get(position).getIdCategory());
+                                categoryList.remove(position);
+                                categoryAdapter.notifyDataSetChanged();
+                            }
+                        })
+                        .setNegativeButton("Không", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                            }
+                        }).create();
+                alertDialog.show();
+
+                return false;
+            }
         });
     }
-    public void initialization(){
+
+    public void initialization() {
         categoryList = new ArrayList<>();
         sqlHelper = new SQLHelper(getApplicationContext());
-        sqlHelper.insertCategory(new Category(0,"Quan",1,"Dep"));
-        sqlHelper.insertCategory(new Category(0,"Ao",1,"Dep"));
         categoryList = sqlHelper.getAllCategory();
+        if (categoryList.size() == 0) {
+            sqlHelper.insertCategory(new Category(0, "Mặc đinh", 0, "Mặc định"));
+            categoryList.clear();
+            categoryList = sqlHelper.getAllCategory();
+        }
     }
+
     public void findByViewID() {
         btnAdd = findViewById(R.id.btnAdd);
         btnBack = findViewById(R.id.btnBack);
@@ -50,7 +86,8 @@ public class CategoryActivity extends AppCompatActivity {
         btnAdd = findViewById(R.id.btnAdd);
         tvTitile.setText("Danh mục");
     }
-    public void setAdapter(){
+
+    public void setAdapter() {
         categoryAdapter = new CategoryAdapter(categoryList);
         binding.lvCategory.setAdapter(categoryAdapter);
     }

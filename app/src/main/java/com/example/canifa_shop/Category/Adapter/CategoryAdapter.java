@@ -41,9 +41,9 @@ public class CategoryAdapter extends BaseAdapter {
         tvDescribe = view.findViewById(R.id.tvDescribe);
         tvTotalProduct = view.findViewById(R.id.tvTotalProduct);
         Category category = categories.get(position);
-        tvDescribe.setText(category.getDescribe());
+        tvDescribe.setText("Mô tả : "+category.getDescribe());
         tvName.setText(category.getNameCategory());
-        tvTotalProduct.setText(category.getAmountCategory()+"");
+        tvTotalProduct.setText("Số lượng : "+category.getAmountCategory()+"");
         return view;
     }
 }

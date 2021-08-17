@@ -597,4 +597,14 @@ public class SQLHelper extends SQLiteOpenHelper {
             }
         return voucher;
     }
+    public String checkPermission(int ID){
+        String permission = "";
+        sqLiteDatabase = getReadableDatabase();
+        cursor = sqLiteDatabase.query(DB_TABLE_ACCOUNT, new String[]{ACCOUNT_PERMISSION}, ACCOUNT_ID + "= ?", new String[]{String.valueOf(ID)}, null, null, null);
+        if (cursor != null)
+            while (cursor.moveToNext()) {
+                 permission += cursor.getString(cursor.getColumnIndex(ACCOUNT_PERMISSION));
+            }
+        return permission;
+    }
 }
