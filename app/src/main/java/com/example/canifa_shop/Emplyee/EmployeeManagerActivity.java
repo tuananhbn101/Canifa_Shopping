@@ -70,6 +70,7 @@ public class EmployeeManagerActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
         binding.rvEmployee.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
