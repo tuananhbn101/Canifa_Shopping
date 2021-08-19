@@ -13,6 +13,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.canifa_shop.Helper.Function;
 import com.example.canifa_shop.Login.Object.Accounts;
 import com.example.canifa_shop.R;
 import com.example.canifa_shop.SQLHelper.SQLHelper;
@@ -47,11 +48,13 @@ public class AcountManagerActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if (control.equals("create")) {
-                    createAccount();
+                    if(createAccount()==true)
+                        finish();
                 } else {
-                    updateAccout(accountsChoose);
+                   if(updateAccout(accountsChoose)==true)
+                       finish();
                 }
-                finish();
+
             }
         });
         btnBack.setOnClickListener(new View.OnClickListener() {
@@ -74,7 +77,6 @@ public class AcountManagerActivity extends AppCompatActivity {
             }
         });
     }
-
     public void processBirthday() {
         Calendar c = Calendar.getInstance();
         this.cDay = c.get(Calendar.DAY_OF_MONTH);
@@ -142,9 +144,9 @@ public class AcountManagerActivity extends AppCompatActivity {
         }
     }
 
-    public void updateAccout(Accounts accounts) {
+    public boolean updateAccout(Accounts accounts) {
         try {
-            if (binding.etPhoneNumber.length() == 9) {
+            if (binding.etPhoneNumber.length() == 10) {
                 if (checkEmail()==true) {
                     accounts.setDateOfBirth(binding.etDateOfBird.getText().toString());
                     accounts.setEmail(binding.etEmail.getText().toString());
@@ -152,18 +154,21 @@ public class AcountManagerActivity extends AppCompatActivity {
                     accounts.setHomeTown(binding.etAddress.getText().toString());
                     accounts.setPassword(binding.etPassword.getText().toString());
                     accounts.setPhone(binding.etPhoneNumber.getText().toString());
+                    sqlHelper.updateAccount(accounts);
+                    return true;
                 }
             } else {
                 Toast.makeText(getApplicationContext(), "Số điện thoại phải đủ 10 chữ số", Toast.LENGTH_SHORT).show();
             }
-            sqlHelper.updateAccount(accounts);
+            return false;
         }catch (Exception e)
         {
             Toast.makeText(getBaseContext(), "Có lỗi nhập liệu", Toast.LENGTH_SHORT).show();
+            return false;
         }
     }
 
-    public void createAccount() {
+    public boolean createAccount() {
         try {
             String userName = binding.etUserName.getText().toString();
             String password = binding.etPassword.getText().toString();
@@ -179,10 +184,11 @@ public class AcountManagerActivity extends AppCompatActivity {
             } else {
                 if (checkAccount()==true) {
                     if (checkPassword()==true) {
-                        if (phone.length() == 9) {
+                        if (phone.length() == 10) {
                             if (checkEmail()==true) {
                                 Accounts accounts = new Accounts(0, userName, password, fullName, dateOfBirth, phone, email, homeTow, avatar, permission);
                                 sqlHelper.insertAccount(accounts);
+                                return true;
                             }
                         } else {
                             Toast.makeText(getApplicationContext(), "Số điện thoại phải đủ 10 chữ số", Toast.LENGTH_SHORT).show();
@@ -190,21 +196,23 @@ public class AcountManagerActivity extends AppCompatActivity {
                     }
                 }
             }
+           return false;
         } catch (Exception e) {
             Toast.makeText(getBaseContext(), "Có lỗi nhập liệu", Toast.LENGTH_SHORT).show();
+            return false;
         }
 
     }
 
     public boolean checkPassword() {
-        String passPattern = "((?=.*\\d)(?=.*[a-z])(?=.*[A-Z]).{8,})";
+        String passPattern = "((?=.*\\d)(?=.*[a-z])(?=.*[A-Z]).{6,})";
         if (binding.etPassword.getText().toString().isEmpty()) {
             Toast.makeText(this, "Mật khẩu không được bỏ trống", Toast.LENGTH_SHORT).show();
         }
         if (Pattern.matches(passPattern, binding.etPassword.getText().toString())) {
             return true;
         } else {
-            Toast.makeText(getBaseContext(), "Mật khẩu có từ 8 ký tự bao gồm chữ hoa, chữ thường và số", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getBaseContext(), "Mật khẩu có từ 6 ký tự bao gồm chữ hoa, chữ thường và số", Toast.LENGTH_SHORT).show();
             return false;
         }
     }
