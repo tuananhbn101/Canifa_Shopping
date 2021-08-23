@@ -1,5 +1,6 @@
 package com.example.canifa_shop.Emplyee;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
 
@@ -70,6 +71,7 @@ public class EmployeeManagerActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
         binding.rvEmployee.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -77,6 +79,25 @@ public class EmployeeManagerActivity extends AppCompatActivity {
                 intent.putExtra("control", "update");
                 intent.putExtra("ID", accountsList.get(position).getAccountID());
                 startActivity(intent);
+            }
+        });
+        binding.rvEmployee.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                AlertDialog.Builder builder=new AlertDialog.Builder(EmployeeManagerActivity.this);
+                builder.setTitle("Thông báo");
+                builder.setMessage("Bạn có chắc muốn xóa");
+                builder.setNegativeButton("No", (dialog, which) -> dialog.cancel() );
+                builder.setPositiveButton("Yes", (dialog, which) ->
+                        {
+                            sqlHelper.deleteAccount(accountsList.get(which+1).getAccountID());
+                            accountsList.remove(which +1);
+                            adapter.notifyDataSetChanged();
+                        }
+                        );
+                builder.show();
+
+                return false;
             }
         });
 

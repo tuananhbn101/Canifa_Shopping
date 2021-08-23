@@ -3,7 +3,6 @@ package com.example.canifa_shop.Manager;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
@@ -34,6 +33,8 @@ public class WarehouseManagerActivity extends AppCompatActivity {
             }
         });
     }
+
+
     public void findByViewID() {
         btnAdd = findViewById(R.id.btnAdd);
         btnBack = findViewById(R.id.btnBack);
