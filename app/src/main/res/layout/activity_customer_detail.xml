@@ -50,7 +50,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="0dp"
                         android:gravity="center_vertical"
-                        android:text="Anh Tuấn"
+
                         android:layout_weight="2"/>
                 </LinearLayout>
                 <TextView
@@ -73,7 +73,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="0dp"
                         android:gravity="center_vertical"
-                        android:text="039550145"
+
                         android:layout_weight="2"/>
                 </LinearLayout>
                 <TextView
@@ -96,7 +96,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="0dp"
                         android:gravity="center_vertical"
-                        android:text="Abc@gmail.com"
+
                         android:layout_weight="2"/>
                 </LinearLayout>
             </LinearLayout>
@@ -125,7 +125,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="0dp"
                         android:gravity="center_vertical"
-                        android:text="Bắc Ninh"
+
                         android:layout_weight="2"/>
                 </LinearLayout>
 
@@ -157,7 +157,7 @@
                         android:layout_centerVertical="true"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Giảm 20%"/>
+                       />
                 </RelativeLayout>
                 <RelativeLayout
                     android:id="@+id/btnCardPoint"
@@ -178,7 +178,7 @@
                         android:layout_centerVertical="true"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="1000 điểm"/>
+                        android:text="0 điểm"/>
                 </RelativeLayout>
                 <RelativeLayout
                     android:layout_width="match_parent"
@@ -198,7 +198,7 @@
                         android:layout_centerVertical="true"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Vàng"/>
+                        android:text="Mới"/>
                 </RelativeLayout>
                 <RelativeLayout
                     android:layout_width="match_parent"

@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:id="@+id/llChooseProduct"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/colorGrayLight"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_35sdp"
+                    android:layout_margin="@dimen/_5sdp"
+                    android:background="@color/white">
+
+                    <ImageView
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:padding="@dimen/_9sdp"
+                        android:src="@drawable/ic_search"
+                        app:tint="@color/black" />
+
+                    <EditText
+                        android:id="@+id/edtSearch"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="5"
+                        android:background="@color/white"
+                        android:hint="Tìm kiếm"
+                        android:padding="@dimen/_10sdp" />
+
+                    <ImageView
+                        android:id="@+id/btnDelete"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginRight="@dimen/_10sdp"
+                        android:layout_weight="0.5"
+                        android:padding="@dimen/_5sdp"
+                        android:src="@drawable/ic_delete"
+                        android:visibility="invisible" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <ListView
+                android:id="@+id/lvProduct"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="@dimen/_5sdp" />
+        </LinearLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+           <LinearLayout
+               android:layout_width="match_parent"
+               android:id="@+id/llTitle"
+               android:layout_height="wrap_content">
+               <ImageView
+                   android:id="@+id/btnBack"
+                   android:layout_width="@dimen/_30sdp"
+                   android:layout_height="wrap_content"
+                   android:padding="@dimen/_5sdp"
+                   android:src="@drawable/ic_back" />
+               <TextView
+                   android:layout_width="match_parent"
+                   android:layout_height="wrap_content"
+                   android:text="Danh sách sản phẩm nhập"
+                   android:textStyle="bold"
+                   android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                   android:gravity="center"
+                   android:paddingRight="@dimen/_30sdp"
+                   android:layout_gravity="center"/>
+           </LinearLayout>
+            <androidx.recyclerview.widget.RecyclerView
+                android:layout_below="@+id/llTitle"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_above="@+id/btnImport"
+                android:id="@+id/rvProductImport"
+                android:layout_margin="@dimen/_5sdp"/>
+            <Button
+                android:id="@+id/btnImport"
+                android:layout_alignParentBottom="true"
+                android:layout_width="match_parent"
+                android:layout_marginLeft="@dimen/_10sdp"
+                android:layout_marginRight="@dimen/_10sdp"
+                android:layout_height="@dimen/_40sdp"
+                android:text="Nhập hàng"/>
+
+        </RelativeLayout>
+    </LinearLayout>
+</layout>

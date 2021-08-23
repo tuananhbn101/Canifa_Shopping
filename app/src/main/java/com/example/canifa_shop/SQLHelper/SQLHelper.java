@@ -12,6 +12,7 @@ import com.example.canifa_shop.Bill.Object.Bill;
 import com.example.canifa_shop.Category.Object.Category;
 import com.example.canifa_shop.Customer.Object.Customer;
 import com.example.canifa_shop.Login.Object.Accounts;
+import com.example.canifa_shop.Manager.Object.Receipt;
 import com.example.canifa_shop.Product.Object.Product;
 import com.example.canifa_shop.Report.Objcet.Report;
 
@@ -30,6 +31,7 @@ public class SQLHelper extends SQLiteOpenHelper {
     static final String DB_TABLE_BILL = "Bills";
     static final String DB_TABLE_CATEGORY = "Categorys";
     static final String DB_TABLE_CUSTOMER = "Customers";
+    static final String DB_TABLE_RECEIPT = "Receipts";
     static final int DB_VERSION = 1;
     // các trường của bảng account
     static final String ACCOUNT_ID = "ID";
@@ -58,7 +60,13 @@ public class SQLHelper extends SQLiteOpenHelper {
     static final String REPORT_TOTAL_IMPORT = "totalImport";
     static final String REPORT_TOTAL_SALE = "totalSale";
     static final String REPORT_SALE_MONEY = "saleMoney";
-    //
+    //các trường của bảng phiếu nhập
+    static final String RECEIPT_ID = "IDReceipt";
+    static final String RECEIPT_DATE = "dateCreate";
+    static final String RECEIPT_ID_PRODUCT = "IDProduct";
+    static final String RECEIPT_TOTAL_PRODUCT = "totalProduct";
+    static final String RECEIPT_ID_EMPLOYEE = "IDEmployee";
+    // các trường của bảng danh mục
     static final String CATEGORY_ID = "ID";
     static final String CATEGORY_NAME = "nameCategory";
     static final String CATEGORY_TOTAL_PRODUCT = "totalProduct";
@@ -73,6 +81,7 @@ public class SQLHelper extends SQLiteOpenHelper {
     static final String BILL_ID_CUSTOMER = "IDCustomer";
     static final String BILL_ID_EMPLOYEE = "IDEmployee";
     //các trường cảu bảng customer
+
     static final String CUSTOMER_ID = "ID";
     static final String CUSTOMER_NAME = "customerName";
     static final String CUSTOMER_PHONE = "customerPhone";
@@ -81,6 +90,7 @@ public class SQLHelper extends SQLiteOpenHelper {
     static final String CUSTOMER_ACCUMULATE_POINTS = "customerPoints";
     static final String CUSTOMER_TYPE = "customerType";
     static final String CUSTOMER_VOUCHER = "customerVoucher";
+
     // tất cả các bản sẽ có 4 hàm để sử lý
     /*
         hàm insert
@@ -142,7 +152,13 @@ public class SQLHelper extends SQLiteOpenHelper {
                 "totalImport LONG NOT NULL," +
                 "totalSale LONG NOT NULL," +
                 "saleMoney LONG)";
-        String queryCreateTableCategorys = "CREATE TABLE "+DB_TABLE_CATEGORY+" (" +
+        String queryCreateTableReceipt = "CREATE TABLE  Receipts (" +
+                "IDReceipt INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT," +
+                "dateCreate TEXT NOT NULL," +
+                "IDProduct TEXT NOT NULL," +
+                "totalProduct INTEGER NOT NULL," +
+                "IDEmployee LONG NOT NULL)";
+        String queryCreateTableCategorys = "CREATE TABLE " + DB_TABLE_CATEGORY + " (" +
                 "ID INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT," +
                 "nameCategory TEXT NOT NULL," +
                 "totalProduct LONG NOT NULL," +
@@ -163,6 +179,7 @@ public class SQLHelper extends SQLiteOpenHelper {
         db.execSQL(queryCreateTableReports);
         db.execSQL(queryCreateTableBillProducts);
         db.execSQL(queryCreateTableCustomers);
+        db.execSQL(queryCreateTableReceipt);
     }
 
     @Override
@@ -270,9 +287,8 @@ public class SQLHelper extends SQLiteOpenHelper {
         contentValues.put(PRODUCT_TYPE, product.getType());
         contentValues.put(PRODUCT_DESCRIBE, product.getDescribe());
         contentValues.put(PRODUCT_IMAGE, product.getImage());
-        contentValues.put(PRODUCT_BARD_CODE
-                , product.getBardCode());
-        sqLiteDatabase.update(DB_TABLE_PRODUCT, contentValues, "ID = ?", new String[]{String.valueOf(product.getID())});
+        contentValues.put(PRODUCT_BARD_CODE, product.getBardCode());
+        sqLiteDatabase.update(DB_TABLE_PRODUCT, contentValues, PRODUCT_BARD_CODE + " = ?", new String[]{product.getBardCode()});
         sqLiteDatabase.close();
     }
 
@@ -490,20 +506,23 @@ public class SQLHelper extends SQLiteOpenHelper {
         sqLiteDatabase.insert(DB_TABLE_CATEGORY, null, contentValues);
         contentValues.clear();
     }
-    public void updateCategory(Category category){
+
+    public void updateCategory(Category category) {
         sqLiteDatabase = getWritableDatabase(); // cho phép sửa dữ liệu
         contentValues = new ContentValues();
         //contentValues.put(ACCOUNT_ID, account.getID());
         contentValues.put(CATEGORY_NAME, category.getNameCategory());
         contentValues.put(CATEGORY_DESCRIBE, category.getDescribe());
         contentValues.put(CATEGORY_TOTAL_PRODUCT, category.getAmountCategory());
-        sqLiteDatabase.update(DB_TABLE_CATEGORY, contentValues, "ID = ?",new String[]{String.valueOf(category.getIdCategory())});
+        sqLiteDatabase.update(DB_TABLE_CATEGORY, contentValues, "ID = ?", new String[]{String.valueOf(category.getIdCategory())});
         contentValues.clear();
     }
-    public void deleteCategory(int id){
+
+    public void deleteCategory(int id) {
         sqLiteDatabase = getWritableDatabase();
         sqLiteDatabase.delete(DB_TABLE_CATEGORY, "ID = ?", new String[]{String.valueOf(id)});
     }
+
     public List<Category> getAllCategory() {
         List<Category> categoryList = new ArrayList<>();
         Category category;
@@ -521,7 +540,7 @@ public class SQLHelper extends SQLiteOpenHelper {
                 String name = cursor.getString(cursor.getColumnIndex(CATEGORY_NAME));
                 long total = cursor.getLong(cursor.getColumnIndex(CATEGORY_TOTAL_PRODUCT));
                 String describe = cursor.getString(cursor.getColumnIndex(CATEGORY_DESCRIBE));
-                category = new Category(ID,name,total,describe);
+                category = new Category(ID, name, total, describe);
                 categoryList.add(category);
             }
         return categoryList;
@@ -586,7 +605,37 @@ public class SQLHelper extends SQLiteOpenHelper {
             }
         return customerList;
     }
-
+    public void insertReceipt(Receipt receipt) {
+        sqLiteDatabase = getWritableDatabase();
+        contentValues = new ContentValues();
+//        contentValues.put(REPORT_ID,report.getId());
+        contentValues.put(RECEIPT_DATE, receipt.getDateCreate());
+        contentValues.put(RECEIPT_ID_PRODUCT, receipt.getIDProduct());
+        contentValues.put(RECEIPT_TOTAL_PRODUCT, receipt.getTotalProduct());
+        contentValues.put(RECEIPT_ID_EMPLOYEE, receipt.getTotalProduct());
+        sqLiteDatabase.insert(DB_TABLE_RECEIPT, null, contentValues);
+    }
+    public List<Receipt> getAllReceipt() {
+        List<Receipt> receiptList = new ArrayList<>();
+        Receipt receipt;
+        sqLiteDatabase = getReadableDatabase();
+        try {
+            cursor = sqLiteDatabase.query(false, DB_TABLE_RECEIPT, null, null, null, null, null, null, null);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        if (cursor != null)
+            while (cursor.moveToNext()) {
+                int ID = cursor.getInt(cursor.getColumnIndex(RECEIPT_ID));
+                String date = cursor.getString(cursor.getColumnIndex(RECEIPT_DATE));
+                String IDProduct = cursor.getString(cursor.getColumnIndex(RECEIPT_ID_PRODUCT));
+                int totalProduct = cursor.getInt(cursor.getColumnIndex(RECEIPT_TOTAL_PRODUCT));
+                int IDEmployee = cursor.getInt(cursor.getColumnIndex(RECEIPT_ID_EMPLOYEE));
+                receipt = new Receipt(ID, date, IDProduct, totalProduct, IDEmployee);
+                receiptList.add(receipt);
+            }
+        return receiptList;
+    }
     public String getVoucher(int ID) {
         String voucher = "";
         sqLiteDatabase = getReadableDatabase();
@@ -597,13 +646,28 @@ public class SQLHelper extends SQLiteOpenHelper {
             }
         return voucher;
     }
-    public String checkPermission(int ID){
+    public Receipt getReceipt(int ID) {
+        Receipt receipt = null;
+        sqLiteDatabase = getReadableDatabase();
+        cursor = sqLiteDatabase.query(DB_TABLE_RECEIPT, null, RECEIPT_ID + "= ?", new String[]{String.valueOf(ID)}, null, null, null);
+        if (cursor != null)
+            while (cursor.moveToNext()) {
+                int IDRe = cursor.getInt(cursor.getColumnIndex(RECEIPT_ID));
+                String date = cursor.getString(cursor.getColumnIndex(RECEIPT_DATE));
+                String IDProduct = cursor.getString(cursor.getColumnIndex(RECEIPT_ID_PRODUCT));
+                int totalProduct = cursor.getInt(cursor.getColumnIndex(RECEIPT_TOTAL_PRODUCT));
+                int IDEmployee = cursor.getInt(cursor.getColumnIndex(RECEIPT_ID_EMPLOYEE));
+                 receipt = new Receipt(IDRe, date, IDProduct, totalProduct, IDEmployee);
+            }
+        return receipt;
+    }
+    public String checkPermission(int ID) {
         String permission = "";
         sqLiteDatabase = getReadableDatabase();
         cursor = sqLiteDatabase.query(DB_TABLE_ACCOUNT, new String[]{ACCOUNT_PERMISSION}, ACCOUNT_ID + "= ?", new String[]{String.valueOf(ID)}, null, null, null);
         if (cursor != null)
             while (cursor.moveToNext()) {
-                 permission += cursor.getString(cursor.getColumnIndex(ACCOUNT_PERMISSION));
+                permission += cursor.getString(cursor.getColumnIndex(ACCOUNT_PERMISSION));
             }
         return permission;
     }

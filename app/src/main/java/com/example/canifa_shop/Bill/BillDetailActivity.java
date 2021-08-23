@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
@@ -43,6 +44,8 @@ public class BillDetailActivity extends AppCompatActivity {
     private TextView tvTitile, tvDelete;
     private String control = "";
     private Bill billChoose;
+    private int IDEmployee;
+    private SharedPreferences sharedPreferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -116,6 +119,8 @@ public class BillDetailActivity extends AppCompatActivity {
         productOrderList = sqlHelper.getAllOrderPrduct();
         billList = sqlHelper.getAllBill();
         setTotalBill();
+        sharedPreferences = getSharedPreferences("account", MODE_PRIVATE);
+        IDEmployee = sharedPreferences.getInt("ID", 0);
     }
 
     public void getInten() {
@@ -131,7 +136,7 @@ public class BillDetailActivity extends AppCompatActivity {
                     billChoose = bill;
             }
         } else {
-            binding.tvBill.setText("DH." + billList.size() + 1 + "");
+            binding.tvBill.setText("DH." + (billList.size() + 1) + "");
             setAdapter(productOrderList);
         }
     }
@@ -155,7 +160,7 @@ public class BillDetailActivity extends AppCompatActivity {
             amount += product.getAmount() + ";";
             total += (product.getPrice() * product.getAmount());
         }
-        Bill bill = new Bill(0, new SimpleDateFormat("yyyy/MM/dd HH:mm:ss").format(Calendar.getInstance().getTime()), IDProduct, amount, "0", total, IDCustomer, 0);
+        Bill bill = new Bill(0, new SimpleDateFormat("yyyy/MM/dd HH:mm:ss").format(Calendar.getInstance().getTime()), IDProduct, amount, "0", total, IDCustomer, IDEmployee);
         sqlHelper.insertBill(bill);
         addReport(productOrderList,IDCustomer);
     }
@@ -172,6 +177,7 @@ public class BillDetailActivity extends AppCompatActivity {
         bill.setAmount(amount);
         bill.setNames(IDProduct);
         bill.setTotal(total);
+        bill.setIDCustomer(IDCustomer);
         sqlHelper.updateBill(bill);
         finish();
     }

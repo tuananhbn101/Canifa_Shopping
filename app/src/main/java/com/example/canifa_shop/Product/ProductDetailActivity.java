@@ -64,7 +64,6 @@ public class ProductDetailActivity extends AppCompatActivity {
             public void onClick(View v) {
                 if (control.equals("create")) {
                     addProduct();
-                    finish();
                 } else {
                     updateProduct();
                     finish();
@@ -148,11 +147,19 @@ public class ProductDetailActivity extends AppCompatActivity {
             String note = binding.etNote.getText().toString().trim();
             int amount = Integer.valueOf(binding.etAmountProduct.getText().toString().trim());
             String type = binding.spType.getSelectedItem().toString();
-            Product product = new Product(0, name, priceImport, priceSell, amount, type, note, linkImage, code);
-            sqlHelper.insertProduct(product);
-            Category category = categories.get(binding.spType.getSelectedItemPosition());
-            category.setAmountCategory(category.getAmountCategory() + 1);
-            sqlHelper.updateCategory(category);
+            if (!checkHasBardCode(code)) {
+                Toast.makeText(getApplicationContext(), "Mã sản phẩm đã tồn tại", Toast.LENGTH_SHORT).show();
+            } else {
+                if(checkPrice(priceImport,priceSell)){
+                    Product product = new Product(0, name, priceImport, priceSell, amount, type, note, linkImage, code);
+                    sqlHelper.insertProduct(product);
+                    Category category = categories.get(binding.spType.getSelectedItemPosition());
+                    category.setAmountCategory(category.getAmountCategory() + 1);
+                    sqlHelper.updateCategory(category);
+                    finish();
+                }else Toast.makeText(getApplicationContext(),"Tiền bán phải lớn hơn tiền nhập",Toast.LENGTH_SHORT).show();
+
+            }
         } catch (Exception e) {
             Toast.makeText(getApplicationContext(), "Lỗi nhập liệu", Toast.LENGTH_SHORT).show();
         }
@@ -220,11 +227,19 @@ public class ProductDetailActivity extends AppCompatActivity {
             productUpdate.setPrice(priceSell);
             productUpdate.setImportprice(priceImport);
             productUpdate.setAmount(amount);
-            productUpdate.setBardCode(code);
             productUpdate.setDescribe(note);
             productUpdate.setType(type);
             productUpdate.setImage(linkImage);
-            sqlHelper.updateProduct(productUpdate);
+            if (checkHasBardCode(code)) {
+                Toast.makeText(getApplicationContext(), "Mã sản phẩm đã tồn tại", Toast.LENGTH_SHORT).show();
+            } else {
+                if(checkPrice(priceImport,priceSell)){
+                    productUpdate.setBardCode(code);
+                    sqlHelper.updateProduct(productUpdate);
+                }else Toast.makeText(getApplicationContext(),"Tiền bán phải lớn hơn tiền nhập",Toast.LENGTH_SHORT).show();
+
+            }
+
         } catch (Exception e) {
             Toast.makeText(getApplicationContext(), "Lỗi nhập liệu", Toast.LENGTH_SHORT).show();
         }
@@ -236,4 +251,19 @@ public class ProductDetailActivity extends AppCompatActivity {
         finish();
     }
 
+    public boolean checkHasBardCode(String bardCode) {
+        boolean has = true;
+        for (Product product : productList) {
+            if (product.getBardCode().equals(bardCode)) {
+                has  = true;
+            } else has = false;
+        }
+       return has;
+    }
+    public boolean checkPrice(long importPrice, long sellPrice){
+        if(importPrice>sellPrice){
+            return false;
+        }
+        else return true;
+    }
 }

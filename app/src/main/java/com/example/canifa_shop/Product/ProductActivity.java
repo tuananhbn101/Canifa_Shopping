@@ -77,6 +77,14 @@ public class ProductActivity extends AppCompatActivity {
 
             }
         });
+        binding.btnDelete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                binding.edtSearch.setText("");
+                setAdapter(productList);
+                binding.btnDelete.setVisibility(View.INVISIBLE);
+            }
+        });
 
 
     }

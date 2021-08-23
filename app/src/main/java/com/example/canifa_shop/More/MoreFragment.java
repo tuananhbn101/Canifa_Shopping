@@ -108,6 +108,7 @@ public class MoreFragment extends Fragment {
             }
         });
         return binding.getRoot();
+
     }
 
     public void initialization() {
