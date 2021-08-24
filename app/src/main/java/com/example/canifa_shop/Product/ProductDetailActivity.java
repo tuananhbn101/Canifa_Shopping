@@ -147,7 +147,7 @@ public class ProductDetailActivity extends AppCompatActivity {
             String note = binding.etNote.getText().toString().trim();
             int amount = Integer.valueOf(binding.etAmountProduct.getText().toString().trim());
             String type = binding.spType.getSelectedItem().toString();
-            if (!checkHasBardCode(code)) {
+            if (checkHasBardCode(code)) {
                 Toast.makeText(getApplicationContext(), "Mã sản phẩm đã tồn tại", Toast.LENGTH_SHORT).show();
             } else {
                 if(checkPrice(priceImport,priceSell)){
@@ -256,6 +256,7 @@ public class ProductDetailActivity extends AppCompatActivity {
         for (Product product : productList) {
             if (product.getBardCode().equals(bardCode)) {
                 has  = true;
+                break;
             } else has = false;
         }
        return has;

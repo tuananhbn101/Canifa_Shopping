@@ -65,10 +65,12 @@ public class ImportProductActivity extends AppCompatActivity {
                         productListSearch.add(product);
                     }
                 }
-                setAdapter(productListSearch);
+
                 if (binding.edtSearch.getText().toString().equals("")) {
                     binding.btnDelete.setVisibility(View.INVISIBLE);
+                    productListSearch = productList;
                 }
+                setAdapter(productListSearch);
             }
 
             @Override
@@ -87,16 +89,16 @@ public class ImportProductActivity extends AppCompatActivity {
         binding.lvProduct.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
-                showDialogAmount(productListSearch.get(position));
+                Product product = productListSearch.get(position);
+                showDialogAmount(product);
 
             }
         });
         binding.btnImport.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                updateProduct();
                 addReceipt(productImportList);
+                updateProduct();
                 finish();
                 Toast.makeText(getApplicationContext(), "Nhập hàng thành công", Toast.LENGTH_SHORT).show();
             }
@@ -117,8 +119,8 @@ public class ImportProductActivity extends AppCompatActivity {
         btnUpdate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                product.setAmount(Integer.valueOf(etAmount.getText().toString()));
                 productImportList.add(product);
+                productImportList.get(productImportList.size()-1).setAmount(Integer.valueOf(etAmount.getText().toString()));
                 productImportListAdapter.notifyDataSetChanged();
                 dialog.cancel();
             }
@@ -147,6 +149,7 @@ public class ImportProductActivity extends AppCompatActivity {
         productListSearch = productList;
         sharedPreferences = getSharedPreferences("account", MODE_PRIVATE);
         ID = sharedPreferences.getInt("ID", 0);
+        setAdapterImport();
     }
 
     public void addProduct(int ID) {
@@ -170,6 +173,8 @@ public class ImportProductActivity extends AppCompatActivity {
     public void setAdapter(List<Product> productList) {
         productListAdapter = new ProductListAdapter(productListSearch, getApplicationContext());
         binding.lvProduct.setAdapter(productListAdapter);
+    }
+    public void setAdapterImport(){
         productImportListAdapter = new ProductImportListAdapter(productImportList, getApplicationContext());
         GridLayoutManager layoutManager = new GridLayoutManager(getApplicationContext(), 1, RecyclerView.VERTICAL, false);
         binding.rvProductImport.setLayoutManager(layoutManager);
@@ -180,7 +185,9 @@ public class ImportProductActivity extends AppCompatActivity {
         for (Product productImport : productImportList) {
             for (Product product : productList) {
                 if (product.getBardCode().equals(productImport.getBardCode())) {
-                    product.setAmount(product.getAmount() + productImport.getAmount());
+                    int amountHas =product.getAmount();
+                    int amountImport = productImport.getAmount() ;
+                    product.setAmount(amountHas+amountImport);
                     sqlHelper.updateProduct(product);
                 }
             }
@@ -188,7 +195,7 @@ public class ImportProductActivity extends AppCompatActivity {
     }
 
     public void addReceipt(List<Product> productList) {
-        if (productList.size()!=0||productList != null){
+        if (productList.size() != 0 || productList != null) {
             String IDProduct = "";
             int totalProduct = 0;
             for (Product product : productList) {

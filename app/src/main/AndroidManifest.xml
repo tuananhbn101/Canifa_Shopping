@@ -11,6 +11,8 @@
         android:requestLegacyExternalStorage="true"
         android:supportsRtl="true"
         android:theme="@style/Theme.Canifa_Shop">
+        <activity android:name=".Manager.ImportProductActivity"/>
+        <activity android:name=".Manager.WarehouseReportActivity"/>
         <activity android:name=".Bill.BillDetailActivity"></activity>
         <activity android:name=".Emplyee.EmployeeManagerActivity" />
         <activity android:name=".Account.AcountManagerActivity" />

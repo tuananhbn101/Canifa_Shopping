@@ -33,48 +33,6 @@
                 android:layout_height="1dp"
                 android:background="@color/colorGrayLight"/>
             <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:id="@+id/btnExportProduct"
-                android:layout_weight="1">
-                <ImageView
-                    android:layout_width="@dimen/_50sdp"
-                    android:layout_height="match_parent"
-                    android:src="@drawable/ic_export"
-                    android:padding="@dimen/_10sdp"/>
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:text="Xuất hàng"
-                    style="@style/text15"
-                    android:gravity="center_vertical"/>
-            </LinearLayout>
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="@color/colorGrayLight"/>
-            <LinearLayout
-                android:id="@+id/btnInventoryProduct"
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="1">
-                <ImageView
-                    android:layout_width="@dimen/_50sdp"
-                    android:layout_height="match_parent"
-                    android:src="@drawable/ic_invetory"
-                    android:padding="@dimen/_10sdp"/>
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:text="Tồn kho"
-                    style="@style/text15"
-                    android:gravity="center_vertical"/>
-            </LinearLayout>
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="@color/colorGrayLight"/>
-            <LinearLayout
                 android:id="@+id/btnReport"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
@@ -91,6 +49,29 @@
                     style="@style/text15"
                     android:gravity="center_vertical"/>
             </LinearLayout>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/colorGrayLight"/>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+
+                android:layout_weight="1">
+
+            </LinearLayout>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/colorGrayLight"/>
+            <LinearLayout
+
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1">
+
+            </LinearLayout>
+
         </LinearLayout>
         <LinearLayout
             android:background="@color/colorGrayLight"
