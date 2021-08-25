@@ -52,7 +52,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHold
         if(product.getAmount()==0){
             holder.ivSold.setVisibility(View.VISIBLE);
         }
-        Picasso.with(context).load("file://"+link).into(holder.ivProduct);
+        //Picasso.with(context).load("file://"+link).into(holder.ivProduct);
         holder.tvPriceProduct.setText(price);
         holder.tvNameProduct.setText(name);
         holder.tvAmountProduct.setText(amount);

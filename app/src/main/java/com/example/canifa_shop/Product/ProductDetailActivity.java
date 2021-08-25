@@ -125,11 +125,11 @@ public class ProductDetailActivity extends AppCompatActivity {
             ) {
                 if (product.getID() == ID) {
                     productUpdate = product;
-                    binding.etNameProduct.setText(product.getNameProduct());
+                    binding.etNameProduct.setText(product.getNameProduct()+"");
                     binding.etAmountProduct.setText(product.getAmount() + "");
-                    binding.etBardCodeProduct.setText(product.getBardCode());
-                    binding.etNote.setText(product.getDescribe());
-                    Picasso.with(getApplicationContext()).load("file://" + product.getImage()).into(binding.ivProduct);
+                    binding.etBardCodeProduct.setText(product.getBardCode()+"");
+                    binding.etNote.setText(product.getDescribe()+"");
+                   // Picasso.with(getApplicationContext()).load("file://" + product.getImage()).into(binding.ivProduct);
                     binding.etPriceImport.setText(product.getImportprice() + "");
                     binding.etPriceSell.setText(product.getPrice() + "");
                 }
@@ -147,7 +147,7 @@ public class ProductDetailActivity extends AppCompatActivity {
             String note = binding.etNote.getText().toString().trim();
             int amount = Integer.valueOf(binding.etAmountProduct.getText().toString().trim());
             String type = binding.spType.getSelectedItem().toString();
-            if (checkHasBardCode(code)) {
+            if (checkHasBardCode(code)==false) {
                 Toast.makeText(getApplicationContext(), "Mã sản phẩm đã tồn tại", Toast.LENGTH_SHORT).show();
             } else {
                 if(checkPrice(priceImport,priceSell)){
@@ -159,7 +159,7 @@ public class ProductDetailActivity extends AppCompatActivity {
                     finish();
                 }else Toast.makeText(getApplicationContext(),"Tiền bán phải lớn hơn tiền nhập",Toast.LENGTH_SHORT).show();
 
-            }
+           }
         } catch (Exception e) {
             Toast.makeText(getApplicationContext(), "Lỗi nhập liệu", Toast.LENGTH_SHORT).show();
         }
@@ -230,7 +230,7 @@ public class ProductDetailActivity extends AppCompatActivity {
             productUpdate.setDescribe(note);
             productUpdate.setType(type);
             productUpdate.setImage(linkImage);
-            if (checkHasBardCode(code)) {
+            if (checkHasBardCode(code)==false) {
                 Toast.makeText(getApplicationContext(), "Mã sản phẩm đã tồn tại", Toast.LENGTH_SHORT).show();
             } else {
                 if(checkPrice(priceImport,priceSell)){
