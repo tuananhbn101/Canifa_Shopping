@@ -29,8 +29,11 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_login);
-        initialization();
+        initialization(); // hàm này để lấy danh sách các tài khoản trong bảng Account của SQLHelper ,
+        // nếu danh sách bằng null thì tiến hành thực thi hàm createAdmin()
         binding.btnLogin.setOnClickListener(v -> {
+            // khi click vào button Đăng nhập, thì sẽ thực hiện hàm checkAccount(), nếu kết quả là true thì điều hướng về màn hình trang chủ MainActivity.java
+            //Nếu kết quả là false, thì thông báo "Tài khoản hoặc mật khẩu không đúng"
           if(checkAccount()){
               Intent intent = new Intent(LoginActivity.this, MainActivity.class);
               startActivity(intent);
@@ -52,9 +55,11 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     public boolean checkAccount() {
+        // kiểm tra thông tin đăng nhập, nếu đúng thì trả về true, sai thì trả về false
         boolean checkHas = false;
         for (Accounts accounts : accountsList) {
-            if (accounts.getUserName().equals(binding.etUserName.getText().toString().trim()) && accounts.getPassword().equals(binding.etPassword.getText().toString().trim())) {
+            if (accounts.getUserName().equals(binding.etUserName.getText().toString().trim())
+                    && accounts.getPassword().equals(binding.etPassword.getText().toString().trim())) {
                 editor = sharedPreferences.edit();
                 editor.putInt("ID", accounts.getAccountID());
                 editor.commit();
@@ -65,8 +70,10 @@ public class LoginActivity extends AppCompatActivity {
         return checkHas;
     }
     public void createAccountAdmin(){
+        // tạo tài khoản đăng nhập cho admin, nếu danh sách tài khoản ban đầu bằng rỗng thì tiến hành tạo tài khoản cho admin
         if (accountsList.size()==0||accountsList==null){
-            Accounts accounts = new Accounts(0,"tuananh12","tuananh","Nguyễn Tuấn Anh","10/01/2000","0395501405","anh@gmail.com","Bắc Ninh","Hi", Function.permissionAdmin);
+            Accounts accounts = new Accounts(0,"thanhthao","thao123","Nguyễn Tuấn Anh","10/01/2000",
+                    "0395501405","anh@gmail.com","Bắc Ninh","Hi", Function.permissionAdmin);
             sqlHelper.insertAccount(accounts);
             accountsList.clear();
             accountsList = sqlHelper.getAllAccounts();

@@ -48,11 +48,11 @@ public class AcountManagerActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if (control.equals("create")) {
-                    if(createAccount()==true)
+                    if (createAccount() == true)
                         finish();
                 } else {
-                   if(updateAccout(accountsChoose)==true)
-                       finish();
+                    if (updateAccout(accountsChoose) == true)
+                        finish();
                 }
 
             }
@@ -77,6 +77,8 @@ public class AcountManagerActivity extends AppCompatActivity {
             }
         });
     }
+
+    // hàm này để xử lý sự kiện click vào button để hiển thị DatePicker để chọn ngày sinh
     public void processBirthday() {
         Calendar c = Calendar.getInstance();
         this.cDay = c.get(Calendar.DAY_OF_MONTH);
@@ -111,24 +113,25 @@ public class AcountManagerActivity extends AppCompatActivity {
         accountsList = sqlHelper.getAllAccounts();
     }
 
+    // hàm này get intent được gửi đến từ EmployeeManagerActivity.java
     public void getInten() {
         Intent intent = getIntent();
         control += intent.getStringExtra("control");
         if (control != null && !control.equals("")) {
-            if (control.equals("create")) {
+            if (control.equals("create")) {   // nếu nội dung intent là "create" thì hiển thị giao diện thêm mới
                 binding.btnUpdate.setText("Thêm mới");
                 binding.etUserName.setEnabled(true);
-            } else if (control.equals("update")) {
+            } else if (control.equals("update")) {   // nếu nội dung intent là "update" thì hiển thị giao diện cập nhật
                 ID = intent.getIntExtra("ID", 0);
-                tvDelete.setVisibility(View.VISIBLE);
-            } else {
-                sharedPreferences = getSharedPreferences("account", MODE_PRIVATE);
-                ID = sharedPreferences.getInt("ID", 0);
+                tvDelete.setVisibility(View.INVISIBLE);
             }
         }
 
     }
 
+    // hàm này sử dụng để set data giao diện thêm hoặc update nhân viên
+    //sử dụng foreach để kiểm tra ID có trùng với id trong bảng Accounts không,
+    // nếu trùng thì setText cho các EditText của giao diện thêm hoặc update nhân viên
     public void setData() {
         for (Accounts accounts : accountsList) {
             if (accounts.getAccountID() == ID) {
@@ -144,10 +147,11 @@ public class AcountManagerActivity extends AppCompatActivity {
         }
     }
 
+    // đây là hàm update Thông tin nhân viên
     public boolean updateAccout(Accounts accounts) {
         try {
             if (binding.etPhoneNumber.length() == 10) {
-                if (checkEmail()==true) {
+                if (checkEmail() == true) {
                     accounts.setDateOfBirth(binding.etDateOfBird.getText().toString());
                     accounts.setEmail(binding.etEmail.getText().toString());
                     accounts.setFullName(binding.etFullName.getText().toString());
@@ -161,13 +165,13 @@ public class AcountManagerActivity extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(), "Số điện thoại phải đủ 10 chữ số", Toast.LENGTH_SHORT).show();
             }
             return false;
-        }catch (Exception e)
-        {
+        } catch (Exception e) {
             Toast.makeText(getBaseContext(), "Có lỗi nhập liệu", Toast.LENGTH_SHORT).show();
             return false;
         }
     }
 
+    // đây là hàm thêm nhân viên
     public boolean createAccount() {
         try {
             String userName = binding.etUserName.getText().toString();
@@ -182,10 +186,10 @@ public class AcountManagerActivity extends AppCompatActivity {
             if (userName.equals("") || password.equals("") || fullName.equals("") || dateOfBirth.equals("") || phone.equals("") || email.equals("") || homeTow.equals("")) {
                 Toast.makeText(getBaseContext(), "Vui lòng nhập đủ thông tin", Toast.LENGTH_SHORT).show();
             } else {
-                if (checkAccount()==true) {
-                    if (checkPassword()==true) {
+                if (checkAccount() == true) {
+                    if (checkPassword() == true) {
                         if (phone.length() == 10) {
-                            if (checkEmail()==true) {
+                            if (checkEmail() == true) {
                                 Accounts accounts = new Accounts(0, userName, password, fullName, dateOfBirth, phone, email, homeTow, avatar, permission);
                                 sqlHelper.insertAccount(accounts);
                                 return true;
@@ -196,7 +200,7 @@ public class AcountManagerActivity extends AppCompatActivity {
                     }
                 }
             }
-           return false;
+            return false;
         } catch (Exception e) {
             Toast.makeText(getBaseContext(), "Có lỗi nhập liệu", Toast.LENGTH_SHORT).show();
             return false;
@@ -204,9 +208,10 @@ public class AcountManagerActivity extends AppCompatActivity {
 
     }
 
+    // đây là hàm kiểm tra password, password phải có từ 6 ký tự bao gồm chữ hoa, chữ thường và số
     public boolean checkPassword() {
         String passPattern = "((?=.*\\d)(?=.*[a-z])(?=.*[A-Z]).{6,})";
-        if (binding.etPassword.getText().toString().isEmpty()) {
+        if (binding.etPassword.getText().toString().isEmpty()) {      // đây là câu lệnh kiểm tra định dạng password
             Toast.makeText(this, "Mật khẩu không được bỏ trống", Toast.LENGTH_SHORT).show();
         }
         if (Pattern.matches(passPattern, binding.etPassword.getText().toString())) {
@@ -217,10 +222,11 @@ public class AcountManagerActivity extends AppCompatActivity {
         }
     }
 
+    // hàm check mail, mail phải có định dạng "@gmail.com"
     public boolean checkEmail() {
         String emailPattern = "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@"
                 + "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
-        if (Pattern.matches(emailPattern, binding.etEmail.getText().toString())) {
+        if (Pattern.matches(emailPattern, binding.etEmail.getText().toString())) { // đây là câu lệnh kiểm tra định dạng email
             return true;
         } else {
             Toast.makeText(getBaseContext(), "Email không đúng định dạng '@gmail.com'", Toast.LENGTH_SHORT).show();
@@ -228,7 +234,11 @@ public class AcountManagerActivity extends AppCompatActivity {
         }
     }
 
+    // hàm kiểm tra tài khoản xem có trùng với tài khoản trong bảng Accounts không
     public boolean checkAccount() {
+        // đầu tiên sẽ tạo 1 list để get danh sách các account trong bảng Accounts
+        // sử dùng vòng foreach để kiểm tra xem username nhập vào có trùng với username trong bảng Accounts không,
+        // nếu có thì hiển thị thông báo
         List<Accounts> accountsArrayList = sqlHelper.getAllAccounts();
         for (Accounts acc : accountsArrayList) {
             if (acc.getUserName().equalsIgnoreCase(binding.etUserName.getText().toString())) {

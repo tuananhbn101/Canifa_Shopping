@@ -12,6 +12,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.canifa_shop.Account.AcountManagerActivity;
 import com.example.canifa_shop.Customer.Object.Customer;
@@ -43,6 +44,8 @@ public class EmployeeManagerActivity extends AppCompatActivity {
         btnBack.setOnClickListener(v -> {
             finish();
         });
+
+        // chức năng tìm kiếm
         binding.edtSearch.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -63,6 +66,9 @@ public class EmployeeManagerActivity extends AppCompatActivity {
 
             }
         });
+        // khi click vào biểu tượng add ở góc trên cùng màn hình, hệ thống sẽ hiển thị giao diện của hàm AccountManagerActivity.java
+        // gửi đến AcountManagerActivity.class 1 intent tên là "control"
+        // và value là "create". Khi AccountManagerActivity get intent có value là "create" thì sẽ tiến hành thực thi hàm thêm nhân viên
         btnAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -71,7 +77,9 @@ public class EmployeeManagerActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-
+        // khi click chọn 1 item trong list nhân viên, hệ thống sẽ hiển thị giao diện của hàm AccountManagerActivity.java
+        // gửi đến AcountManagerActivity.class 1 intent tên là "control" đồng thời cũng gửi đi 1 ID là id của account tại vị trí được chọn
+        // Khi AccountManagerActivity get intent có value là "update" thì sẽ tiến hành thực thi hàm update
         binding.rvEmployee.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -81,20 +89,27 @@ public class EmployeeManagerActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+        // Xóa nhân viên ra khỏi danh sách khi click lâu vào 1 item trong List view
         binding.rvEmployee.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-                AlertDialog.Builder builder=new AlertDialog.Builder(EmployeeManagerActivity.this);
+                // Tạo 1 dialog để hiển thị thông báo xác nhận xóa, nếu chọn Yes thì xóa, chọn No dialog đóng
+                AlertDialog.Builder builder = new AlertDialog.Builder(EmployeeManagerActivity.this);
                 builder.setTitle("Thông báo");
                 builder.setMessage("Bạn có chắc muốn xóa");
-                builder.setNegativeButton("No", (dialog, which) -> dialog.cancel() );
+                builder.setNegativeButton("No", (dialog, which) -> dialog.cancel());
                 builder.setPositiveButton("Yes", (dialog, which) ->
                         {
-                            sqlHelper.deleteAccount(accountsList.get(which+1).getAccountID());
-                            accountsList.remove(which +1);
-                            adapter.notifyDataSetChanged();
+                            if (position == 0)  // tại vị trí position=0, đây là vị trí account của admin nên không thể xóa
+                            {
+                                Toast.makeText(getBaseContext(), "Bạn không thể xóa tài khoản này", Toast.LENGTH_SHORT).show();
+                            } else {
+                                sqlHelper.deleteAccount(accountsList.get(position).getAccountID());
+                                accountsList.remove(position);
+                                adapter.notifyDataSetChanged();
+                            }
                         }
-                        );
+                );
                 builder.show();
 
                 return false;
@@ -115,7 +130,11 @@ public class EmployeeManagerActivity extends AppCompatActivity {
         binding.rvEmployee.setAdapter(adapter);
     }
 
+    // đây là hàm tìm kiếm nhân viên
     public void addListSearch(String text) {
+        // tạo 1 list có tên là "accountsListSearch", kiểm tra trong danh sách nhân viên accountList,
+        // nếu tồn tại tên hoặc ID trùng với từ tìm kiếm vừa nhập là "text" thì add nhân viên đó vào accountsListSearch
+        // "accountList" chứa danh sách nhân viên trong bảng Accounts
         accountsListSearch.clear();
         for (Accounts accounts : accountsList) {
             if (String.valueOf(accounts.getAccountID()).contains(text) || accounts.getFullName().contains(text)) {
