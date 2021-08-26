@@ -400,10 +400,10 @@ public class SQLHelper extends SQLiteOpenHelper {
         return productList;
     }
 
+    // Đây là hàm thêm báo cáo
     public void insertReport(Report report) {
         sqLiteDatabase = getWritableDatabase();
         contentValues = new ContentValues();
-//        contentValues.put(REPORT_ID,report.getId());
         contentValues.put(REPORT_DATE, report.getDate());
         contentValues.put(REPORT_TOTAL_IMPORT, report.getTotalImport());
         contentValues.put(REPORT_TOTAL_SALE, report.getTotalSale());
@@ -411,6 +411,7 @@ public class SQLHelper extends SQLiteOpenHelper {
         sqLiteDatabase.insert(DB_TABLE_REPORT, null, contentValues);
     }
 
+    // hàm get thông tin của báo cáo
     public List<Report> getAllReport() {
         List<Report> reportArrayList = new ArrayList<>();
         sqLiteDatabase = getReadableDatabase();

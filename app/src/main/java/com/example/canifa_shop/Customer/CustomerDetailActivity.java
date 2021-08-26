@@ -14,6 +14,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.canifa_shop.Customer.Object.Customer;
+import com.example.canifa_shop.Login.Object.Accounts;
 import com.example.canifa_shop.Product.Object.Product;
 import com.example.canifa_shop.Product.ProductDetailActivity;
 import com.example.canifa_shop.R;
@@ -23,6 +24,7 @@ import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Pattern;
 
 public class CustomerDetailActivity extends AppCompatActivity {
     ActivityCustomerDetailBinding binding;
@@ -52,6 +54,8 @@ public class CustomerDetailActivity extends AppCompatActivity {
                 }
             }
         });
+
+        // Chức năng xóa khách hàng
         tvDelete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -83,6 +87,7 @@ public class CustomerDetailActivity extends AppCompatActivity {
 
     }
 
+    // đây là hàm thêm khách hàng mới
     public void addCustomer() {
         try {
             String name = binding.etFulName.getText().toString().trim();
@@ -92,9 +97,20 @@ public class CustomerDetailActivity extends AppCompatActivity {
             String points = binding.etPoint.getText().toString().trim();
             String type = binding.etType.getText().toString().trim();
             String voucher = binding.etVoucher.getText().toString().trim();
-            Customer customer = new Customer(0, name, phone, email, address, points, type, voucher);
-            sqlHelper.insertCustomer(customer);
-            finish();
+            if (name.equals("") || phone.equals("") || email.equals("") || address.equals("")) {
+                Toast.makeText(getBaseContext(), "Vui lòng nhập đủ thông tin", Toast.LENGTH_SHORT).show();
+            } else {
+                if (checkEmail() == true) {
+                    if (phone.length() == 10) {
+                        Customer customer = new Customer(0, name, phone, email, address, points, type, voucher);
+                        sqlHelper.insertCustomer(customer);
+                        finish();
+                    } else {
+                        Toast.makeText(getBaseContext(), "Số điện thoại phải đủ 10 chữ số", Toast.LENGTH_SHORT).show();
+                    }
+                }
+            }
+
 
         } catch (Exception e) {
             Log.e("Lỗi", e.getMessage());
@@ -102,6 +118,7 @@ public class CustomerDetailActivity extends AppCompatActivity {
         }
     }
 
+    // đây là hàm update thông tin khách hàng
     public void updateCustomer(Customer customer) {
         try {
             String name = binding.etFulName.getText().toString().trim();
@@ -111,18 +128,41 @@ public class CustomerDetailActivity extends AppCompatActivity {
             String points = binding.etPoint.getText().toString().trim();
             String type = binding.etType.getText().toString().trim();
             String voucher = binding.etVoucher.getText().toString().trim();
-            customer.setCustomerName(name);
-            customer.setCustomerPhone(phone);
-            customer.setCustomerEmail(email);
-            customer.setCustomerAddress(address);
-            customer.setCustomerPoints(points);
-            customer.setCustomerType(type);
-            customer.setCustomerVoucher(voucher);
-            sqlHelper.updateCustomer(customer);
-            finish();
+            if (name.equals("") || phone.equals("") || email.equals("") || address.equals("")) {
+                Toast.makeText(getBaseContext(), "Vui lòng nhập đủ thông tin", Toast.LENGTH_SHORT).show();
+            } else {
+                if (checkEmail() == true) {
+                    if (phone.length() == 10) {
+                        customer.setCustomerName(name);
+                        customer.setCustomerPhone(phone);
+                        customer.setCustomerEmail(email);
+                        customer.setCustomerAddress(address);
+                        customer.setCustomerPoints(points);
+                        customer.setCustomerType(type);
+                        customer.setCustomerVoucher(voucher);
+                        sqlHelper.updateCustomer(customer);
+                        finish();
+                    } else {
+                        Toast.makeText(getBaseContext(), "Số điện thoại phải đủ 10 chữ số", Toast.LENGTH_SHORT).show();
+                    }
+                }
+            }
+
         } catch (Exception e) {
             Log.e("Lỗi", e.getMessage());
             Toast.makeText(getApplicationContext(), "Lỗi nhập liệu (Không được để trông)", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    // hàm check mail, mail phải có định dạng "@gmail.com"
+    public boolean checkEmail() {
+        String emailPattern = "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@"
+                + "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
+        if (Pattern.matches(emailPattern, binding.etEmail.getText().toString())) { // đây là câu lệnh kiểm tra định dạng email
+            return true;
+        } else {
+            Toast.makeText(getBaseContext(), "Email không đúng định dạng '@gmail.com'", Toast.LENGTH_SHORT).show();
+            return false;
         }
     }
 
