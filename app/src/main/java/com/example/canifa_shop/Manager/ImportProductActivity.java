@@ -89,7 +89,11 @@ public class ImportProductActivity extends AppCompatActivity {
         binding.lvProduct.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Product product = productListSearch.get(position);
+
+                Product product = new Product(productListSearch.get(position).getID(),productListSearch.get(position).getNameProduct(),
+                        productListSearch.get(position).getImportprice(),productListSearch.get(position).getPrice(),
+                        productListSearch.get(position).getAmount(),productListSearch.get(position).getType(),productListSearch.get(position).getDescribe(),
+                        productListSearch.get(position).getImage(),productListSearch.get(position).getBardCode());
                 showDialogAmount(product);
 
             }
