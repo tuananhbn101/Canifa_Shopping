@@ -103,12 +103,12 @@ public class ImportProductActivity extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(), "Nhập hàng thành công", Toast.LENGTH_SHORT).show();
             }
         });
-        binding.btnBack.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
+//        binding.btnBack.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                finish();
+//            }
+//        });
     }
 
     public void showDialogAmount(Product product) {
@@ -117,6 +117,8 @@ public class ImportProductActivity extends AppCompatActivity {
         EditText etAmount = dialog.findViewById(R.id.etAmountt);
         Button btnUpdate = dialog.findViewById(R.id.btnUpdate);
         btnUpdate.setOnClickListener(new View.OnClickListener() {
+            // Khi click nút "Nhập", tiến hành add sản phẩm vừa click vào productImportList - đây là danh sách chứa các sản phẩm cần import
+            // tiếp theo là gán số lượng của nó bằng số lượng vừa nhập rồi set lại list
             @Override
             public void onClick(View v) {
                 productImportList.add(product);
@@ -129,14 +131,17 @@ public class ImportProductActivity extends AppCompatActivity {
     }
 
     public void getIntents() {
-        Intent intent = getIntent();
-        if (intent.getExtras() != null) {
-            if (intent.getStringExtra("control").equals("show")) {
-                int ID = intent.getIntExtra("ID", 0);
-                addProduct(ID);
-                binding.llChooseProduct.setVisibility(View.GONE);
-            }
-        } else setAdapter(productListSearch);
+//        Intent intent = getIntent();
+//        if (intent.getExtras() != null) {
+//            if (intent.getStringExtra("control").equals("show")) {
+//                int ID = intent.getIntExtra("ID", 0);
+//               // addProduct(ID);
+//                binding.llChooseProduct.setVisibility(View.GONE);
+//            }
+//        }
+//        else {
+            setAdapter(productListSearch);
+//        }
 
     }
 
@@ -156,6 +161,7 @@ public class ImportProductActivity extends AppCompatActivity {
         List<Product> products = sqlHelper.getAllPrduct();
         productListSearch.clear();
         Receipt receipt = sqlHelper.getReceipt(ID);
+        Toast.makeText(getBaseContext(), receipt.getIDReceipt()+"", Toast.LENGTH_LONG).show();
         String[] IDProduct = receipt.getIDProduct().split(";");
         for (int i = 0; i < IDProduct.length; i++) {
             if (IDProduct[i].equals("")) break;
@@ -180,27 +186,31 @@ public class ImportProductActivity extends AppCompatActivity {
         binding.rvProductImport.setLayoutManager(layoutManager);
         binding.rvProductImport.setAdapter(productImportListAdapter);
     }
-
+// đây là hàm update sản phẩm sau khi click nút "Nhập hàng"
     public void updateProduct() {
-        for (Product productImport : productImportList) {
-            for (Product product : productList) {
+        productList=sqlHelper.getAllPrduct();
+        // productList chứa danh sách các mặt hàng trong cửa hàng
+        // productImportList chứa danh sách các sản phẩm muốn import
+        for (Product product : productList) {
+            for ( Product productImport : productImportList) {
                 if (product.getBardCode().equals(productImport.getBardCode())) {
-                    int amountHas =product.getAmount();
-                    int amountImport = productImport.getAmount() ;
-                    product.setAmount(amountHas+amountImport);
-                    sqlHelper.updateProduct(product);
+                    int amountHas =product.getAmount(); // số lượng sản phẩm hiện tại
+                    int amountImport = productImport.getAmount() ; // Số lượng import
+                    product.setAmount(amountHas+amountImport); // set SL cho sản phẩm
+                    sqlHelper.updateProduct(product);  // update sản phẩm
                 }
             }
         }
     }
-
+// Đây là hàm thêm hóa đơn sau khi thực hiện thêm mới SL sản phẩm
+// Danh sách này được hiển thị ở màn hình Báo cáo
     public void addReceipt(List<Product> productList) {
         if (productList.size() != 0 || productList != null) {
             String IDProduct = "";
             int totalProduct = 0;
             for (Product product : productList) {
-                IDProduct += product.getID() + ";";
-                totalProduct += product.getAmount();
+                IDProduct = product.getID() + "";
+                totalProduct = product.getAmount();
             }
             Receipt receipt = new Receipt(0, new SimpleDateFormat("yyyy/MM/dd HH:mm:ss").format(Calendar.getInstance().getTime()), IDProduct, totalProduct, ID);
             sqlHelper.insertReceipt(receipt);

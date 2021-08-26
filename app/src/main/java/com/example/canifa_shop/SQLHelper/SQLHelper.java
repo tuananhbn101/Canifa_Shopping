@@ -117,6 +117,7 @@ public class SQLHelper extends SQLiteOpenHelper {
                 "avatar TEXT," +
                 "homeTown TEXT NOT NULL," +
                 "permission TEXT )";
+        db.execSQL(queryCreateTableAccounts);
         String queryCreateTableCustomers = "CREATE TABLE " + DB_TABLE_CUSTOMER + "(" +
                 "ID INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT," +
                 "customerName TEXT NOT NULL," +
@@ -158,6 +159,7 @@ public class SQLHelper extends SQLiteOpenHelper {
                 "IDProduct TEXT NOT NULL," +
                 "totalProduct INTEGER NOT NULL," +
                 "IDEmployee LONG NOT NULL)";
+
         String queryCreateTableCategorys = "CREATE TABLE " + DB_TABLE_CATEGORY + " (" +
                 "ID INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT," +
                 "nameCategory TEXT NOT NULL," +
@@ -173,13 +175,13 @@ public class SQLHelper extends SQLiteOpenHelper {
                 "IDCustomer INTERGER NOT NULL," +
                 "IDEmployee INTERGER NOT NULL)";
         db.execSQL(queryCreateTableCategorys);
-        db.execSQL(queryCreateTableAccounts);
+        db.execSQL(queryCreateTableReceipt);
         db.execSQL(queryCreateTableProducts);
         db.execSQL(queryCreateTableOrderProducts);
         db.execSQL(queryCreateTableReports);
         db.execSQL(queryCreateTableBillProducts);
         db.execSQL(queryCreateTableCustomers);
-        db.execSQL(queryCreateTableReceipt);
+
     }
 
     @Override
@@ -190,10 +192,10 @@ public class SQLHelper extends SQLiteOpenHelper {
         }
     }
 
-    public void insertAccount(Accounts account) {
-        sqLiteDatabase = getWritableDatabase(); // cho phép sửa dữ liệu
+    public void insertAccount(Accounts account) {  // thêm tài khoản mới
+        sqLiteDatabase = getWritableDatabase(); // gọi phương thức getWriteableDatabase cho phép sửa dữ liệu
         contentValues = new ContentValues();
-        //contentValues.put(ACCOUNT_ID, account.getID());
+        // thực hiện truyền dữ liệu vào biến contentValues. Vì ID để là AUTOINCREMENT nên không truyền vào ID để insert
         contentValues.put(ACCOUNT_USER_NAME, account.getUserName());
         contentValues.put(ACCOUNT_PASSWORD, account.getPassword());
         contentValues.put(ACCOUNT_FULL_NAME, account.getFullName());
@@ -203,14 +205,14 @@ public class SQLHelper extends SQLiteOpenHelper {
         contentValues.put(ACCOUNT_AVATAR, account.getAvatar());
         contentValues.put(ACCOUNT_HOMETOWN, account.getHomeTown());
         contentValues.put(ACCOUNT_PERMISSION, account.getPermission());
+        //sử dụng câu lệnh insert để thực hiện insert vào bảng Accounts
         sqLiteDatabase.insert(DB_TABLE_ACCOUNT, null, contentValues);
         contentValues.clear();
     }
 
-    public void updateAccount(Accounts account) {
+    public void updateAccount(Accounts account) {  // update thông tin cá nhân
         sqLiteDatabase = getWritableDatabase();
         contentValues = new ContentValues();
-        //contentValues.put(ACCOUNT_ID, account.getID());
         contentValues.put(ACCOUNT_USER_NAME, account.getUserName());
         contentValues.put(ACCOUNT_PASSWORD, account.getPassword());
         contentValues.put(ACCOUNT_FULL_NAME, account.getFullName());
@@ -225,25 +227,26 @@ public class SQLHelper extends SQLiteOpenHelper {
         contentValues.clear();
     }
 
-    public void deleteAccount(int id) {
+    public void deleteAccount(int id) {   // xóa accounts với ID được truyền vào
         sqLiteDatabase = getWritableDatabase();
         sqLiteDatabase.delete(DB_TABLE_ACCOUNT, "ID = ?", new String[]{String.valueOf(id)});
         //xóa = ở bảng nào, xóa theo gì (id), id truyền vào
     }
 
-    public List<Accounts> getAllAccounts() {
+    public List<Accounts> getAllAccounts() {   // hàm trả về danh sách tài khoản
         List<Accounts> accountList = new ArrayList<>();
         Accounts account;
         sqLiteDatabase = getReadableDatabase();
         try {
             // cusor là để lưu dữ liệu tạm thời
-            // select
-            cursor = sqLiteDatabase.query(false, DB_TABLE_ACCOUNT, null, null, null, null, null, null, null);
+            cursor = sqLiteDatabase.query(false, DB_TABLE_ACCOUNT, null, null, null, null, null,
+                    null, null);
         } catch (Exception e) {
             e.printStackTrace();
         }
         if (cursor != null)
             while (cursor.moveToNext()) {
+                // câu lệnh cursor.get<type_data> để lấy dữ liệu từ bảng
                 int ID = cursor.getInt(cursor.getColumnIndex(ACCOUNT_ID));
                 String userName = cursor.getString(cursor.getColumnIndex(ACCOUNT_USER_NAME));
                 String password = cursor.getString(cursor.getColumnIndex(ACCOUNT_PASSWORD));
@@ -605,16 +608,27 @@ public class SQLHelper extends SQLiteOpenHelper {
             }
         return customerList;
     }
+
+    // Đây là hàm thêm phiếu nhập
     public void insertReceipt(Receipt receipt) {
         sqLiteDatabase = getWritableDatabase();
         contentValues = new ContentValues();
-//        contentValues.put(REPORT_ID,report.getId());
         contentValues.put(RECEIPT_DATE, receipt.getDateCreate());
         contentValues.put(RECEIPT_ID_PRODUCT, receipt.getIDProduct());
         contentValues.put(RECEIPT_TOTAL_PRODUCT, receipt.getTotalProduct());
         contentValues.put(RECEIPT_ID_EMPLOYEE, receipt.getTotalProduct());
         sqLiteDatabase.insert(DB_TABLE_RECEIPT, null, contentValues);
     }
+
+    // Đây là hàm xóa phiếu nhập với id truyền vào là id của sản phẩm
+    public boolean deleteReceipt(int id)
+    {
+        sqLiteDatabase=getWritableDatabase();
+        sqLiteDatabase.delete("Receipts", RECEIPT_ID + "= ?", new String[]{String.valueOf(id)} );
+        return true;
+    }
+
+    // đây là hàm get toàn bộ các phiếu nhập
     public List<Receipt> getAllReceipt() {
         List<Receipt> receiptList = new ArrayList<>();
         Receipt receipt;

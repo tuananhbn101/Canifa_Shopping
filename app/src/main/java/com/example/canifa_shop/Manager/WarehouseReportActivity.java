@@ -1,5 +1,6 @@
 package com.example.canifa_shop.Manager;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
 
@@ -9,9 +10,11 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.Toast;
 
 import com.example.canifa_shop.Bill.Adapter.BillListAdapter;
 import com.example.canifa_shop.Bill.Object.Bill;
+import com.example.canifa_shop.Emplyee.EmployeeManagerActivity;
 import com.example.canifa_shop.Manager.Adapter.ReceiptAdapter;
 import com.example.canifa_shop.Manager.Object.Receipt;
 import com.example.canifa_shop.Product.Object.Product;
@@ -27,6 +30,7 @@ public class WarehouseReportActivity extends AppCompatActivity {
     ActivityWarehouseReportBinding binding;
     List<Receipt> receiptList;
     List<Receipt> receiptListSearch;
+    List<Receipt> receiptListSearch1;
     SQLHelper sqlHelper;
     ReceiptAdapter receiptAdapter;
 
@@ -45,17 +49,19 @@ public class WarehouseReportActivity extends AppCompatActivity {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 receiptListSearch.clear();
+                receiptListSearch1 = new ArrayList<>();
                 binding.btnDelete.setVisibility(View.VISIBLE);
-                for (Receipt receipt : receiptList) {
-                    if (receipt.getIDReceipt() == Integer.valueOf(binding.edtSearch.getText().toString().trim())) {
-                        receiptListSearch.add(receipt);
+                for (Receipt receipt : receiptListSearch) {
+                    if (String.valueOf(receipt.getIDReceipt()).equals(binding.edtSearch.getText().toString().trim())) {
+                        receiptListSearch1.add(receipt);
                     }
                 }
+                setAdapter(receiptListSearch1);
                 if (binding.edtSearch.getText().toString().equals("")) {
                     binding.btnDelete.setVisibility(View.INVISIBLE);
                     receiptListSearch = receiptList;
                 }
-                setAdapter(receiptListSearch);
+
             }
 
             @Override
@@ -63,13 +69,38 @@ public class WarehouseReportActivity extends AppCompatActivity {
 
             }
         });
-        binding.rvReceipt.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//        binding.rvReceipt.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//            @Override
+//            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+//                Intent intent = new Intent(WarehouseReportActivity.this, ImportProductActivity.class);
+//                intent.putExtra("ID", receiptListSearch.get(position).getIDReceipt());
+//                intent.putExtra("control","show");
+//                startActivity(intent);
+//            }
+//        });
+        binding.rvReceipt.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent intent = new Intent(WarehouseReportActivity.this, ImportProductActivity.class);
-                intent.putExtra("ID", receiptListSearch.get(position).getIDReceipt());
-                intent.putExtra("control","show");
-                startActivity(intent);
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(WarehouseReportActivity.this);
+                builder.setTitle("Thông báo");
+                builder.setMessage("Bạn có chắc muốn xóa");
+                builder.setNegativeButton("No", (dialog, which) -> dialog.cancel());
+                builder.setPositiveButton("Yes", (dialog, which) ->
+                        {
+                            if(receiptListSearch.size()==0)
+                            {
+                                Toast.makeText(getBaseContext(), "Không có phiếu nhập nào", Toast.LENGTH_SHORT).show();
+                            }else{
+                                sqlHelper.deleteReceipt(receiptListSearch.get(position).getIDReceipt());
+                                receiptListSearch.remove(position);
+                                receiptAdapter.notifyDataSetChanged();
+
+                            }
+                        }
+                );
+                builder.show();
+
+                return false;
             }
         });
     }
