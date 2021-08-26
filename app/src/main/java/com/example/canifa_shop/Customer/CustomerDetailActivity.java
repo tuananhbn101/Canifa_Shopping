@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.canifa_shop.Customer.Object.Customer;
 import com.example.canifa_shop.Product.Object.Product;
@@ -97,6 +98,7 @@ public class CustomerDetailActivity extends AppCompatActivity {
 
         } catch (Exception e) {
             Log.e("Lỗi", e.getMessage());
+            Toast.makeText(getApplicationContext(), "Lỗi nhập liệu (Không được để trông)", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -120,6 +122,7 @@ public class CustomerDetailActivity extends AppCompatActivity {
             finish();
         } catch (Exception e) {
             Log.e("Lỗi", e.getMessage());
+            Toast.makeText(getApplicationContext(), "Lỗi nhập liệu (Không được để trông)", Toast.LENGTH_SHORT).show();
         }
     }
 
