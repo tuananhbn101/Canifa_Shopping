@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -36,9 +37,9 @@
                     android:id="@+id/etUserName"
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
+                    android:layout_weight="2"
                     android:enabled="false"
                     android:inputType="text"
-                    android:layout_weight="2"
                     android:text="" />
             </LinearLayout>
 
@@ -54,13 +55,22 @@
                     android:layout_weight="1"
                     android:text="Mật khẩu" />
 
-                <EditText
-                    android:id="@+id/etPassword"
+                <com.google.android.material.textfield.TextInputLayout
                     android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    android:layout_weight="2"
-                    android:inputType="textPassword"
-                    android:text="" />
+                    android:layout_height="wrap_content"
+                    app:boxBackgroundColor="@color/white"
+                    app:passwordToggleEnabled="true">
+
+                    <EditText
+                        android:id="@+id/etPassword"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="2"
+                        android:inputType="textPassword"
+                        android:text="" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+
             </LinearLayout>
 
             <LinearLayout
@@ -98,8 +108,8 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    >
+                    android:orientation="horizontal">
+
                     <EditText
                         android:id="@+id/etDateOfBird"
                         android:layout_width="match_parent"
@@ -107,13 +117,15 @@
                         android:layout_weight="2"
                         android:inputType="date"
                         android:text="" />
+
                     <Button
+                        android:id="@+id/btnBirthday"
                         android:layout_width="@dimen/_50sdp"
                         android:layout_height="@dimen/_40sdp"
-                        android:text="..."
                         android:layout_marginLeft="@dimen/_25sdp"
-                        android:backgroundTint="#910303"
-                        android:id="@+id/btnBirthday"/>
+                        android:backgroundTint="@color/colorButton"
+                        android:text="..."
+                        android:textColor="@color/white" />
 
                 </LinearLayout>
             </LinearLayout>

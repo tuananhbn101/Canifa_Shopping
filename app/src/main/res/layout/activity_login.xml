@@ -66,7 +66,8 @@
                      <EditText
                          android:id="@+id/etUserName"
                          android:layout_width="match_parent"
-                         android:layout_height="wrap_content">
+                         android:layout_height="wrap_content"
+                         android:inputType="text">
 
                      </EditText>
                  </LinearLayout>
@@ -84,13 +85,20 @@
                          android:text="Mật khẩu">
 
                      </TextView>
-                     <EditText
-                         android:id="@+id/etPassword"
+                     <com.google.android.material.textfield.TextInputLayout
                          android:layout_width="match_parent"
                          android:layout_height="wrap_content"
-                         android:inputType="textPassword">
+                         app:passwordToggleEnabled="true"
+                         app:boxBackgroundColor="@color/white"
+                         >
+                         <EditText
+                             android:id="@+id/etPassword"
+                             android:layout_width="match_parent"
+                             android:layout_height="wrap_content"
+                             android:inputType="textPassword">
 
-                     </EditText>
+                         </EditText>
+                     </com.google.android.material.textfield.TextInputLayout>
                  </LinearLayout>
              </LinearLayout>
              <LinearLayout
