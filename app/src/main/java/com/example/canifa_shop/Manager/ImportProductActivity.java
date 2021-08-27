@@ -19,6 +19,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.canifa_shop.Bill.Adapter.BillAdapter;
+import com.example.canifa_shop.Login.Object.Accounts;
 import com.example.canifa_shop.Manager.Adapter.ProductImportListAdapter;
 import com.example.canifa_shop.Manager.Adapter.ProductListAdapter;
 import com.example.canifa_shop.Manager.Object.Receipt;
@@ -60,12 +61,7 @@ public class ImportProductActivity extends AppCompatActivity {
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 productListSearch.clear();
                 binding.btnDelete.setVisibility(View.VISIBLE);
-                for (Product product : productList) {
-                    if (product.getBardCode().contains(binding.edtSearch.getText().toString()) || product.getNameProduct().contains(binding.edtSearch.getText().toString())) {
-                        productListSearch.add(product);
-                    }
-                }
-
+               addListSearch(binding.edtSearch.getText().toString());
                 if (binding.edtSearch.getText().toString().equals("")) {
                     binding.btnDelete.setVisibility(View.INVISIBLE);
                     productListSearch = productList;
@@ -114,6 +110,18 @@ public class ImportProductActivity extends AppCompatActivity {
 //            }
 //        });
     }
+    public void addListSearch(String text) {
+        // tạo 1 list có tên là "accountsListSearch", kiểm tra trong danh sách nhân viên accountList,
+        // nếu tồn tại tên hoặc ID trùng với từ tìm kiếm vừa nhập là "text" thì add nhân viên đó vào accountsListSearch
+        // "accountList" chứa danh sách nhân viên trong bảng Accounts
+        productListSearch.clear();
+        for (Product product : productList) {
+            if (product.getNameProduct().equals(text)) {
+                productListSearch.add(product);
+            }
+        }
+        setAdapter(productListSearch);
+    }
 
     public void showDialogAmount(Product product) {
         Dialog dialog = new Dialog(ImportProductActivity.this);
@@ -135,17 +143,17 @@ public class ImportProductActivity extends AppCompatActivity {
     }
 
     public void getIntents() {
-//        Intent intent = getIntent();
-//        if (intent.getExtras() != null) {
-//            if (intent.getStringExtra("control").equals("show")) {
-//                int ID = intent.getIntExtra("ID", 0);
-//               // addProduct(ID);
-//                binding.llChooseProduct.setVisibility(View.GONE);
-//            }
-//        }
-//        else {
+        Intent intent = getIntent();
+        if (intent.getExtras() != null) {
+            if (intent.getStringExtra("control").equals("show")) {
+                int ID = intent.getIntExtra("ID", 0);
+                addProduct(ID);
+                binding.llChooseProduct.setVisibility(View.GONE);
+            }
+        }
+        else {
             setAdapter(productListSearch);
-//        }
+        }
 
     }
 

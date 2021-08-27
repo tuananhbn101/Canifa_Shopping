@@ -2,13 +2,12 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="@dimen/_200sdp"
     android:layout_height="@dimen/_200sdp"
-    android:background="#25B8FA">
+    android:background="#1D9EA1A1">
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Số lượng nhập vào"
         android:textSize="@dimen/_20sdp"
-        android:textColor="@color/white"
         android:textStyle="bold"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="@dimen/_10sdp"/>
@@ -19,29 +18,31 @@
         android:textStyle="bold"
         android:textSize="@dimen/_15sdp"
         android:text="Nhập số lượng sản phẩm:"
-        android:textColor="@color/white"
         android:layout_marginTop="@dimen/_70sdp" />
+
     <EditText
-        android:layout_marginLeft="@dimen/_10sdp"
-        android:layout_marginRight="@dimen/_10sdp"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/_30sdp"
-        android:layout_marginTop="@dimen/_100sdp"
         android:id="@+id/etAmountt"
-        android:textColor="@color/white"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_35sdp"
+        android:layout_marginLeft="@dimen/_10sdp"
+        android:layout_marginTop="@dimen/_100sdp"
+        android:layout_marginRight="@dimen/_10sdp"
         android:inputType="number"
-        android:singleLine="true"/>
+        android:singleLine="true"
+        android:textSize="@dimen/_12sdp" />
+
     <Button
+        android:id="@+id/btnUpdate"
         android:layout_width="@dimen/_100sdp"
         android:layout_height="wrap_content"
-        android:gravity="center"
-        android:text="Nhập"
-        android:id="@+id/btnUpdate"
-        android:textSize="@dimen/_15sdp"
-        android:padding="@dimen/_5sdp"
-        android:textStyle="bold"
-        android:textAllCaps="false"
-        android:layout_centerHorizontal="true"
         android:layout_alignParentBottom="true"
-        android:layout_marginBottom="@dimen/_20sdp"/>
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="@dimen/_10sdp"
+        android:backgroundTint="@color/colorButton"
+        android:gravity="center"
+        android:padding="@dimen/_5sdp"
+        android:text="Nhập"
+        android:textAllCaps="false"
+        android:textSize="@dimen/_15sdp"
+        android:textStyle="bold" />
 </RelativeLayout>

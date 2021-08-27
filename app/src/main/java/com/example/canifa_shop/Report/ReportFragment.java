@@ -48,31 +48,34 @@ public class ReportFragment extends Fragment {
         return binding.getRoot();
     }
 
+
+    // hàm này set dữ liệu cho các trường trong giao diện bao gồm:
+    public void setData(){
+        binding.tvProfit.setText(totalProfit+""); // lợi nhuận
+        binding.tvSales.setText(totalPrice+"");  // doanh thu
+        binding.tvDiscount.setText(totalSaleMoney+""); // giảm giá
+        binding.tvInvoiceValue.setText(totalPrice+""); // giá trị hóa đơn
+        binding.tvInvoiceNumber.setText(billList.size()+""); //  số hóa đơn
+        binding.tvSellAmount.setText(totalPrice+""); // tiền bán
+        binding.tvFundAmount.setText(totalImportPrice+""); // tiền vốn
+        binding.tvBankAmount.setText("0"); // ngân hàng
+        binding.tvBluntAmount.setText(totalPrice+"");  // tiền mặt
+        binding.tvDebtAmount.setText("0"); // khách nợ
+        binding.tvTaxAmount.setText("0");  // tiền thuế
+    }
     public void initialization() {
         sqlHelper = new SQLHelper(getContext());
         reportList = new ArrayList<>();
         billList = new ArrayList<>();
-        billList = sqlHelper.getAllBill();
+        billList = sqlHelper.getAllBill(); // chứa danh sách hóa đơn
         reportList = sqlHelper.getAllReport();
+        // reportList chứa danh sách các hóa đơn đã thanh toán
         for (Report report : reportList) {
             totalPrice += report.getTotalSale();
             totalImportPrice +=report.getTotalImport();
             totalSaleMoney +=report.getSaleMoney();
         }
         totalProfit = totalPrice-totalImportPrice;
-    }
-    public void setData(){
-        binding.tvProfit.setText(totalProfit+"");
-        binding.tvSales.setText(totalPrice+"");
-        binding.tvDiscount.setText(totalSaleMoney+"");
-        binding.tvInvoiceValue.setText(totalPrice+"");
-        binding.tvInvoiceNumber.setText(billList.size()+"");
-        binding.tvSellAmount.setText(totalPrice+"");
-        binding.tvFundAmount.setText(totalImportPrice+"");
-        binding.tvBankAmount.setText("0");
-        binding.tvBluntAmount.setText(totalPrice+"");
-        binding.tvDebtAmount.setText("0");
-        binding.tvTaxAmount.setText("0");
     }
 
     @Override

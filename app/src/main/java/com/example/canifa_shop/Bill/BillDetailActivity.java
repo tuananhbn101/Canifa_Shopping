@@ -14,6 +14,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.canifa_shop.Bill.Adapter.BillAdapter;
 import com.example.canifa_shop.Bill.Object.Bill;
@@ -152,17 +153,29 @@ public class BillDetailActivity extends AppCompatActivity {
     }
 
     public void addNewBill() {
-        String IDProduct = "";
-        String amount = "";
-        long total = 0;
-        for (Product product : productOrderList) {
-            IDProduct += product.getBardCode() + ";";
-            amount += product.getAmount() + ";";
-            total += (product.getPrice() * product.getAmount());
+        try {
+            String IDProduct = "";
+            String amount = "";
+            long total = 0;
+            for (Product product : productOrderList) {
+                IDProduct += product.getBardCode() + ";";
+                amount += product.getAmount() + ";";
+                total += (product.getPrice() * product.getAmount());
+            }
+            if(productOrderList.size()==0)
+            {
+                Toast.makeText(getBaseContext(), "Không thể thanh toán. ", Toast.LENGTH_SHORT).show();
+
+            }else{
+                Bill bill = new Bill(0, new SimpleDateFormat("yyyy/MM/dd HH:mm:ss").format(Calendar.getInstance().getTime()), IDProduct, amount, "0", total, IDCustomer, IDEmployee);
+                sqlHelper.insertBill(bill);
+                addReport(productOrderList,IDCustomer);
+            }
+
+        }catch (Exception e)
+        {
+            Toast.makeText(getBaseContext(), "Không thể thanh toán. "+e.getMessage(), Toast.LENGTH_SHORT).show();
         }
-        Bill bill = new Bill(0, new SimpleDateFormat("yyyy/MM/dd HH:mm:ss").format(Calendar.getInstance().getTime()), IDProduct, amount, "0", total, IDCustomer, IDEmployee);
-        sqlHelper.insertBill(bill);
-        addReport(productOrderList,IDCustomer);
     }
 
     public void updateBill(Bill bill) {
@@ -254,6 +267,7 @@ public class BillDetailActivity extends AppCompatActivity {
         }
     }
 
+    // đây là hàm thêm hóa đơn
     public void addReport(List<Product> productList, int ID) {
         String date = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss").format(Calendar.getInstance().getTime());
         long totalImport = 0;

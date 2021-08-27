@@ -30,7 +30,6 @@ public class WarehouseReportActivity extends AppCompatActivity {
     ActivityWarehouseReportBinding binding;
     List<Receipt> receiptList;
     List<Receipt> receiptListSearch;
-    List<Receipt> receiptListSearch1;
     SQLHelper sqlHelper;
     ReceiptAdapter receiptAdapter;
 
@@ -49,18 +48,20 @@ public class WarehouseReportActivity extends AppCompatActivity {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 receiptListSearch.clear();
-                receiptListSearch1 = new ArrayList<>();
                 binding.btnDelete.setVisibility(View.VISIBLE);
+
                 for (Receipt receipt : receiptListSearch) {
                     if (String.valueOf(receipt.getIDReceipt()).equals(binding.edtSearch.getText().toString().trim())) {
-                        receiptListSearch1.add(receipt);
+                        receiptListSearch.add(receipt);
+
                     }
                 }
-                setAdapter(receiptListSearch1);
+                setAdapter(receiptListSearch);
                 if (binding.edtSearch.getText().toString().equals("")) {
                     binding.btnDelete.setVisibility(View.INVISIBLE);
-                    receiptListSearch = receiptList;
+                    setAdapter(receiptList);
                 }
+
 
             }
 

@@ -58,7 +58,8 @@ public class EmployeeManagerActivity extends AppCompatActivity {
                 if (binding.edtSearch.getText().toString().equals("")) {
                     binding.btnDelete.setVisibility(View.INVISIBLE);
                     setAdapter(accountsList);
-                } else binding.btnDelete.setVisibility(View.VISIBLE);
+                }
+                else binding.btnDelete.setVisibility(View.VISIBLE);
             }
 
             @Override
