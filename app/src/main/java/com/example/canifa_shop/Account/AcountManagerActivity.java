@@ -124,6 +124,9 @@ public class AcountManagerActivity extends AppCompatActivity {
             } else if (control.equals("update")) {   // nếu nội dung intent là "update" thì hiển thị giao diện cập nhật
                 ID = intent.getIntExtra("ID", 0);
                 tvDelete.setVisibility(View.INVISIBLE);
+            }else {
+                sharedPreferences = getSharedPreferences("account", MODE_PRIVATE);
+                ID = sharedPreferences.getInt("ID", 0);
             }
         }
 
