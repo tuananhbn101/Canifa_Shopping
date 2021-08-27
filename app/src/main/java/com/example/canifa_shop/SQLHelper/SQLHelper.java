@@ -263,8 +263,8 @@ public class SQLHelper extends SQLiteOpenHelper {
         return accountList;
     }
 
-    public void insertProduct(Product product) {
-        sqLiteDatabase = getWritableDatabase();
+    public void insertProduct(Product product) {//thêm product
+        sqLiteDatabase = getWritableDatabase();// gọi phương thức getWriteableDatabase cho phép sửa dữ liệu
         contentValues = new ContentValues();
         //contentValues.put(ACCOUNT_ID, account.getID());
         contentValues.put(PRODUCT_NAME, product.getNameProduct());
@@ -275,12 +275,13 @@ public class SQLHelper extends SQLiteOpenHelper {
         contentValues.put(PRODUCT_DESCRIBE, product.getDescribe());
         contentValues.put(PRODUCT_IMAGE, product.getImage());
         contentValues.put(PRODUCT_BARD_CODE, product.getBardCode());
+        //sử dụng câu lệnh insert để thực hiện insert vào bảng Products
         sqLiteDatabase.insert(DB_TABLE_PRODUCT, null, contentValues);
         sqLiteDatabase.close();
     }
 
-    public void updateProduct(Product product) {
-        sqLiteDatabase = getWritableDatabase();
+    public void updateProduct(Product product) {//sửa sản phẩm
+        sqLiteDatabase = getWritableDatabase();// gọi phương thức getWriteableDatabase cho phép sửa dữ liệu
         contentValues = new ContentValues();
         //contentValues.put(ACCOUNT_ID, account.getID());
         contentValues.put(PRODUCT_NAME, product.getNameProduct());
@@ -291,32 +292,39 @@ public class SQLHelper extends SQLiteOpenHelper {
         contentValues.put(PRODUCT_DESCRIBE, product.getDescribe());
         contentValues.put(PRODUCT_IMAGE, product.getImage());
         contentValues.put(PRODUCT_BARD_CODE, product.getBardCode());
+        //sử dụng câu lệnh update để thực hiện insert vào bảng Products
         sqLiteDatabase.update(DB_TABLE_PRODUCT, contentValues, PRODUCT_BARD_CODE + " = ?", new String[]{product.getBardCode()});
+        // update = ở bảng nào , dữ liệu truyền vào, update theo cái gì ( ID ), ID truyền vào
         sqLiteDatabase.close();
     }
 
 
-    public void deleteAllProduct() {
-        sqLiteDatabase = getWritableDatabase();
+    public void deleteAllProduct() {//xóa sản phẩm
+        sqLiteDatabase = getWritableDatabase();// gọi phương thức getWriteableDatabase cho phép sửa dữ liệu
+        //sử dụng câu lệnh delete để thực hiện insert vào bảng Products
         sqLiteDatabase.delete(DB_TABLE_PRODUCT, null, null);
+
     }
 
     public void deleteItemProduct(int ID) {
-        sqLiteDatabase = getWritableDatabase();
+        sqLiteDatabase = getWritableDatabase();// gọi phương thức getWriteableDatabase cho phép sửa dữ liệu
         sqLiteDatabase.delete(DB_TABLE_PRODUCT, "ID = ?", new String[]{String.valueOf(ID)});
+        //xóa = ở bảng nào, xóa theo gì (id), id truyền vào
     }
 
     public List<Product> getAllPrduct() {
         List<Product> productList = new ArrayList<>();
         Product product;
-        sqLiteDatabase = getReadableDatabase();
+        sqLiteDatabase = getReadableDatabase();// gọi phương thức getReadableDatabase đọc dữ liệu trong database
         try {
+            //cursor dùng để đóng gói giá trị tạm thời
             cursor = sqLiteDatabase.query(false, DB_TABLE_PRODUCT, null, null, null, null, null, null, null);
         } catch (Exception e) {
             e.printStackTrace();
         }
         if (cursor != null)
             while (cursor.moveToNext()) {
+                // câu lệnh cursor.get...<type_data> để lấy dữ liệu từ bảng
                 int ID = cursor.getInt(cursor.getColumnIndex(ACCOUNT_ID));
                 String nameProduct = cursor.getString(cursor.getColumnIndex(PRODUCT_NAME));
                 long priceImport = cursor.getLong(cursor.getColumnIndex(PRODUCT_PRICE_IMPORT));
@@ -327,6 +335,7 @@ public class SQLHelper extends SQLiteOpenHelper {
                 String image = cursor.getString(cursor.getColumnIndex(PRODUCT_IMAGE));
                 String bardCode = cursor.getString(cursor.getColumnIndex(PRODUCT_BARD_CODE
                 ));
+                //gọi tất cả các phần tử vào listProduct
                 productList.add(new Product(ID, nameProduct, priceImport, price, amount, type, describe, image, bardCode));
             }
         return productList;
