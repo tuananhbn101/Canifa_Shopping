@@ -11,4 +11,5 @@
     <color name="colorGrayLight">#ECECEC</color>
     <color name="colorRed">#FB1919</color>
     <color name="colorBlue">#2AA2FF</color>
+    <color name="colorButton">#850404</color>
 </resources>

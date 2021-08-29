@@ -71,12 +71,12 @@ public class CustomerActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+        // thực thi  chức năng tìm kiếm
         binding.edtSearch.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
             }
-
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 addListSearch(binding.edtSearch.getText().toString());
@@ -85,10 +85,8 @@ public class CustomerActivity extends AppCompatActivity {
                     setAdapter(customerList);
                 } else binding.btnDelete.setVisibility(View.VISIBLE);
             }
-
             @Override
             public void afterTextChanged(Editable s) {
-
             }
         });
 
@@ -116,10 +114,14 @@ public class CustomerActivity extends AppCompatActivity {
         }
     }
 
+    // đây là hàm tìm kiếm thông tin
     public void addListSearch(String text) {
         customerListSearch.clear();
+        // customerListSearch chứa danh sách khách hàng được tìm thấy
+        // customerList hiển thị danh sách khách hàng đã tồn tại trước đó
         for (Customer customer : customerList) {
             if (String.valueOf(customer.getIDCustomer()).contains(text) || customer.getCustomerName().contains(text)) {
+                // nếu ID hoặc tên khách hàng trùng với chuỗi nhập thì add nó vào 1 list và cho hiển thị ra màn hình
                 customerListSearch.add(customer);
             }
         }

@@ -2,12 +2,10 @@ package com.example.canifa_shop.Product.Adapter;
 
 import android.content.Context;
 import android.content.Intent;
-import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -17,10 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.canifa_shop.Product.Object.Product;
 import com.example.canifa_shop.Product.ProductDetailActivity;
 import com.example.canifa_shop.R;
-import com.example.canifa_shop.Selling.Adapter.SellingAdapter;
 import com.squareup.picasso.Picasso;
-
-import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
@@ -35,15 +30,15 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHold
     }
 
     @NonNull
-    @NotNull
+
     @Override
-    public ViewHolder onCreateViewHolder(@NonNull @NotNull ViewGroup parent, int viewType) {
+    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_product,parent,false);
         return new ViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull @NotNull ProductAdapter.ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull ProductAdapter.ViewHolder holder, int position) {
         Product product = productList.get(position);
         String link = product.getImage();
         String name = product.getNameProduct();
@@ -77,7 +72,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHold
         ImageView ivProduct,ivSold;
         TextView tvNameProduct,tvAmountProduct,tvPriceProduct;
         RelativeLayout llProduct;
-        public ViewHolder(@NonNull @NotNull View itemView) {
+        public ViewHolder(@NonNull View itemView) {
             super(itemView);
             ivProduct = itemView.findViewById(R.id.ivProducts);
             tvNameProduct = itemView.findViewById(R.id.tvNameProduct);

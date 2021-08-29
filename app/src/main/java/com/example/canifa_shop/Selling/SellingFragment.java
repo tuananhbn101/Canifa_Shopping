@@ -54,6 +54,7 @@ public class SellingFragment extends Fragment {
         return fragment;
     }
 
+
     @Nullable
     @org.jetbrains.annotations.Nullable
     @Override
@@ -92,6 +93,9 @@ public class SellingFragment extends Fragment {
                 binding.btnDelete.setVisibility(View.INVISIBLE);
             }
         });
+
+
+        // tìm kiếm sản phẩm theo input nhập vào
         binding.edtSearch.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -99,14 +103,19 @@ public class SellingFragment extends Fragment {
             }
 
             @Override
+            // sự kiện thay đổi text ô input
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 productListSearch.clear();
                 binding.btnDelete.setVisibility(View.VISIBLE);
+                // lọc các kết quả tìm kiếm từ danh sách product
                 for (Product product : productList) {
-                    if (product.getBardCode().contains(binding.edtSearch.getText().toString()) || product.getNameProduct().contains(binding.edtSearch.getText().toString())) {
+                    // thêm tìm kiếm không phân biệt ký tự hoa thường và dấu
+                    if (VNCharacterUtils.removeAccent(product.getBardCode().toLowerCase()).contains(VNCharacterUtils.removeAccent(binding.edtSearch.getText().toString().toLowerCase())) ||
+                            VNCharacterUtils.removeAccent(product.getNameProduct().toLowerCase()).contains(VNCharacterUtils.removeAccent(binding.edtSearch.getText().toString().toLowerCase()))) {
                         productListSearch.add(product);
                     }
                 }
+                // kết quả tìm kiếm được
                 setAdapter(productListSearch);
                 if(binding.edtSearch.getText().toString().equals("")){
                     binding.btnDelete.setVisibility(View.INVISIBLE);
@@ -159,6 +168,7 @@ public class SellingFragment extends Fragment {
         typeProductList.add("Áo");
         typeProductList.add("Váy");
     }
+    // tìm kiếm nhanh theo danh mục
     public void setAdapterSpinner(){
         adapterSpinner = new ArrayAdapter<String>(getContext(), android.R.layout.simple_list_item_1,typeProductList);
         adapterSpinner.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
