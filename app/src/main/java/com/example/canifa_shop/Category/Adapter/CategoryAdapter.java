@@ -32,7 +32,7 @@ public class CategoryAdapter extends BaseAdapter {
     public long getItemId(int position) {
         return position;
     }
-
+    // custom list view
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_category,parent,false);
