@@ -1,9 +1,13 @@
 package com.example.canifa_shop.Category.Object;
 
 public class Category{
+    // khóa chính
     private int idCategory;
+    // tên danh mục
     private String nameCategory;
+    // số lượng sản phẩm
     private long amountCategory;
+    // mô tả
     private String describe;
 
     public Category(int idCategory, String nameCategory, long amountCategory, String describe) {

@@ -30,6 +30,7 @@ public class CategoryDetail extends AppCompatActivity {
             }
         });
     }
+    // get widget
     public void findByViewID() {
         btnAdd = findViewById(R.id.btnAdd);
         btnBack = findViewById(R.id.btnBack);
@@ -40,6 +41,7 @@ public class CategoryDetail extends AppCompatActivity {
         tvTitile.setText("Chi tiết danh mục");
         sqlHelper = new SQLHelper(getApplicationContext());
     }
+    // thêm một danh mục mới
     public void createDanhMuc(){
         String name = binding.etNameCategory.getText().toString();
         String discrible = binding.etDescrible.getText().toString();

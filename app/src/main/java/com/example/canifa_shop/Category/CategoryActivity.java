@@ -34,16 +34,19 @@ public class CategoryActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_category);
         findByViewID();
+        // thêm mới một danh mục
         btnAdd.setOnClickListener(v -> {
             startActivity(new Intent(getApplicationContext(), CategoryDetail.class));
         });
+        // click quây lại
         btnBack.setOnClickListener(v -> {
             finish();
         });
+        // Xóa item khi dùng sự kiện long click
         binding.lvCategory.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-                AlertDialog alertDialog = new AlertDialog.Builder(getApplicationContext())
+                AlertDialog alertDialog = new AlertDialog.Builder(CategoryActivity.this)
                         .setTitle("Bạn có muốn xóa không ?")
                         .setPositiveButton("Có", new DialogInterface.OnClickListener() {
                             @Override
@@ -65,7 +68,7 @@ public class CategoryActivity extends AppCompatActivity {
             }
         });
     }
-
+    // khởi tạo giá trị cho bảng neus không có dữ liệu trong db
     public void initialization() {
         categoryList = new ArrayList<>();
         sqlHelper = new SQLHelper(getApplicationContext());
@@ -76,7 +79,7 @@ public class CategoryActivity extends AppCompatActivity {
             categoryList = sqlHelper.getAllCategory();
         }
     }
-
+    // get widget
     public void findByViewID() {
         btnAdd = findViewById(R.id.btnAdd);
         btnBack = findViewById(R.id.btnBack);
@@ -86,7 +89,7 @@ public class CategoryActivity extends AppCompatActivity {
         btnAdd = findViewById(R.id.btnAdd);
         tvTitile.setText("Danh mục");
     }
-
+    // set adapter cho list view
     public void setAdapter() {
         categoryAdapter = new CategoryAdapter(categoryList);
         binding.lvCategory.setAdapter(categoryAdapter);
