@@ -106,18 +106,7 @@ public class SQLHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        String queryCreateTableAccounts = "CREATE TABLE " + DB_TABLE_ACCOUNT + "(" +
-                "ID INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT," +
-                "userName TEXT NOT NULL," +
-                "password TEXT NOT NULL," +
-                "fullName TEXT NOT NULL," +
-                "dateOfBirth TEXT NOT NULL," +
-                "phone TEXT NOT NULL," +
-                "email TEXT NOT NULL," +
-                "avatar TEXT," +
-                "homeTown TEXT NOT NULL," +
-                "permission TEXT )";
-        db.execSQL(queryCreateTableAccounts);
+
         String queryCreateTableCustomers = "CREATE TABLE " + DB_TABLE_CUSTOMER + "(" +
                 "ID INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT," +
                 "customerName TEXT NOT NULL," +
@@ -153,13 +142,6 @@ public class SQLHelper extends SQLiteOpenHelper {
                 "totalImport LONG NOT NULL," +
                 "totalSale LONG NOT NULL," +
                 "saleMoney LONG)";
-        String queryCreateTableReceipt = "CREATE TABLE  Receipts (" +
-                "IDReceipt INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT," +
-                "dateCreate TEXT NOT NULL," +
-                "IDProduct TEXT NOT NULL," +
-                "totalProduct INTEGER NOT NULL," +
-                "IDEmployee LONG NOT NULL)";
-
         String queryCreateTableCategorys = "CREATE TABLE " + DB_TABLE_CATEGORY + " (" +
                 "ID INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT," +
                 "nameCategory TEXT NOT NULL," +
@@ -174,6 +156,26 @@ public class SQLHelper extends SQLiteOpenHelper {
                 "total LONG NOT NULL," +
                 "IDCustomer INTERGER NOT NULL," +
                 "IDEmployee INTERGER NOT NULL)";
+
+
+        String queryCreateTableReceipt = "CREATE TABLE  Receipts (" +
+                "IDReceipt INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT," +
+                "dateCreate TEXT NOT NULL," +
+                "IDProduct TEXT NOT NULL," +
+                "totalProduct INTEGER NOT NULL," +
+                "IDEmployee LONG NOT NULL)";
+        String queryCreateTableAccounts = "CREATE TABLE " + DB_TABLE_ACCOUNT + "(" +
+                "ID INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT," +
+                "userName TEXT NOT NULL," +
+                "password TEXT NOT NULL," +
+                "fullName TEXT NOT NULL," +
+                "dateOfBirth TEXT NOT NULL," +
+                "phone TEXT NOT NULL," +
+                "email TEXT NOT NULL," +
+                "avatar TEXT," +
+                "homeTown TEXT NOT NULL," +
+                "permission TEXT )";
+        db.execSQL(queryCreateTableAccounts);
         db.execSQL(queryCreateTableCategorys);
         db.execSQL(queryCreateTableReceipt);
         db.execSQL(queryCreateTableProducts);
@@ -263,7 +265,50 @@ public class SQLHelper extends SQLiteOpenHelper {
         return accountList;
     }
 
-    public void insertProduct(Product product) {//thêm product
+    // Đây là hàm thêm phiếu nhập
+    public void insertReceipt(Receipt receipt) {
+        sqLiteDatabase = getWritableDatabase();
+        contentValues = new ContentValues();
+        contentValues.put(RECEIPT_DATE, receipt.getDateCreate());
+        contentValues.put(RECEIPT_ID_PRODUCT, receipt.getIDProduct());
+        contentValues.put(RECEIPT_TOTAL_PRODUCT, receipt.getTotalProduct());
+        contentValues.put(RECEIPT_ID_EMPLOYEE, receipt.getTotalProduct());
+        sqLiteDatabase.insert(DB_TABLE_RECEIPT, null, contentValues);
+    }
+
+    // Đây là hàm xóa phiếu nhập với id truyền vào là id của sản phẩm
+    public boolean deleteReceipt(int id)
+    {
+        sqLiteDatabase=getWritableDatabase();
+        sqLiteDatabase.delete("Receipts", RECEIPT_ID + "= ?", new String[]{String.valueOf(id)} );
+        return true;
+    }
+
+    // đây là hàm get toàn bộ các phiếu nhập
+    public List<Receipt> getAllReceipt() {
+        List<Receipt> receiptList = new ArrayList<>();
+        Receipt receipt;
+        sqLiteDatabase = getReadableDatabase();
+        try {
+            cursor = sqLiteDatabase.query(false, DB_TABLE_RECEIPT, null, null, null, null, null, null, null);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        if (cursor != null)
+            while (cursor.moveToNext()) {
+                int ID = cursor.getInt(cursor.getColumnIndex(RECEIPT_ID));
+                String date = cursor.getString(cursor.getColumnIndex(RECEIPT_DATE));
+                String IDProduct = cursor.getString(cursor.getColumnIndex(RECEIPT_ID_PRODUCT));
+                int totalProduct = cursor.getInt(cursor.getColumnIndex(RECEIPT_TOTAL_PRODUCT));
+                int IDEmployee = cursor.getInt(cursor.getColumnIndex(RECEIPT_ID_EMPLOYEE));
+                receipt = new Receipt(ID, date, IDProduct, totalProduct, IDEmployee);
+                receiptList.add(receipt);
+            }
+        return receiptList;
+    }
+
+    // Đây là hàm thêm sản phẩm
+    public void insertProduct(Product product) {
         sqLiteDatabase = getWritableDatabase();// gọi phương thức getWriteableDatabase cho phép sửa dữ liệu
         contentValues = new ContentValues();
         //contentValues.put(ACCOUNT_ID, account.getID());
@@ -280,7 +325,8 @@ public class SQLHelper extends SQLiteOpenHelper {
         sqLiteDatabase.close();
     }
 
-    public void updateProduct(Product product) {//sửa sản phẩm
+    //sửa sản phẩm
+    public void updateProduct(Product product) {
         sqLiteDatabase = getWritableDatabase();// gọi phương thức getWriteableDatabase cho phép sửa dữ liệu
         contentValues = new ContentValues();
         //contentValues.put(ACCOUNT_ID, account.getID());
@@ -299,19 +345,20 @@ public class SQLHelper extends SQLiteOpenHelper {
     }
 
 
-    public void deleteAllProduct() {//xóa sản phẩm
+    public void deleteAllProduct() {
         sqLiteDatabase = getWritableDatabase();// gọi phương thức getWriteableDatabase cho phép sửa dữ liệu
         //sử dụng câu lệnh delete để thực hiện insert vào bảng Products
         sqLiteDatabase.delete(DB_TABLE_PRODUCT, null, null);
 
     }
-
+    //xóa sản phẩm có ID truyền vào
     public void deleteItemProduct(int ID) {
         sqLiteDatabase = getWritableDatabase();// gọi phương thức getWriteableDatabase cho phép sửa dữ liệu
         sqLiteDatabase.delete(DB_TABLE_PRODUCT, "ID = ?", new String[]{String.valueOf(ID)});
         //xóa = ở bảng nào, xóa theo gì (id), id truyền vào
     }
 
+    // get toàn bộ sản phẩm
     public List<Product> getAllPrduct() {
         List<Product> productList = new ArrayList<>();
         Product product;
@@ -341,6 +388,7 @@ public class SQLHelper extends SQLiteOpenHelper {
         return productList;
     }
 
+    // đây là hàm thêm sản phẩm order
     public void insertOrderProduct(Product product) {
         sqLiteDatabase = getWritableDatabase();
         contentValues = new ContentValues();
@@ -356,7 +404,7 @@ public class SQLHelper extends SQLiteOpenHelper {
                 , product.getBardCode());
         sqLiteDatabase.insert(DB_TABLE_ORDER_PRODUCT, null, contentValues);
     }
-
+    // đây là hàm update sản phẩm order
     public void updateOrderProduct(Product product) {
         sqLiteDatabase = getWritableDatabase();
         contentValues = new ContentValues();
@@ -372,17 +420,17 @@ public class SQLHelper extends SQLiteOpenHelper {
                 , product.getBardCode());
         sqLiteDatabase.update(DB_TABLE_ORDER_PRODUCT, contentValues, "ID = ?", new String[]{String.valueOf(product.getID())});
     }
-
+    // đây là hàm xóa sản phẩm order
     public void deleteOrderProduct() {
         sqLiteDatabase = getWritableDatabase();
         sqLiteDatabase.delete(DB_TABLE_ORDER_PRODUCT, null, null);
     }
-
+    // đây là hàm xóa sản phẩm order có ID truyền vào
     public void deleteItemOrderProduct(int ID) {
         sqLiteDatabase = getWritableDatabase();
         sqLiteDatabase.delete(DB_TABLE_ORDER_PRODUCT, "ID = ?", new String[]{String.valueOf(ID)});
     }
-
+    // đây là hàm lấy toàn bộ các sản phẩm order
     public List<Product> getAllOrderPrduct() {
         List<Product> productList = new ArrayList<>();
         Product product;
@@ -444,7 +492,6 @@ public class SQLHelper extends SQLiteOpenHelper {
     public void insertBill(Bill bill) {
         sqLiteDatabase = getWritableDatabase();
         contentValues = new ContentValues();
-//        contentValues.put(REPORT_ID,report.getId());
         contentValues.put(BILL_DATE, bill.getDate());
         contentValues.put(BILL_NAME_PRODUCT, bill.getNames());
         contentValues.put(BILL_AMOUNT, bill.getAmount());
@@ -458,7 +505,6 @@ public class SQLHelper extends SQLiteOpenHelper {
     public void updateBill(Bill bill) {
         sqLiteDatabase = getWritableDatabase();
         contentValues = new ContentValues();
-//        contentValues.put(REPORT_ID,report.getId());
         contentValues.put(BILL_DATE, bill.getDate());
         contentValues.put(BILL_NAME_PRODUCT, bill.getNames());
         contentValues.put(BILL_AMOUNT, bill.getAmount());
@@ -509,6 +555,7 @@ public class SQLHelper extends SQLiteOpenHelper {
         contentValues.clear();
     }
 
+    // đây là hàm thêm danh mục
     public void insertCategory(Category category) {
         sqLiteDatabase = getWritableDatabase(); // cho phép sửa dữ liệu
         contentValues = new ContentValues();
@@ -520,6 +567,7 @@ public class SQLHelper extends SQLiteOpenHelper {
         contentValues.clear();
     }
 
+    // đây là hàm update danh mục
     public void updateCategory(Category category) {
         sqLiteDatabase = getWritableDatabase(); // cho phép sửa dữ liệu
         contentValues = new ContentValues();
@@ -531,11 +579,13 @@ public class SQLHelper extends SQLiteOpenHelper {
         contentValues.clear();
     }
 
+    // hàm xóa danh mục với id truyền vào
     public void deleteCategory(int id) {
         sqLiteDatabase = getWritableDatabase();
         sqLiteDatabase.delete(DB_TABLE_CATEGORY, "ID = ?", new String[]{String.valueOf(id)});
     }
 
+    // hàm get danh sách các danh mục
     public List<Category> getAllCategory() {
         List<Category> categoryList = new ArrayList<>();
         Category category;
@@ -619,47 +669,7 @@ public class SQLHelper extends SQLiteOpenHelper {
         return customerList;
     }
 
-    // Đây là hàm thêm phiếu nhập
-    public void insertReceipt(Receipt receipt) {
-        sqLiteDatabase = getWritableDatabase();
-        contentValues = new ContentValues();
-        contentValues.put(RECEIPT_DATE, receipt.getDateCreate());
-        contentValues.put(RECEIPT_ID_PRODUCT, receipt.getIDProduct());
-        contentValues.put(RECEIPT_TOTAL_PRODUCT, receipt.getTotalProduct());
-        contentValues.put(RECEIPT_ID_EMPLOYEE, receipt.getTotalProduct());
-        sqLiteDatabase.insert(DB_TABLE_RECEIPT, null, contentValues);
-    }
 
-    // Đây là hàm xóa phiếu nhập với id truyền vào là id của sản phẩm
-    public boolean deleteReceipt(int id)
-    {
-        sqLiteDatabase=getWritableDatabase();
-        sqLiteDatabase.delete("Receipts", RECEIPT_ID + "= ?", new String[]{String.valueOf(id)} );
-        return true;
-    }
-
-    // đây là hàm get toàn bộ các phiếu nhập
-    public List<Receipt> getAllReceipt() {
-        List<Receipt> receiptList = new ArrayList<>();
-        Receipt receipt;
-        sqLiteDatabase = getReadableDatabase();
-        try {
-            cursor = sqLiteDatabase.query(false, DB_TABLE_RECEIPT, null, null, null, null, null, null, null);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        if (cursor != null)
-            while (cursor.moveToNext()) {
-                int ID = cursor.getInt(cursor.getColumnIndex(RECEIPT_ID));
-                String date = cursor.getString(cursor.getColumnIndex(RECEIPT_DATE));
-                String IDProduct = cursor.getString(cursor.getColumnIndex(RECEIPT_ID_PRODUCT));
-                int totalProduct = cursor.getInt(cursor.getColumnIndex(RECEIPT_TOTAL_PRODUCT));
-                int IDEmployee = cursor.getInt(cursor.getColumnIndex(RECEIPT_ID_EMPLOYEE));
-                receipt = new Receipt(ID, date, IDProduct, totalProduct, IDEmployee);
-                receiptList.add(receipt);
-            }
-        return receiptList;
-    }
     public String getVoucher(int ID) {
         String voucher = "";
         sqLiteDatabase = getReadableDatabase();

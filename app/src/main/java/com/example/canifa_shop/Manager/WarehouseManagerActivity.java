@@ -27,6 +27,18 @@ public class WarehouseManagerActivity extends AppCompatActivity {
                 startActivity(new Intent(getApplicationContext(),ImportProductActivity.class));
             }
         });
+        btnBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+        btnAdd.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getApplicationContext(),ImportProductActivity.class));
+            }
+        });
         binding.btnReport.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

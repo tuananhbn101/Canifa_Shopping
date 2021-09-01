@@ -125,6 +125,7 @@ public class AcountManagerActivity extends AppCompatActivity {
                 ID = intent.getIntExtra("ID", 0);
                 tvDelete.setVisibility(View.INVISIBLE);
             }else {
+                // lấy ID của account đăng nhập vào hệ thống từ LoginActivity.java
                 sharedPreferences = getSharedPreferences("account", MODE_PRIVATE);
                 ID = sharedPreferences.getInt("ID", 0);
             }

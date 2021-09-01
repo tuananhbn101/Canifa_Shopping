@@ -41,6 +41,7 @@ public class ImportProductActivity extends AppCompatActivity {
     private List<Product> productListSearch;
     ProductListAdapter productListAdapter;
     List<Product> productImportList;
+    List<Product> productListSearch1;
     ProductImportListAdapter productImportListAdapter;
     SharedPreferences sharedPreferences;
     private int ID;
@@ -51,6 +52,7 @@ public class ImportProductActivity extends AppCompatActivity {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_improd_product);
         initialization();
         getIntents();
+
         binding.edtSearch.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -59,16 +61,24 @@ public class ImportProductActivity extends AppCompatActivity {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                productListSearch.clear();
+                //làm mới danh sách productListSearch
+                productListSearch1=new ArrayList<>();
+                productListSearch1.clear();
+                //gọi đến button xóa
                 binding.btnDelete.setVisibility(View.VISIBLE);
-               addListSearch(binding.edtSearch.getText().toString());
-                if (binding.edtSearch.getText().toString().equals("")) {
-                    binding.btnDelete.setVisibility(View.INVISIBLE);
-                    productListSearch = productList;
+                //gọi danh sách các sản phẩm
+                for (Product product : productListSearch) {
+                    if (product.getBardCode().contains(binding.edtSearch.getText().toString()) || product.getNameProduct().contains(binding.edtSearch.getText().toString())) {
+                        productListSearch1.add(product);
+                    }
                 }
-                setAdapter(productListSearch);
-            }
 
+                setAdapter(productListSearch1);
+
+                if(binding.edtSearch.getText().toString().equals("")){
+                    binding.btnDelete.setVisibility(View.INVISIBLE);
+                }
+            }
             @Override
             public void afterTextChanged(Editable s) {
 
@@ -88,7 +98,8 @@ public class ImportProductActivity extends AppCompatActivity {
 
                 Product product = new Product(productListSearch.get(position).getID(),productListSearch.get(position).getNameProduct(),
                         productListSearch.get(position).getImportprice(),productListSearch.get(position).getPrice(),
-                        productListSearch.get(position).getAmount(),productListSearch.get(position).getType(),productListSearch.get(position).getDescribe(),
+                        productListSearch.get(position).getAmount(),productListSearch.get(position).getType(),
+                        productListSearch.get(position).getDescribe(),
                         productListSearch.get(position).getImage(),productListSearch.get(position).getBardCode());
                 showDialogAmount(product);
 
@@ -114,13 +125,14 @@ public class ImportProductActivity extends AppCompatActivity {
         // tạo 1 list có tên là "accountsListSearch", kiểm tra trong danh sách nhân viên accountList,
         // nếu tồn tại tên hoặc ID trùng với từ tìm kiếm vừa nhập là "text" thì add nhân viên đó vào accountsListSearch
         // "accountList" chứa danh sách nhân viên trong bảng Accounts
-        productListSearch.clear();
-        for (Product product : productList) {
-            if (product.getNameProduct().equals(text)) {
-                productListSearch.add(product);
+        productListSearch1=new ArrayList<>();
+        productListSearch1.clear();
+        for (Product product : productListSearch) {
+            if (String.valueOf(product.getAmount()).contains(text)) {
+                productListSearch1.add(product);
             }
         }
-        setAdapter(productListSearch);
+        setAdapter(productListSearch1);
     }
 
     public void showDialogAmount(Product product) {
@@ -161,6 +173,7 @@ public class ImportProductActivity extends AppCompatActivity {
         sqlHelper = new SQLHelper(getApplicationContext());
         productList = new ArrayList<>();
         productListSearch = new ArrayList<>();
+        productListSearch1=new ArrayList<>();
         productImportList = new ArrayList<>();
         productList = sqlHelper.getAllPrduct();
         productListSearch = productList;
