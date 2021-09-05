@@ -67,6 +67,14 @@ public class EmployeeManagerActivity extends AppCompatActivity {
 
             }
         });
+        binding.btnDelete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                binding.edtSearch.setText("");
+                setAdapter(accountsList);
+                binding.btnDelete.setVisibility(View.INVISIBLE);
+            }
+        });
         // khi click vào biểu tượng add ở góc trên cùng màn hình, hệ thống sẽ hiển thị giao diện của hàm AccountManagerActivity.java
         // gửi đến AcountManagerActivity.class 1 intent tên là "control"
         // và value là "create". Khi AccountManagerActivity get intent có value là "create" thì sẽ tiến hành thực thi hàm thêm nhân viên

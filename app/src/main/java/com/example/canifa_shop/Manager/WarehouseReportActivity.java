@@ -52,8 +52,9 @@ public class WarehouseReportActivity extends AppCompatActivity {
                     if (String.valueOf(receipt.getIDReceipt()).equals(binding.edtSearch.getText().toString())) {
                         receiptListSearch.add(receipt);
                     }
+                    setAdapter(receiptListSearch);
                 }
-                setAdapter(receiptListSearch);
+
                 if (binding.edtSearch.getText().toString().equals("")) {
                     binding.btnDelete.setVisibility(View.INVISIBLE);
                     setAdapter(receiptList);
@@ -65,6 +66,14 @@ public class WarehouseReportActivity extends AppCompatActivity {
             @Override
             public void afterTextChanged(Editable s) {
 
+            }
+        });
+        binding.btnDelete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                binding.edtSearch.setText("");
+                setAdapter(receiptList);
+                binding.btnDelete.setVisibility(View.INVISIBLE);
             }
         });
 //        binding.rvReceipt.setOnItemClickListener(new AdapterView.OnItemClickListener() {
