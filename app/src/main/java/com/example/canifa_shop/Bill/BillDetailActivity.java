@@ -19,6 +19,7 @@ import android.widget.Toast;
 import com.example.canifa_shop.Bill.Adapter.BillAdapter;
 import com.example.canifa_shop.Bill.Object.Bill;
 import com.example.canifa_shop.Customer.CustomerActivity;
+import com.example.canifa_shop.Customer.Object.Customer;
 import com.example.canifa_shop.Helper.Function;
 import com.example.canifa_shop.Product.Object.Product;
 import com.example.canifa_shop.R;
@@ -47,7 +48,7 @@ public class BillDetailActivity extends AppCompatActivity {
     private Bill billChoose;
     private int IDEmployee;
     private SharedPreferences sharedPreferences;
-
+    private long total = 0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -64,6 +65,7 @@ public class BillDetailActivity extends AppCompatActivity {
                     addNewBill();
                     updateProduct();
                     sqlHelper.deleteOrderProduct();
+                    updateCustomerPoint();
                     finish();
                 }
 
@@ -110,7 +112,17 @@ public class BillDetailActivity extends AppCompatActivity {
         tvTitile.setText("Hóa đơn chi tiết");
 
     }
-
+    public void updateCustomerPoint(){
+        List<Customer> customerList = sqlHelper.getAllCustomer();
+        for(Customer customer : customerList){
+            if(customer.getIDCustomer()==IDCustomer){
+                customer.setCustomerPoints(Integer.valueOf(customer.getCustomerPoints())+Function.pointsPlus((int) total)+"");
+                customer.setCustomerType(Function.typeCustomer(Integer.valueOf(customer.getCustomerPoints())));
+                customer.setCustomerVoucher(Function.voucher(customer.getCustomerType()));
+                sqlHelper.updateCustomer(customer);
+            }
+        }
+    }
     public void initialization() {
         productList = new ArrayList<>();
         sqlHelper = new SQLHelper(getApplicationContext());
@@ -143,12 +155,11 @@ public class BillDetailActivity extends AppCompatActivity {
     }
 
     public void setTotalBill() {
-        long total = 0;
+
         for (Product product : productOrderList) {
             total += (product.getPrice() * product.getAmount());
         }
         binding.tvPointPlus.setText(Function.pointsPlus((int) total) + "");
-
         binding.tvTotalPrice.setText(Function.decimalFormatMoney(total));
     }
 
@@ -246,7 +257,16 @@ public class BillDetailActivity extends AppCompatActivity {
         if (resultCode == REQUEST_CODE) {
             IDCustomer = data.getIntExtra("ID", 0);
             binding.tvCustomer.setText(sqlHelper.getNameCustomer(IDCustomer));
-            binding.tvVoucher.setText(sqlHelper.getVoucher(IDCustomer));
+            int voucher = 0;
+            if(sqlHelper.getVoucher(IDCustomer).equals("")){
+                binding.tvVoucher.setText(voucher+"%");
+            } else {
+                voucher = Integer.valueOf(sqlHelper.getVoucher(IDCustomer));
+                binding.tvVoucher.setText(voucher+"%");
+            }
+
+
+            binding.tvTotalPrice.setText((total-total*voucher/100)+"");
         }
     }
 

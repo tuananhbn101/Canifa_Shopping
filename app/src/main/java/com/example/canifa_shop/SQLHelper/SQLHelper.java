@@ -494,20 +494,7 @@ public class SQLHelper extends SQLiteOpenHelper {
         return billArrayList;
     }
 
-    public void insertCustomer(Customer customer) {
-        sqLiteDatabase = getWritableDatabase(); // cho phép sửa dữ liệu
-        contentValues = new ContentValues();
-        //contentValues.put(ACCOUNT_ID, account.getID());
-        contentValues.put(CUSTOMER_NAME, customer.getCustomerName());
-        contentValues.put(CUSTOMER_PHONE, customer.getCustomerPhone());
-        contentValues.put(CUSTOMER_EMAIL, customer.getCustomerEmail());
-        contentValues.put(CUSTOMER_ADDRESS, customer.getCustomerAddress());
-        contentValues.put(CUSTOMER_ACCUMULATE_POINTS, customer.getCustomerPoints());
-        contentValues.put(CUSTOMER_TYPE, customer.getCustomerType());
-        contentValues.put(CUSTOMER_VOUCHER, customer.getCustomerVoucher());
-        sqLiteDatabase.insert(DB_TABLE_CUSTOMER, null, contentValues);
-        contentValues.clear();
-    }
+
 
     public void insertCategory(Category category) {
         sqLiteDatabase = getWritableDatabase(); // cho phép sửa dữ liệu
@@ -558,7 +545,20 @@ public class SQLHelper extends SQLiteOpenHelper {
             }
         return categoryList;
     }
-
+    public void insertCustomer(Customer customer) {
+        sqLiteDatabase = getWritableDatabase(); // cho phép sửa dữ liệu
+        contentValues = new ContentValues();
+        //contentValues.put(ACCOUNT_ID, account.getID());
+        contentValues.put(CUSTOMER_NAME, customer.getCustomerName());
+        contentValues.put(CUSTOMER_PHONE, customer.getCustomerPhone());
+        contentValues.put(CUSTOMER_EMAIL, customer.getCustomerEmail());
+        contentValues.put(CUSTOMER_ADDRESS, customer.getCustomerAddress());
+        contentValues.put(CUSTOMER_ACCUMULATE_POINTS, customer.getCustomerPoints());
+        contentValues.put(CUSTOMER_TYPE, customer.getCustomerType());
+        contentValues.put(CUSTOMER_VOUCHER, customer.getCustomerVoucher());
+        sqLiteDatabase.insert(DB_TABLE_CUSTOMER, null, contentValues);
+        contentValues.clear();
+    }
     public void updateCustomer(Customer customer) {
         sqLiteDatabase = getWritableDatabase(); // cho phép sửa dữ liệu
         contentValues = new ContentValues();

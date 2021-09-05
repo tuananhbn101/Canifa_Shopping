@@ -46,7 +46,7 @@ public class CategoryActivity extends AppCompatActivity {
         binding.lvCategory.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-                AlertDialog alertDialog = new AlertDialog.Builder(getApplicationContext())
+                AlertDialog alertDialog = new AlertDialog.Builder(CategoryActivity.this)
                         .setTitle("Bạn có muốn xóa không ?")
                         .setPositiveButton("Có", new DialogInterface.OnClickListener() {
                             @Override

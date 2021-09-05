@@ -94,7 +94,6 @@ public class CustomerDetailActivity extends AppCompatActivity {
             String phone = binding.etPhoneNumber.getText().toString().trim();
             String email = binding.etEmail.getText().toString().trim();
             String address = binding.etAddress.getText().toString().trim();
-            String points = binding.etPoint.getText().toString().trim();
             String type = binding.etType.getText().toString().trim();
             String voucher = binding.etVoucher.getText().toString().trim();
             if (name.equals("") || phone.equals("") || email.equals("") || address.equals("")) {
@@ -102,7 +101,7 @@ public class CustomerDetailActivity extends AppCompatActivity {
             } else {
                 if (checkEmail() == true) {
                     if (phone.length() == 10) {
-                        Customer customer = new Customer(0, name, phone, email, address, points, type, voucher);
+                        Customer customer = new Customer(0, name, phone, email, address,"0", type, voucher);
                         sqlHelper.insertCustomer(customer);
                         finish();
                     } else {
@@ -161,7 +160,7 @@ public class CustomerDetailActivity extends AppCompatActivity {
         if (Pattern.matches(emailPattern, binding.etEmail.getText().toString())) { // đây là câu lệnh kiểm tra định dạng email
             return true;
         } else {
-            Toast.makeText(getBaseContext(), "Email không đúng định dạng '@gmail.com'", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getBaseContext(), "Email không đúng định dạng '@xxx.xxx'", Toast.LENGTH_SHORT).show();
             return false;
         }
     }

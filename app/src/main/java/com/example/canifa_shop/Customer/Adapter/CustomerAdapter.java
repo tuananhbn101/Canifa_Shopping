@@ -46,8 +46,8 @@ public class CustomerAdapter extends ArrayAdapter<Customer> {
             view=(Viewholer) convertView.getTag();
         }
         Customer c=customerList.get(position);
-        view.tvType.setText(c.getCustomerType());
-        view.tvPoint.setText(c.getCustomerPoints()+"");
+        view.tvType.setText("Thành viên : "+c.getCustomerType());
+        view.tvPoint.setText(c.getCustomerPoints()+" điểm");
         view.tvPhone.setText(c.getCustomerPhone());
         view.tvName.setText(c.getCustomerName()+"");
         return convertView;

@@ -91,7 +91,7 @@ public class CustomerActivity extends AppCompatActivity {
         });
 
     }
-
+   // hàm ánh xạ từ giao diện
     public void findByViewID() {
         btnAdd = findViewById(R.id.btnAdd);
         btnBack = findViewById(R.id.btnBack);
@@ -101,7 +101,7 @@ public class CustomerActivity extends AppCompatActivity {
         btnAdd = findViewById(R.id.btnAdd);
         tvTitile.setText("Khách hàng");
     }
-
+  // hàm
     public void getInten() {
         Intent intent = getIntent();
         control += intent.getStringExtra("control");

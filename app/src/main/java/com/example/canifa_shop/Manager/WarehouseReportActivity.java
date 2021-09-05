@@ -38,7 +38,7 @@ public class WarehouseReportActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_warehouse_report);
         initialization();
-        setAdapter(receiptListSearch);
+        setAdapter(receiptList);
         binding.edtSearch.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -48,12 +48,9 @@ public class WarehouseReportActivity extends AppCompatActivity {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 receiptListSearch.clear();
-                binding.btnDelete.setVisibility(View.VISIBLE);
-
-                for (Receipt receipt : receiptListSearch) {
-                    if (String.valueOf(receipt.getIDReceipt()).equals(binding.edtSearch.getText().toString().trim())) {
+                for (Receipt receipt : receiptList) {
+                    if (String.valueOf(receipt.getIDReceipt()).equals(binding.edtSearch.getText().toString())) {
                         receiptListSearch.add(receipt);
-
                     }
                 }
                 setAdapter(receiptListSearch);
@@ -111,7 +108,6 @@ public class WarehouseReportActivity extends AppCompatActivity {
         receiptListSearch = new ArrayList<>();
         sqlHelper = new SQLHelper(getApplicationContext());
         receiptList = sqlHelper.getAllReceipt();
-        receiptListSearch = receiptList;
     }
 
     public void setAdapter(List<Receipt> receiptList) {

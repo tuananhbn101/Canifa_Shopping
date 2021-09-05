@@ -10,6 +10,31 @@ public class Function {
         return decimalFormat.format(money);
     }
     public static int pointsPlus(int money){
-        return money*10/100;
+        return money*5/100;
     }
+    public static String typeCustomer(int point){
+        if(point<=100000&&point<200000){
+            return "Đồng";
+        }else if(point>=200000&&point<5000000){
+            return "Bạc";
+        } else if(point>=500000&&point<10000000){
+            return "Vàng";
+        } else if (point>=1000000){
+            return "Kim cương";
+        }
+        return "Mới";
+    }
+    public static String voucher(String type){
+        if(type.equals("Đồng")){
+            return "10";
+        }else if(type.equals("Bạc")){
+            return "15";
+        }else if(type.equals("Vàng")){
+            return "20";
+        }else if(type.equals("Kim cương")){
+            return "30";
+        }
+        return "";
+    }
+
 }
