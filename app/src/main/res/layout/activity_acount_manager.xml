@@ -34,7 +34,7 @@
                     android:text="Tên tài khoản" />
 
                 <EditText
-                    android:id="@+id/etUserName"
+                    android:id="@+id/etUserNames"
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
                     android:layout_weight="2"
@@ -62,7 +62,7 @@
                     app:passwordToggleEnabled="true">
 
                     <EditText
-                        android:id="@+id/etPassword"
+                        android:id="@+id/etPasswords"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="2"

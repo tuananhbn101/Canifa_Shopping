@@ -120,7 +120,7 @@ public class AcountManagerActivity extends AppCompatActivity {
         if (control != null && !control.equals("")) {
             if (control.equals("create")) {   // nếu nội dung intent là "create" thì hiển thị giao diện thêm mới
                 binding.btnUpdate.setText("Thêm mới");
-                binding.etUserName.setEnabled(true);
+                binding.etUserNames.setEnabled(true);
             } else if (control.equals("update")) {   // nếu nội dung intent là "update" thì hiển thị giao diện cập nhật
                 ID = intent.getIntExtra("ID", 0);
                 tvDelete.setVisibility(View.INVISIBLE);
@@ -143,10 +143,10 @@ public class AcountManagerActivity extends AppCompatActivity {
                 binding.etDateOfBird.setText(accounts.getDateOfBirth());
                 binding.etEmail.setText(accounts.getEmail());
                 binding.etFullName.setText(accounts.getFullName());
-                binding.etPassword.setText(accounts.getPassword());
+                binding.etPasswords.setText(accounts.getPassword());
                 binding.etPhoneNumber.setText(accounts.getPhone());
                 binding.etAddress.setText(accounts.getHomeTown());
-                binding.etUserName.setText(accounts.getUserName());
+                binding.etUserNames.setText(accounts.getUserName());
             }
         }
     }
@@ -160,7 +160,7 @@ public class AcountManagerActivity extends AppCompatActivity {
                     accounts.setEmail(binding.etEmail.getText().toString());
                     accounts.setFullName(binding.etFullName.getText().toString());
                     accounts.setHomeTown(binding.etAddress.getText().toString());
-                    accounts.setPassword(binding.etPassword.getText().toString());
+                    accounts.setPassword(binding.etPasswords.getText().toString());
                     accounts.setPhone(binding.etPhoneNumber.getText().toString());
                     sqlHelper.updateAccount(accounts);
                     return true;
@@ -178,8 +178,8 @@ public class AcountManagerActivity extends AppCompatActivity {
     // đây là hàm thêm nhân viên
     public boolean createAccount() {
         try {
-            String userName = binding.etUserName.getText().toString();
-            String password = binding.etPassword.getText().toString();
+            String userName = binding.etUserNames.getText().toString();
+            String password = binding.etPasswords.getText().toString();
             String fullName = binding.etFullName.getText().toString();
             String dateOfBirth = binding.etDateOfBird.getText().toString();
             String phone = binding.etPhoneNumber.getText().toString();
@@ -215,10 +215,10 @@ public class AcountManagerActivity extends AppCompatActivity {
     // đây là hàm kiểm tra password, password phải có từ 6 ký tự bao gồm chữ hoa, chữ thường và số
     public boolean checkPassword() {
         String passPattern = "((?=.*\\d)(?=.*[a-z])(?=.*[A-Z]).{6,})";
-        if (binding.etPassword.getText().toString().isEmpty()) {      // đây là câu lệnh kiểm tra định dạng password
+        if (binding.etPasswords.getText().toString().isEmpty()) {      // đây là câu lệnh kiểm tra định dạng password
             Toast.makeText(this, "Mật khẩu không được bỏ trống", Toast.LENGTH_SHORT).show();
         }
-        if (Pattern.matches(passPattern, binding.etPassword.getText().toString())) {
+        if (Pattern.matches(passPattern, binding.etPasswords.getText().toString())) {
             return true;
         } else {
             Toast.makeText(getBaseContext(), "Mật khẩu có từ 6 ký tự bao gồm chữ hoa, chữ thường và số", Toast.LENGTH_SHORT).show();
@@ -245,7 +245,7 @@ public class AcountManagerActivity extends AppCompatActivity {
         // nếu có thì hiển thị thông báo
         List<Accounts> accountsArrayList = sqlHelper.getAllAccounts();
         for (Accounts acc : accountsArrayList) {
-            if (acc.getUserName().equalsIgnoreCase(binding.etUserName.getText().toString())) {
+            if (acc.getUserName().equalsIgnoreCase(binding.etUserNames.getText().toString())) {
                 Toast.makeText(getBaseContext(), "Tên tài khoản đã tồn tại", Toast.LENGTH_SHORT).show();
             }
         }
