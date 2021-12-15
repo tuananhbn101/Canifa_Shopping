@@ -10,6 +10,7 @@ import static androidx.test.espresso.intent.Intents.intended;
 import static androidx.test.espresso.intent.Intents.intending;
 import static androidx.test.espresso.intent.matcher.ComponentNameMatchers.hasShortClassName;
 import static androidx.test.espresso.intent.matcher.IntentMatchers.hasComponent;
+import static androidx.test.espresso.matcher.ViewMatchers.isCompletelyDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
@@ -37,6 +38,7 @@ import static org.hamcrest.CoreMatchers.not;
 import static org.junit.Assert.*;
 
 import com.example.canifa_shop.Login.LoginActivity;
+import com.example.canifa_shop.Product.ProductDetailActivity;
 
 /**
  * Instrumented test, which will execute on an Android device.
@@ -44,9 +46,9 @@ import com.example.canifa_shop.Login.LoginActivity;
  * @see <a href="http://d.android.com/tools/testing">Testing documentation</a>
  */
 @RunWith(AndroidJUnit4.class)
-public class ExampleInstrumentedTest {
+public class ProductDetailActivityTest {
     @Rule
-    public ActivityScenarioRule activityTestRule = new ActivityScenarioRule<LoginActivity>(LoginActivity.class);
+    public ActivityScenarioRule activityTestRule = new ActivityScenarioRule<>(ProductDetailActivity.class);
     @Test
     public void useAppContext() {
         // Context of the app under test.
@@ -54,13 +56,21 @@ public class ExampleInstrumentedTest {
         assertEquals("com.example.canifa_shop", appContext.getPackageName());
     }
     @Test
-    public void login(){
-        onView(withId(R.id.etUserName))
+    public void insert(){
+        onView(withId(R.id.etNameProduct))
                 .perform(new TypeTextAction("thanhthao"),closeSoftKeyboard());
-        onView(withId(R.id.etPassword))
+        onView(withId(R.id.etBardCodeProduct))
+                .perform(new TypeTextAction("thao123"),closeSoftKeyboard());
+        onView(withId(R.id.etAmountProduct))
+                .perform(new TypeTextAction("10"),closeSoftKeyboard());
+        onView(withId(R.id.etPriceImport))
+                .perform(new TypeTextAction("125000"),closeSoftKeyboard());
+        onView(withId(R.id.etPriceSell))
+                .perform(new TypeTextAction("150000"),closeSoftKeyboard());
+        onView(withId(R.id.etNote))
                 .perform(new TypeTextAction("thao123"),closeSoftKeyboard());
         Intents.init();
-        Espresso.onView(ViewMatchers.withId(R.id.btnLogin)).perform(scrollTo(),ViewActions.click());
+        Espresso.onView(ViewMatchers.withId(R.id.btnControl)).perform(ViewActions.scrollTo(),ViewActions.click());
         Intents.release();
     }
 }

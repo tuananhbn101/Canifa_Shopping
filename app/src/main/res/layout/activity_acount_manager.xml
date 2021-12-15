@@ -143,7 +143,7 @@
                     android:text="Số điện thoại" />
 
                 <EditText
-                    android:id="@+id/etPhoneNumber"
+                    android:id="@+id/etPhoneNumbers"
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
                     android:layout_weight="2"
@@ -164,7 +164,7 @@
                     android:text="Email" />
 
                 <EditText
-                    android:id="@+id/etEmail"
+                    android:id="@+id/etEmails"
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
                     android:layout_weight="2"
@@ -185,7 +185,7 @@
                     android:text="Địa chỉ" />
 
                 <EditText
-                    android:id="@+id/etAddress"
+                    android:id="@+id/etAddresss"
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
                     android:layout_weight="2"

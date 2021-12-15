@@ -54,7 +54,7 @@
                         android:text="Tên khách hàng" />
 
                     <EditText
-                        android:id="@+id/etFulName"
+                        android:id="@+id/etFullName"
                         style="@style/text15"
                         android:layout_width="match_parent"
                         android:layout_height="0dp"
@@ -114,7 +114,7 @@
                         android:layout_height="0dp"
                         android:layout_weight="2"
                         android:gravity="center_vertical"
-                        android:inputType="textEmailAddress" />
+                        android:inputType="text" />
                 </LinearLayout>
             </LinearLayout>
 
@@ -237,7 +237,7 @@
                     android:orientation="vertical">
 
                     <Button
-                        android:id="@+id/btnControl"
+                        android:id="@+id/btnControls"
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/_30sdp"
                         android:layout_marginTop="@dimen/_5sdp"

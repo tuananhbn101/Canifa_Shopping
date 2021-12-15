@@ -112,10 +112,11 @@ public class ProductDetailActivity extends AppCompatActivity {
     //phương thức getIntent
     public void getIntents() {
         //tạo intent mới
-        Intent intent = getIntent();
+       // Intent intent = getIntent();
         //gọi đến điều khiển control
-        control = intent.getStringExtra("control");
+       // control = intent.getStringExtra("control");
         //nếu control = create
+        control = "create";
         if (control.equals("create")) {
             //gọi đến nút thêm mới
             binding.btnControl.setText("Thêm mới");
@@ -127,7 +128,7 @@ public class ProductDetailActivity extends AppCompatActivity {
             //gọi nút xóa
             tvDelete.setVisibility(View.VISIBLE);
             //đóng gói dữ liệu ID theo kiểu Int
-            ID = intent.getIntExtra("ID", 0);
+          //  ID = intent.getIntExtra("ID", 0);
             //hiển thị danh sách các sản phẩm
             for (Product product : productList
             ) {

@@ -43,7 +43,7 @@ public class CustomerDetailActivity extends AppCompatActivity {
         initialization();
         findByViewID();
         getIntents();
-        binding.btnControl.setOnClickListener(new View.OnClickListener() {
+        binding.btnControls.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
@@ -90,7 +90,7 @@ public class CustomerDetailActivity extends AppCompatActivity {
     // đây là hàm thêm khách hàng mới
     public void addCustomer() {
         try {
-            String name = binding.etFulName.getText().toString().trim();
+            String name = binding.etFullName.getText().toString().trim();
             String phone = binding.etPhoneNumber.getText().toString().trim();
             String email = binding.etEmail.getText().toString().trim();
             String address = binding.etAddress.getText().toString().trim();
@@ -120,7 +120,7 @@ public class CustomerDetailActivity extends AppCompatActivity {
     // đây là hàm update thông tin khách hàng
     public void updateCustomer(Customer customer) {
         try {
-            String name = binding.etFulName.getText().toString().trim();
+            String name = binding.etFullName.getText().toString().trim();
             String phone = binding.etPhoneNumber.getText().toString().trim();
             String email = binding.etEmail.getText().toString().trim();
             String address = binding.etAddress.getText().toString().trim();
@@ -176,15 +176,16 @@ public class CustomerDetailActivity extends AppCompatActivity {
     }
 
     public void getIntents() {
-        Intent intent = getIntent();
-        control = intent.getStringExtra("control");
+        //Intent intent = getIntent();
+      //  control = intent.getStringExtra("control");
+        control = "create";
         if (control.equals("create")) {
-            binding.btnControl.setText("Thêm mới");
+            binding.btnControls.setText("Thêm mới");
             tvDelete.setVisibility(View.INVISIBLE);
         } else {
-            binding.btnControl.setText("Cập nhật");
+            binding.btnControls.setText("Cập nhật");
             tvDelete.setVisibility(View.VISIBLE);
-            ID = intent.getIntExtra("ID", 0);
+         //   ID = intent.getIntExtra("ID", 0);
             for (Customer customer : customerArrayList) {
                 if (customer.getIDCustomer() == ID) {
                     customerChoose = customer;
@@ -194,7 +195,7 @@ public class CustomerDetailActivity extends AppCompatActivity {
                     binding.etAddress.setText(customer.getCustomerAddress());
                     binding.etPhoneNumber.setText(customer.getCustomerPhone());
                     binding.etEmail.setText(customer.getCustomerEmail());
-                    binding.etFulName.setText(customer.getCustomerName());
+                    binding.etFullName.setText(customer.getCustomerName());
                 }
             }
         }

@@ -141,11 +141,11 @@ public class AcountManagerActivity extends AppCompatActivity {
             if (accounts.getAccountID() == ID) {
                 accountsChoose = accounts;
                 binding.etDateOfBird.setText(accounts.getDateOfBirth());
-                binding.etEmail.setText(accounts.getEmail());
+                binding.etEmails.setText(accounts.getEmail());
                 binding.etFullName.setText(accounts.getFullName());
                 binding.etPasswords.setText(accounts.getPassword());
-                binding.etPhoneNumber.setText(accounts.getPhone());
-                binding.etAddress.setText(accounts.getHomeTown());
+                binding.etPhoneNumbers.setText(accounts.getPhone());
+                binding.etAddresss.setText(accounts.getHomeTown());
                 binding.etUserNames.setText(accounts.getUserName());
             }
         }
@@ -154,14 +154,14 @@ public class AcountManagerActivity extends AppCompatActivity {
     // đây là hàm update Thông tin nhân viên
     public boolean updateAccout(Accounts accounts) {
         try {
-            if (binding.etPhoneNumber.length() == 10) {
+            if (binding.etPhoneNumbers.length() == 10) {
                 if (checkEmail() == true) {
                     accounts.setDateOfBirth(binding.etDateOfBird.getText().toString());
-                    accounts.setEmail(binding.etEmail.getText().toString());
+                    accounts.setEmail(binding.etEmails.getText().toString());
                     accounts.setFullName(binding.etFullName.getText().toString());
-                    accounts.setHomeTown(binding.etAddress.getText().toString());
+                    accounts.setHomeTown(binding.etAddresss.getText().toString());
                     accounts.setPassword(binding.etPasswords.getText().toString());
-                    accounts.setPhone(binding.etPhoneNumber.getText().toString());
+                    accounts.setPhone(binding.etPhoneNumbers.getText().toString());
                     sqlHelper.updateAccount(accounts);
                     return true;
                 }
@@ -182,9 +182,9 @@ public class AcountManagerActivity extends AppCompatActivity {
             String password = binding.etPasswords.getText().toString();
             String fullName = binding.etFullName.getText().toString();
             String dateOfBirth = binding.etDateOfBird.getText().toString();
-            String phone = binding.etPhoneNumber.getText().toString();
-            String email = binding.etEmail.getText().toString();
-            String homeTow = binding.etAddress.getText().toString();
+            String phone = binding.etPhoneNumbers.getText().toString();
+            String email = binding.etEmails.getText().toString();
+            String homeTow = binding.etAddresss.getText().toString();
             String avatar = "";
             String permission = "employee";
             if (userName.equals("") || password.equals("") || fullName.equals("") || dateOfBirth.equals("") || phone.equals("") || email.equals("") || homeTow.equals("")) {
@@ -230,7 +230,7 @@ public class AcountManagerActivity extends AppCompatActivity {
     public boolean checkEmail() {
         String emailPattern = "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@"
                 + "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
-        if (Pattern.matches(emailPattern, binding.etEmail.getText().toString())) { // đây là câu lệnh kiểm tra định dạng email
+        if (Pattern.matches(emailPattern, binding.etEmails.getText().toString())) { // đây là câu lệnh kiểm tra định dạng email
             return true;
         } else {
             Toast.makeText(getBaseContext(), "Email không đúng định dạng '@gmail.com'", Toast.LENGTH_SHORT).show();

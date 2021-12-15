@@ -32,7 +32,7 @@
         android:textSize="@dimen/_12sdp" />
 
     <Button
-        android:id="@+id/btnUpdate"
+        android:id="@+id/btnUpdates"
         android:layout_width="@dimen/_100sdp"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
